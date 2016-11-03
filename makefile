@@ -1,4 +1,4 @@
-TARGET= aos.out aos_pair.out aos_intrin.out soa.out soa_pair.out soa_intrin.out gpu.out cpu_ref.out
+TARGET= aos.out aos_pair.out aos_intrin.out soa.out soa_pair.out soa_intrin.out gpu.out cpu_ref.out kernel.ptx
 
 WARNINGS = -Wextra -Wunused-variable -Wsign-compare -Wnon-virtual-dtor -Woverloaded-virtual
 OPT_FLAGS = -O3 -funroll-loops -ffast-math
@@ -38,6 +38,9 @@ gpu.out: force_gpu.cu
 
 cpu_ref.out: force_gpu.cu
 	$(NVCC) $(NVCCFLAGS) -DEN_TEST $(INCLUDE) $< $(LIBRARY) -o $@
+
+kernel.ptx: force_gpu.cu
+	$(NVCC) $(NVCCFLAGS) $(INCLUDE) -ptx $< $(LIBRARY) -o $@
 
 clean:
 	rm -f $(TARGET)

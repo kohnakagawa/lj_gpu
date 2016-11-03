@@ -8,31 +8,32 @@
 #include "cuda_ptr.cuh"
 #include "kernel.cuh"
 
-const double density = 1.0;
+const auto density = static_cast<Dtype>(1.0);
 const int N = 400000;
-const int MAX_PAIRS = 60 * N;
-double L = 50.0;
-const double dt = 0.001;
+const int NUM_NEIGH = 60;
+const int MAX_PAIRS = NUM_NEIGH * N;
+auto L = static_cast<Dtype>(50.0);
+const auto dt = static_cast<Dtype>(0.001);
 cuda_ptr<Vec> q, p;
 cuda_ptr<int32_t> sorted_list, number_of_partners, pointer;
+cuda_ptr<int32_t> aligned_list;
 int particle_number = 0;
 int number_of_pairs = 0;
 int i_particles[MAX_PAIRS];
 int j_particles[MAX_PAIRS];
 int pointer2[N];
 
-const double CUTOFF_LENGTH = 3.0;
-const double SEARCH_LENGTH = 3.3;
-const double CL2 = CUTOFF_LENGTH * CUTOFF_LENGTH;
+const auto CUTOFF_LENGTH = static_cast<Dtype>(3.0);
+const auto SEARCH_LENGTH = static_cast<Dtype>(3.3);
+const auto CL2 = CUTOFF_LENGTH * CUTOFF_LENGTH;
 const char* cache_file_name = ".cache_pair.dat";
+const int THREAD_BLOCKS = 256;
 
-enum {THREAD_BLOCKS = 256};
-
-void add_particle(const double x,
-                  const double y,
-                  const double z) {
+void add_particle(const Dtype x,
+                  const Dtype y,
+                  const Dtype z) {
   static std::mt19937 mt(2);
-  std::uniform_real_distribution<double> ud(0.0, 0.1);
+  std::uniform_real_distribution<Dtype> ud(0.0, 0.1);
   q[particle_number].x = x + ud(mt);
   q[particle_number].y = y + ud(mt);
   q[particle_number].z = z + ud(mt);
@@ -41,17 +42,17 @@ void add_particle(const double x,
 }
 
 void init() {
-  const double s = 1.0 / std::pow(density * 0.25, 1.0 / 3.0);
-  const double hs = s * 0.5;
+  const Dtype s = 1.0 / std::pow(density * 0.25, 1.0 / 3.0);
+  const Dtype hs = s * 0.5;
   const int sx = static_cast<int>(L / s);
   const int sy = static_cast<int>(L / s);
   const int sz = static_cast<int>(L / s);
   for (int iz = 0; iz < sz; iz++) {
     for (int iy = 0; iy < sy; iy++) {
       for (int ix = 0; ix < sx; ix++) {
-        const double x = ix*s;
-        const double y = iy*s;
-        const double z = iz*s;
+        const Dtype x = ix*s;
+        const Dtype y = iy*s;
+        const Dtype z = iz*s;
         add_particle(x     ,y   ,z);
         add_particle(x     ,y+hs,z+hs);
         add_particle(x+hs  ,y   ,z+hs);
@@ -187,10 +188,22 @@ bool loadpair() {
   return true;
 }
 
+void make_aligned_pairlist() {
+  for (int i = 0; i < particle_number; i++) {
+    const auto np = number_of_partners[i];
+    const auto kp = pointer[i];
+    for (int k = 0; k < np; k++) {
+      const auto j = sorted_list[kp + k];
+      aligned_list[i + k * particle_number] = j;
+    }
+  }
+}
+
 void allocate() {
   q.allocate(N);
   p.allocate(N);
   sorted_list.allocate(MAX_PAIRS);
+  aligned_list.allocate(MAX_PAIRS);
   number_of_partners.allocate(N);
   pointer.allocate(N);
 }
@@ -199,6 +212,7 @@ void cleanup() {
   q.deallocate();
   p.deallocate();
   sorted_list.deallocate();
+  aligned_list.deallocate();
   number_of_partners.deallocate();
   pointer.deallocate();
 }
@@ -206,9 +220,10 @@ void cleanup() {
 void copy_to_gpu() {
   q.host2dev();
   p.host2dev();
+  sorted_list.host2dev();
+  aligned_list.host2dev();
   number_of_partners.host2dev();
   pointer.host2dev();
-  sorted_list.host2dev();
 }
 
 void copy_to_host() {
@@ -223,9 +238,9 @@ void force_sorted() {
     const auto qy_key = q[i].y;
     const auto qz_key = q[i].z;
     const auto np = number_of_partners[i];
-    double pfx = 0;
-    double pfy = 0;
-    double pfz = 0;
+    Dtype pfx = 0;
+    Dtype pfy = 0;
+    Dtype pfz = 0;
     const auto kp = pointer[i];
     for (int k = 0; k < np; k++) {
       const auto j = sorted_list[kp + k];
@@ -235,7 +250,7 @@ void force_sorted() {
       const auto r2 = (dx*dx + dy*dy + dz*dz);
       if (r2 > CL2) continue;
       const auto r6 = r2*r2*r2;
-      const auto df = ((24.0*r6-48.0)/(r6*r6*r2))*dt;
+      const auto df = ((static_cast<Dtype>(24.0)*r6-static_cast<Dtype>(48.0))/(r6*r6*r2))*dt;
       pfx += df*dx;
       pfy += df*dy;
       pfz += df*dz;
@@ -256,12 +271,15 @@ int main() {
     makepair();
     makepaircache();
   }
-  
+
+  make_aligned_pairlist();
+
   const int block_num = particle_number / THREAD_BLOCKS + 1;
-  assert(block_num > 0);
 
   const auto st = myclock();
+#ifndef EN_TEST
   copy_to_gpu();
+#endif
   const int LOOP = 100;
   for (int i = 0; i < LOOP; i++) {
 
@@ -269,10 +287,13 @@ int main() {
     force_sorted();
 #else
 
-    // force_kernel_plain<Dtype><<<THREAD_BLOCKS, block_num>>>(q, p, sorted_list, number_of_partners, pointer, particle_number, dt, CL2);
+    // force_kernel_plain<<<block_num, THREAD_BLOCKS>>>(q, p, sorted_list, number_of_partners, pointer, particle_number, dt, CL2);
     
-    force_kernel_memopt<Dtype><<<THREAD_BLOCKS, block_num>>>(q, p, sorted_list, number_of_partners, pointer, particle_number, dt, CL2);
+    // force_kernel_memopt<<<block_num, THREAD_BLOCKS>>>(q, p, sorted_list, number_of_partners, pointer, particle_number, dt, CL2);
 
+    // force_kernel_memopt2<<<block_num, THREAD_BLOCKS>>>(q, p, aligned_list, number_of_partners, particle_number, dt, CL2);
+
+    force_kernel_unrolling<<<block_num, THREAD_BLOCKS>>>(q, p, aligned_list, number_of_partners, particle_number, dt, CL2);
 #endif
   }
 #ifndef EN_TEST
