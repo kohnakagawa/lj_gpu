@@ -1,5 +1,17 @@
 #pragma once
 
+__device__ __forceinline__ double atomicAdd(double* address, double val)
+{
+    unsigned long long int* address_as_ull = (unsigned long long int*)address;
+    unsigned long long int old = *address_as_ull, assumed;
+    do {
+        assumed = old;
+        old = atomicCAS(address_as_ull, assumed,
+                        __double_as_longlong(val + __longlong_as_double(assumed)));
+    } while (assumed != old);
+    return __longlong_as_double(old);
+}
+
 // use action and reaction
 template <typename Vec, typename Dtype>
 __global__ void force_kernel_with_aar(const Vec* q,
@@ -16,6 +28,7 @@ __global__ void force_kernel_with_aar(const Vec* q,
     const auto np = number_of_partners[tid];
     const auto kp = pointer[tid];
 
+    Dtype pfx = 0.0, pfy = 0.0, pfz = 0.0;
     for (int32_t k = 0; k < np; k++) {
       const auto j = sorted_list[kp + k];
       const auto dx = q[j].x - qi.x;
@@ -23,22 +36,24 @@ __global__ void force_kernel_with_aar(const Vec* q,
       const auto dz = q[j].z - qi.z;
       const auto r2 = dx * dx + dy * dy + dz * dz;
 
-      if (r2 <= CL2) {
-        const auto r6 = r2 * r2 * r2;
-        const auto df = ((24.0 * r6 - 48.0) / (r6 * r6 * r2)) * dt;
-        const Dtype dfx = df * dx;
-        const Dtype dfy = df * dy;
-        const Dtype dfz = df * dz;
+      if (r2 > CL2) continue;
+      const auto r6 = r2 * r2 * r2;
+      const auto df = ((24.0 * r6 - 48.0) / (r6 * r6 * r2)) * dt;
+      const Dtype dfx = df * dx;
+      const Dtype dfy = df * dy;
+      const Dtype dfz = df * dz;
 
-        atomicAdd(&p[j].x, -dfx);
-        atomicAdd(&p[j].y, -dfy);
-        atomicAdd(&p[j].z, -dfz);
+      pfx += dfx;
+      pfy += dfy;
+      pfz += dfz;
 
-        atomicAdd(&p[tid].x, dfx);
-        atomicAdd(&p[tid].y, dfy);
-        atomicAdd(&p[tid].z, dfy);
-      }
+      atomicAdd(&p[j].x, -dfx);
+      atomicAdd(&p[j].y, -dfy);
+      atomicAdd(&p[j].z, -dfz);
     }
+    atomicAdd(&p[tid].x, pfx);
+    atomicAdd(&p[tid].y, pfy);
+    atomicAdd(&p[tid].z, pfy);
   }
 }
 

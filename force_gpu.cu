@@ -84,6 +84,7 @@ double myclock() {
 
 void register_pair(const int index1, const int index2) {
   int i, j;
+#ifdef EN_ACTION_REACTION
   if (index1 < index2) {
     i = index1;
     j = index2;
@@ -91,6 +92,10 @@ void register_pair(const int index1, const int index2) {
     i = index2;
     j = index1;
   }
+#else
+  i = index1;
+  j = index2;
+#endif
   i_particles[number_of_pairs] = i;
   j_particles[number_of_pairs] = j;
   number_of_partners[i]++;
@@ -104,9 +109,14 @@ void makepair(const Vec* q) {
   for (int i = 0; i < pn; i++) {
     number_of_partners[i] = 0;
   }
+#ifdef EN_ACTION_REACTION
+  for (int i = 0; i < particle_number - 1; i++) {
+    for (int j = i + 1; j < particle_number; j++) {
+#else
   for (int i = 0; i < particle_number; i++) {
     for (int j = 0; j < particle_number; j++) {
       if (i == j) continue;
+#endif
       const auto dx = q[i].x - q[j].x;
       const auto dy = q[i].y - q[j].y;
       const auto dz = q[i].z - q[j].z;
@@ -137,7 +147,11 @@ void makepair(const Vec* q) {
 
 void makepaircache() {
   FILE* fp = fopen(cache_file_name, "w");
-  fprintf(fp, "%d %d\n", particle_number, number_of_pairs);
+  int en_aar = 0;
+#ifdef EN_ACTION_REACTION
+  en_aar = 1;
+#endif
+  fprintf(fp, "%d %d %d\n", en_aar, particle_number, number_of_pairs);
   for (int i = 0; i < particle_number; i++) {
     fprintf(fp, "%d %d\n", number_of_partners[i], pointer[i]);
   }
@@ -176,13 +190,26 @@ bool loadpair() {
   if (!file_exist(cache_file_name)) return false;
   FILE* fp = fopen(cache_file_name, "r");
 
-  int ptcl_num_tmp = 0;
-  fscanf(fp, "%d %d", &ptcl_num_tmp, &number_of_pairs);
+  int ptcl_num_tmp = 0, en_aar = 0;
+  fscanf(fp, "%d %d %d", &en_aar, &ptcl_num_tmp, &number_of_pairs);
+
+#ifdef EN_ACTION_REACTION
+  if (!en_aar) {
+    fprintf(stderr, "Pairlist was not made using action and reaction.\n");
+    return false;
+  }
+#else
+  if (en_aar) {
+    fprintf(stderr, "Pairlist was made using action and reaction.\n");
+    return false;
+  }
+#endif
+
   if (ptcl_num_tmp != particle_number) {
     fprintf(stderr, "Pairlist cache data may be broken.\n");
     return false;
   }
-  
+
   for (int i = 0; i < particle_number; i++) {
     fscanf(fp, "%d %d", &number_of_partners[i], &pointer[i]);
   }
@@ -285,6 +312,11 @@ void force_sorted(const Vec* q,
       pfx += df*dx;
       pfy += df*dy;
       pfz += df*dz;
+#ifdef EN_ACTION_REACTION
+      p[j].x -= df*dx;
+      p[j].y -= df*dy;
+      p[j].z -= df*dz;
+#endif
     }
     p[i].x += pfx;
     p[i].y += pfy;
@@ -379,6 +411,9 @@ int main() {
 #elif defined EN_TEST_GPU
   MEASURE_FOR_ALLTYPES(force_kernel_plain, sorted_list, pointer);
   // MEASURE_FOR_ALLTYPES(force_kernel_unrolling, sorted_list, pointer);
+  print_head_momentum(&p_d3[0]);
+#elif defined EN_ACTION_REACTION
+  MEASURE_FOR_ALLTYPES(force_kernel_with_aar, sorted_list, pointer);
   print_head_momentum(&p_d3[0]);
 #else
   MEASURE_FOR_ALLTYPES(force_kernel_plain, sorted_list, pointer);

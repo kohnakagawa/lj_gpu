@@ -1,13 +1,14 @@
-TARGET= aos.out aos_pair.out aos_intrin.out soa.out soa_pair.out soa_intrin.out gpu.out gpu_test.out cpu_ref.out kernel.ptx
+TARGET= aos.out aos_pair.out aos_intrin.out soa.out soa_pair.out soa_intrin.out gpu.out gpu_test.out gpu_aar.out cpu_ref.out cpu_aar.out kernel.ptx
+CACHE_FILE = .cache_pair.dat
 
-WARNINGS = -Wextra -Wunused-variable -Wsign-compare -Wnon-virtual-dtor -Woverloaded-virtual
+WARNINGS = -Wall -Wextra -Wunused-variable -Wsign-compare
 OPT_FLAGS = -O3 -funroll-loops -ffast-math
 
 gpu_profile = yes
 
 CUDA_HOME=/usr/local/cuda
 NVCC=$(CUDA_HOME)/bin/nvcc
-NVCCFLAGS= -O3 -std=c++11 -arch=sm_35 -Xcompiler "-std=c++11 $(WARNINGS) $(OPT_FLAGS)" -ccbin=g++
+NVCCFLAGS= -O3 -std=c++11 -arch=sm_35 -Xcompiler "$(WARNINGS) $(OPT_FLAGS)" -ccbin=g++
 INCLUDE = -I$(CUDA_HOME)/include -I$(CUDA_HOME)/samples/common/inc
 ifeq ($(gpu_profile), yes)
 NVCCFLAGS += -lineinfo -Xptxas -v
@@ -39,8 +40,14 @@ gpu.out: force_gpu.cu
 gpu_test.out: force_gpu.cu
 	$(NVCC) $(NVCCFLAGS) -DEN_TEST_GPU $(INCLUDE) $< $(LIBRARY) -o $@
 
+gpu_aar.out: force_gpu.cu
+	$(NVCC) $(NVCCFLAGS) -DEN_ACTION_REACTION $(INCLUDE) $< $(LIBRARY) -o $@
+
 cpu_ref.out: force_gpu.cu
 	$(NVCC) $(NVCCFLAGS) -DEN_TEST_CPU $(INCLUDE) $< $(LIBRARY) -o $@
+
+cpu_aar.out: force_gpu.cu
+	$(NVCC) $(NVCCFLAGS) -DEN_TEST_CPU -DEN_ACTION_REACTION $(INCLUDE) $< $(LIBRARY) -o $@
 
 kernel.ptx: force_gpu.cu
 	$(NVCC) $(NVCCFLAGS) $(INCLUDE) -ptx $< $(LIBRARY) -o $@
@@ -57,6 +64,11 @@ test: aos_pair.out aos_intrin.out soa_pair.out soa_intrin.out
 	diff soa_pair.dat soa_intrin.dat
 
 test_gpu: cpu_ref.out gpu_test.out
+	./cpu_aar.out > cpu_aar.txt
 	./cpu_ref.out > cpu_ref.txt
 	./gpu_test.out > gpu_test.txt
+	diff cpu_aar.txt cpu_ref.txt
 	diff cpu_ref.txt gpu_test.txt
+
+clear:
+	rm -f $(CACHE_FILE)
