@@ -1,7 +1,6 @@
 #pragma once
 
-__device__ __forceinline__ double atomicAdd(double* address, double val)
-{
+__device__ __forceinline__ double atomicAdd(double* address, double val) {
     unsigned long long int* address_as_ull = (unsigned long long int*)address;
     unsigned long long int old = *address_as_ull, assumed;
     do {
@@ -12,52 +11,6 @@ __device__ __forceinline__ double atomicAdd(double* address, double val)
     return __longlong_as_double(old);
 }
 
-// use action and reaction
-template <typename Vec, typename Dtype>
-__global__ void force_kernel_with_aar(const Vec* q,
-                                      Vec* p,
-                                      const int32_t particle_number,
-                                      const Dtype dt,
-                                      const Dtype CL2,
-                                      const int32_t* sorted_list,
-                                      const int32_t* number_of_partners,
-                                      const int32_t* pointer) {
-  const auto tid = threadIdx.x + blockIdx.x * blockDim.x;
-  if (tid < particle_number) {
-    const auto qi = q[tid];
-    const auto np = number_of_partners[tid];
-    const auto kp = pointer[tid];
-
-    Dtype pfx = 0.0, pfy = 0.0, pfz = 0.0;
-    for (int32_t k = 0; k < np; k++) {
-      const auto j = sorted_list[kp + k];
-      const auto dx = q[j].x - qi.x;
-      const auto dy = q[j].y - qi.y;
-      const auto dz = q[j].z - qi.z;
-      const auto r2 = dx * dx + dy * dy + dz * dz;
-
-      if (r2 > CL2) continue;
-      const auto r6 = r2 * r2 * r2;
-      const auto df = ((24.0 * r6 - 48.0) / (r6 * r6 * r2)) * dt;
-      const Dtype dfx = df * dx;
-      const Dtype dfy = df * dy;
-      const Dtype dfz = df * dz;
-
-      pfx += dfx;
-      pfy += dfy;
-      pfz += dfz;
-
-      atomicAdd(&p[j].x, -dfx);
-      atomicAdd(&p[j].y, -dfy);
-      atomicAdd(&p[j].z, -dfz);
-    }
-    atomicAdd(&p[tid].x, pfx);
-    atomicAdd(&p[tid].y, pfy);
-    atomicAdd(&p[tid].z, pfy);
-  }
-}
-
-// without action and reaction
 template <typename Vec, typename Dtype>
 __global__ void force_kernel_plain(const Vec* q,
                                    Vec* p,
@@ -79,9 +32,9 @@ __global__ void force_kernel_plain(const Vec* q,
       const auto dy = q[j].y - qi.y;
       const auto dz = q[j].z - qi.z;
       const auto r2 = dx * dx + dy * dy + dz * dz;
+      if (r2 > CL2) continue;
       const auto r6 = r2 * r2 * r2;
-      auto df = ((24.0 * r6 - 48.0) / (r6 * r6 * r2)) * dt;
-      if (r2 > CL2) df = 0.0;
+      const auto df = ((24.0 * r6 - 48.0) / (r6 * r6 * r2)) * dt;
       p[tid].x += df * dx;
       p[tid].y += df * dy;
       p[tid].z += df * dz;
@@ -89,7 +42,6 @@ __global__ void force_kernel_plain(const Vec* q,
   }
 }
 
-// with memory access opt
 template <typename Vec, typename Dtype>
 __global__ void force_kernel_memopt(const Vec*   __restrict__ q,
                                     Vec*         __restrict__ p,
@@ -125,7 +77,6 @@ __global__ void force_kernel_memopt(const Vec*   __restrict__ q,
   }
 }
 
-// with memory access opt2
 template <typename Vec, typename Dtype>
 __global__ void force_kernel_memopt2(const Vec*     __restrict__ q,
                                      Vec*           __restrict__ p,
@@ -160,7 +111,80 @@ __global__ void force_kernel_memopt2(const Vec*     __restrict__ q,
   }
 }
 
-// with memory access opt2
+template <typename Vec, typename Dtype>
+__global__ void force_kernel_plain_with_aar(const Vec* q,
+                                            Vec* p,
+                                            const int32_t particle_number,
+                                            const Dtype dt,
+                                            const Dtype CL2,
+                                            const int32_t* sorted_list,
+                                            const int32_t* number_of_partners,
+                                            const int32_t* pointer) {
+  const auto tid = threadIdx.x + blockIdx.x * blockDim.x;
+  if (tid < particle_number) {
+    const auto qi = q[tid];
+    const auto np = number_of_partners[tid];
+    const auto kp = pointer[tid];
+
+    for (int32_t k = 0; k < np; k++) {
+      const auto j = sorted_list[kp + k];
+      const auto dx = q[j].x - qi.x;
+      const auto dy = q[j].y - qi.y;
+      const auto dz = q[j].z - qi.z;
+      const auto r2 = dx * dx + dy * dy + dz * dz;
+      if (r2 > CL2) continue;
+      const auto r6 = r2 * r2 * r2;
+      const auto df = ((24.0 * r6 - 48.0) / (r6 * r6 * r2)) * dt;
+      atomicAdd(&p[tid].x, df * dx);
+      atomicAdd(&p[tid].y, df * dy);
+      atomicAdd(&p[tid].z, df * dz);
+      atomicAdd(&p[j].x, -df * dx);
+      atomicAdd(&p[j].y, -df * dy);
+      atomicAdd(&p[j].z, -df * dz);
+    }
+  }
+}
+
+template <typename Vec, typename Dtype>
+__global__ void force_kernel_memopt_with_aar(const Vec*   __restrict__ q,
+                                             Vec*         __restrict__ p,
+                                             const int32_t particle_number,
+                                             const Dtype dt,
+                                             const Dtype CL2,
+                                             const int32_t* __restrict__ sorted_list,
+                                             const int32_t* __restrict__ number_of_partners,
+                                             const int32_t* __restrict__ pointer) {
+  const auto tid = threadIdx.x + blockIdx.x * blockDim.x;
+  if (tid < particle_number) {
+    const auto qi = q[tid];
+    const auto np = number_of_partners[tid];
+    const auto kp = pointer[tid];
+
+    Dtype pfx = 0.0, pfy = 0.0, pfz = 0.0;
+    for (int32_t k = 0; k < np; k++) {
+      const auto j = sorted_list[kp + k];
+      const auto dx = q[j].x - qi.x;
+      const auto dy = q[j].y - qi.y;
+      const auto dz = q[j].z - qi.z;
+      const auto r2 = dx * dx + dy * dy + dz * dz;
+      const auto r6 = r2 * r2 * r2;
+      auto df = ((24.0 * r6 - 48.0) / (r6 * r6 * r2)) * dt;
+      if (r2 > CL2) df = 0.0;
+
+      pfx += df * dx;
+      pfy += df * dy;
+      pfz += df * dz;
+
+      atomicAdd(&p[j].x, -df * dx);
+      atomicAdd(&p[j].y, -df * dy);
+      atomicAdd(&p[j].z, -df * dz);
+    }
+    atomicAdd(&p[tid].x, pfx);
+    atomicAdd(&p[tid].y, pfy);
+    atomicAdd(&p[tid].z, pfz);
+  }
+}
+
 template <typename Vec, typename Dtype>
 __global__ void force_kernel_memopt2_with_aar(const Vec*     __restrict__ q,
                                               Vec*           __restrict__ p,
@@ -187,17 +211,13 @@ __global__ void force_kernel_memopt2_with_aar(const Vec*     __restrict__ q,
       auto df = ((static_cast<Dtype>(24.0) * r6 - static_cast<Dtype>(48.0)) / (r6 * r6 * r2)) * dt;
       if (r2 > CL2) df = 0.0;
 
-      const Dtype dfx = df * dx;
-      const Dtype dfy = df * dy;
-      const Dtype dfz = df * dz;
+      pfx += df * dx;
+      pfy += df * dy;
+      pfz += df * dz;
 
-      pfx += dfx;
-      pfy += dfy;
-      pfz += dfz;
-
-      atomicAdd(&p[j].x, -dfx);
-      atomicAdd(&p[j].y, -dfy);
-      atomicAdd(&p[j].z, -dfz);
+      atomicAdd(&p[j].x, -df * dx);
+      atomicAdd(&p[j].y, -df * dy);
+      atomicAdd(&p[j].z, -df * dz);
 
       ptr_list += particle_number;
     }
@@ -207,7 +227,6 @@ __global__ void force_kernel_memopt2_with_aar(const Vec*     __restrict__ q,
   }
 }
 
-// with loop unrolling
 template <typename Vec, typename Dtype>
 __global__ void force_kernel_unrolling(const Vec*     __restrict__ q,
                                        Vec*           __restrict__ p,

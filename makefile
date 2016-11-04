@@ -76,7 +76,7 @@ test_gpu: cpu_aar.out cpu_ref.out gpu_test.out gpu_aar.out
 	diff gpu_test.txt gpu_aar.txt
 
 bench: gpu.out gpu_aar.out
-	./gpu_aar.out > gpu_aar.txt
+	./gpu_aar.out
 	./gpu.out
 
 clear:

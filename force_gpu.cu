@@ -37,7 +37,8 @@ const char* cache_file_name = ".cache_pair_half.dat";
 #else
 const char* cache_file_name = ".cache_pair_all.dat";
 #endif
-const int THREAD_BLOCKS = 256;
+const int THREAD_BLOCKS = 128;
+// const int THREAD_BLOCKS = 256;
 
 template <typename Vec>
 void add_particle(const Dtype x,
@@ -229,6 +230,16 @@ void make_aligned_pairlist() {
   }
 }
 
+void random_shfl() {
+  static std::mt19937 mt;
+  const auto pn = particle_number;
+  for (int i = 0; i < pn; i++) {
+    const auto kp = pointer[i];
+    const auto np = number_of_partners[i];
+    std::shuffle(&sorted_list[kp], &sorted_list[kp + np], mt);
+  }
+}
+
 void allocate() {
   q_f3.allocate(N); p_f3.allocate(N);
   q_d3.allocate(N); p_d3.allocate(N);
@@ -397,6 +408,8 @@ int main() {
     makepaircache();
   }
 
+  random_shfl();
+
   make_aligned_pairlist();
 
 #ifdef EN_TEST_CPU
@@ -404,12 +417,12 @@ int main() {
   print_head_momentum(&p_d3[0]);
 #elif defined EN_TEST_GPU
   MEASURE_FOR_ALLTYPES(force_kernel_plain, sorted_list, pointer);
-  // MEASURE_FOR_ALLTYPES(force_kernel_unrolling, sorted_list, pointer);
+  // MEASURE_FOR_ALLTYPES(force_kernel_unrolling, aligned_list, nullptr);
   print_head_momentum(&p_d3[0]);
 #elif defined EN_ACTION_REACTION
-  // MEASURE_FOR_ALLTYPES(force_kernel_with_aar, sorted_list, pointer);
-  MEASURE_FOR_ALLTYPES(force_kernel_memopt2_with_aar, aligned_list, pointer);
-  print_head_momentum(&p_d3[0]);
+  MEASURE_FOR_ALLTYPES(force_kernel_plain_with_aar, sorted_list, pointer);
+  MEASURE_FOR_ALLTYPES(force_kernel_memopt_with_aar, sorted_list, pointer);
+  MEASURE_FOR_ALLTYPES(force_kernel_memopt2_with_aar, aligned_list, nullptr);
 #else
   MEASURE_FOR_ALLTYPES(force_kernel_plain, sorted_list, pointer);
   MEASURE_FOR_ALLTYPES(force_kernel_memopt, sorted_list, pointer);
