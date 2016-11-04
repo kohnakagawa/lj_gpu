@@ -1,5 +1,5 @@
-TARGET= aos.out aos_pair.out aos_intrin.out soa.out soa_pair.out soa_intrin.out gpu.out gpu_test.out gpu_aar.out cpu_ref.out cpu_aar.out kernel.ptx
-CACHE_FILE = .cache_pair.dat
+TARGET= aos.out aos_pair.out aos_intrin.out soa.out soa_pair.out soa_intrin.out gpu.out gpu_test.out gpu_aar.out cpu_ref.out cpu_aar.out kernel.ptx kernel_aar.ptx
+CACHE_FILE = .cache_pair_half.dat .cache_pair_all.dat
 
 WARNINGS = -Wall -Wextra -Wunused-variable -Wsign-compare
 OPT_FLAGS = -O3 -funroll-loops -ffast-math
@@ -52,6 +52,9 @@ cpu_aar.out: force_gpu.cu
 kernel.ptx: force_gpu.cu
 	$(NVCC) $(NVCCFLAGS) $(INCLUDE) -ptx $< $(LIBRARY) -o $@
 
+kernel_aar.ptx: force_gpu.cu
+	$(NVCC) $(NVCCFLAGS) -DEN_ACTION_REACTION $(INCLUDE) -ptx $< $(LIBRARY) -o $@
+
 clean:
 	rm -f $(TARGET)
 
@@ -63,12 +66,18 @@ test: aos_pair.out aos_intrin.out soa_pair.out soa_intrin.out
 	./soa_intrin.out > soa_intrin.dat
 	diff soa_pair.dat soa_intrin.dat
 
-test_gpu: cpu_ref.out gpu_test.out
+test_gpu: cpu_aar.out cpu_ref.out gpu_test.out gpu_aar.out
 	./cpu_aar.out > cpu_aar.txt
 	./cpu_ref.out > cpu_ref.txt
 	./gpu_test.out > gpu_test.txt
+	./gpu_aar.out > gpu_aar.txt
 	diff cpu_aar.txt cpu_ref.txt
 	diff cpu_ref.txt gpu_test.txt
+	diff gpu_test.txt gpu_aar.txt
+
+bench: gpu.out gpu_aar.out
+	./gpu_aar.out > gpu_aar.txt
+	./gpu.out
 
 clear:
 	rm -f $(CACHE_FILE)

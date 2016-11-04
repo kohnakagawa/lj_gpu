@@ -32,7 +32,11 @@ int pointer2[N];
 const Dtype CUTOFF_LENGTH = 3.0;
 const Dtype SEARCH_LENGTH = 3.3;
 const auto CL2 = CUTOFF_LENGTH * CUTOFF_LENGTH;
-const char* cache_file_name = ".cache_pair.dat";
+#ifdef EN_ACTION_REACTION
+const char* cache_file_name = ".cache_pair_half.dat";
+#else
+const char* cache_file_name = ".cache_pair_all.dat";
+#endif
 const int THREAD_BLOCKS = 256;
 
 template <typename Vec>
@@ -73,6 +77,11 @@ void init(Vec* q,
     p[i].x = 0.0;
     p[i].y = 0.0;
     p[i].z = 0.0;
+  }
+
+  if (particle_number > N) {
+    fprintf(stderr, "particle_number %d exceeds maximum buffer size %d\n", particle_number, N);
+    std::quick_exit(EXIT_FAILURE);
   }
 }
 
@@ -147,11 +156,8 @@ void makepair(const Vec* q) {
 
 void makepaircache() {
   FILE* fp = fopen(cache_file_name, "w");
-  int en_aar = 0;
-#ifdef EN_ACTION_REACTION
-  en_aar = 1;
-#endif
-  fprintf(fp, "%d %d %d\n", en_aar, particle_number, number_of_pairs);
+
+  fprintf(fp, "%d %d\n", particle_number, number_of_pairs);
   for (int i = 0; i < particle_number; i++) {
     fprintf(fp, "%d %d\n", number_of_partners[i], pointer[i]);
   }
@@ -190,20 +196,8 @@ bool loadpair() {
   if (!file_exist(cache_file_name)) return false;
   FILE* fp = fopen(cache_file_name, "r");
 
-  int ptcl_num_tmp = 0, en_aar = 0;
-  fscanf(fp, "%d %d %d", &en_aar, &ptcl_num_tmp, &number_of_pairs);
-
-#ifdef EN_ACTION_REACTION
-  if (!en_aar) {
-    fprintf(stderr, "Pairlist was not made using action and reaction.\n");
-    return false;
-  }
-#else
-  if (en_aar) {
-    fprintf(stderr, "Pairlist was made using action and reaction.\n");
-    return false;
-  }
-#endif
+  int ptcl_num_tmp = 0;
+  fscanf(fp, "%d %d", &ptcl_num_tmp, &number_of_pairs);
 
   if (ptcl_num_tmp != particle_number) {
     fprintf(stderr, "Pairlist cache data may be broken.\n");
@@ -413,7 +407,8 @@ int main() {
   // MEASURE_FOR_ALLTYPES(force_kernel_unrolling, sorted_list, pointer);
   print_head_momentum(&p_d3[0]);
 #elif defined EN_ACTION_REACTION
-  MEASURE_FOR_ALLTYPES(force_kernel_with_aar, sorted_list, pointer);
+  // MEASURE_FOR_ALLTYPES(force_kernel_with_aar, sorted_list, pointer);
+  MEASURE_FOR_ALLTYPES(force_kernel_memopt2_with_aar, aligned_list, pointer);
   print_head_momentum(&p_d3[0]);
 #else
   MEASURE_FOR_ALLTYPES(force_kernel_plain, sorted_list, pointer);
