@@ -1,23 +1,15 @@
 #pragma once
 
-#if 1
-typedef double4 Vec;
-typedef double Dtype;
-#else
-typedef float4 Vec;
-typedef float Dtype;
-#endif
-
-#if 0
 // use action and reaction
+template <typename Vec, typename Dtype>
 __global__ void force_kernel_with_aar(const Vec* q,
                                       Vec* p,
-                                      const int32_t* sorted_list,
-                                      const int32_t* number_of_partners,
-                                      const int32_t* pointer,
                                       const int32_t particle_number,
                                       const Dtype dt,
-                                      const Dtype CL2) {
+                                      const Dtype CL2,
+                                      const int32_t* sorted_list,
+                                      const int32_t* number_of_partners,
+                                      const int32_t* pointer) {
   const auto tid = threadIdx.x + blockIdx.x * blockDim.x;
   if (tid < particle_number) {
     const auto qi = q[tid];
@@ -49,17 +41,17 @@ __global__ void force_kernel_with_aar(const Vec* q,
     }
   }
 }
-#endif
 
 // without action and reaction
+template <typename Vec, typename Dtype>
 __global__ void force_kernel_plain(const Vec* q,
                                    Vec* p,
-                                   const int32_t* sorted_list,
-                                   const int32_t* number_of_partners,
-                                   const int32_t* pointer,
                                    const int32_t particle_number,
                                    const Dtype dt,
-                                   const Dtype CL2) {
+                                   const Dtype CL2,
+                                   const int32_t* sorted_list,
+                                   const int32_t* number_of_partners,
+                                   const int32_t* pointer) {
   const auto tid = threadIdx.x + blockIdx.x * blockDim.x;
   if (tid < particle_number) {
     const auto qi = q[tid];
@@ -83,14 +75,15 @@ __global__ void force_kernel_plain(const Vec* q,
 }
 
 // with memory access opt
+template <typename Vec, typename Dtype>
 __global__ void force_kernel_memopt(const Vec*   __restrict__ q,
                                     Vec*         __restrict__ p,
-                                    const int32_t* __restrict__ sorted_list,
-                                    const int32_t* __restrict__ number_of_partners,
-                                    const int32_t* __restrict__ pointer,
                                     const int32_t particle_number,
                                     const Dtype dt,
-                                    const Dtype CL2) {
+                                    const Dtype CL2,
+                                    const int32_t* __restrict__ sorted_list,
+                                    const int32_t* __restrict__ number_of_partners,
+                                    const int32_t* __restrict__ pointer) {
   const auto tid = threadIdx.x + blockIdx.x * blockDim.x;
   if (tid < particle_number) {
     const auto qi = q[tid];
@@ -118,13 +111,15 @@ __global__ void force_kernel_memopt(const Vec*   __restrict__ q,
 }
 
 // with memory access opt2
+template <typename Vec, typename Dtype>
 __global__ void force_kernel_memopt2(const Vec*     __restrict__ q,
                                      Vec*           __restrict__ p,
-                                     const int32_t* __restrict__ aligned_list,
-                                     const int32_t* __restrict__ number_of_partners,
                                      const int32_t particle_number,
                                      const Dtype dt,
-                                     const Dtype CL2) {
+                                     const Dtype CL2,
+                                     const int32_t* __restrict__ aligned_list,
+                                     const int32_t* __restrict__ number_of_partners,
+                                     const int32_t* __restrict__ pointer = nullptr) {
   const auto tid = threadIdx.x + blockIdx.x * blockDim.x;
   if (tid < particle_number) {
     const auto qi = q[tid];
@@ -151,13 +146,15 @@ __global__ void force_kernel_memopt2(const Vec*     __restrict__ q,
 }
 
 // with loop unrolling
+template <typename Vec, typename Dtype>
 __global__ void force_kernel_unrolling(const Vec*     __restrict__ q,
                                        Vec*           __restrict__ p,
-                                       const int32_t* __restrict__ aligned_list,
-                                       const int32_t* __restrict__ number_of_partners,
                                        const int32_t particle_number,
                                        const Dtype dt,
-                                       const Dtype CL2) {
+                                       const Dtype CL2,
+                                       const int32_t* __restrict__ aligned_list,
+                                       const int32_t* __restrict__ number_of_partners,
+                                       const int32_t* __restrict__ pointer = nullptr) {
   const auto tid = threadIdx.x + blockIdx.x * blockDim.x;
   if (tid < particle_number) {
     const auto qi = q[tid];
@@ -189,10 +186,10 @@ __global__ void force_kernel_unrolling(const Vec*     __restrict__ q,
       const auto j2 = __ldg(ptr_list + 2 * particle_number);
       const auto j3 = __ldg(ptr_list + 3 * particle_number);
 
-      const auto dx0 = q[j0].x - qi.x, dy0 = q[j0].y - qi.y, dz0 = q[j0].z - qi.z;
-      const auto dx1 = q[j1].x - qi.x, dy1 = q[j1].y - qi.y, dz1 = q[j1].z - qi.z;
-      const auto dx2 = q[j2].x - qi.x, dy2 = q[j2].y - qi.y, dz2 = q[j2].z - qi.z;
-      const auto dx3 = q[j3].x - qi.x, dy3 = q[j3].y - qi.y, dz3 = q[j3].z - qi.z;
+      const auto dx0 = q[j0].x - qi.x; const auto dy0 = q[j0].y - qi.y; const auto dz0 = q[j0].z - qi.z;
+      const auto dx1 = q[j1].x - qi.x; const auto dy1 = q[j1].y - qi.y; const auto dz1 = q[j1].z - qi.z;
+      const auto dx2 = q[j2].x - qi.x; const auto dy2 = q[j2].y - qi.y; const auto dz2 = q[j2].z - qi.z;
+      const auto dx3 = q[j3].x - qi.x; const auto dy3 = q[j3].y - qi.y; const auto dz3 = q[j3].z - qi.z;
 
       const auto r2_0 = dx0 * dx0 + dy0 * dy0 + dz0 * dz0;
       const auto r2_1 = dx1 * dx1 + dy1 * dy1 + dz1 * dz1;

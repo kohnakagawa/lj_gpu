@@ -8,13 +8,19 @@
 #include "cuda_ptr.cuh"
 #include "kernel.cuh"
 
-const auto density = static_cast<Dtype>(1.0);
+typedef double Dtype;
+
+const Dtype density = 1.0;
 const int N = 400000;
 const int NUM_NEIGH = 60;
 const int MAX_PAIRS = NUM_NEIGH * N;
-auto L = static_cast<Dtype>(50.0);
-const auto dt = static_cast<Dtype>(0.001);
-cuda_ptr<Vec> q, p;
+const int LOOP = 100;
+Dtype L = 50.0;
+const Dtype dt = 0.001;
+cuda_ptr<float3> q_f3, p_f3;
+cuda_ptr<float4> q_f4, p_f4;
+cuda_ptr<double3> q_d3, p_d3;
+cuda_ptr<double4> q_d4, p_d4;
 cuda_ptr<int32_t> sorted_list, number_of_partners, pointer;
 cuda_ptr<int32_t> aligned_list;
 int particle_number = 0;
@@ -23,25 +29,28 @@ int i_particles[MAX_PAIRS];
 int j_particles[MAX_PAIRS];
 int pointer2[N];
 
-const auto CUTOFF_LENGTH = static_cast<Dtype>(3.0);
-const auto SEARCH_LENGTH = static_cast<Dtype>(3.3);
+const Dtype CUTOFF_LENGTH = 3.0;
+const Dtype SEARCH_LENGTH = 3.3;
 const auto CL2 = CUTOFF_LENGTH * CUTOFF_LENGTH;
 const char* cache_file_name = ".cache_pair.dat";
 const int THREAD_BLOCKS = 256;
 
+template <typename Vec>
 void add_particle(const Dtype x,
                   const Dtype y,
-                  const Dtype z) {
+                  const Dtype z,
+                  Vec* q) {
   static std::mt19937 mt(2);
   std::uniform_real_distribution<Dtype> ud(0.0, 0.1);
   q[particle_number].x = x + ud(mt);
   q[particle_number].y = y + ud(mt);
   q[particle_number].z = z + ud(mt);
-  q[particle_number].w = 0.0;
   particle_number++;
 }
 
-void init() {
+template <typename Vec>
+void init(Vec* q,
+          Vec* p) {
   const Dtype s = 1.0 / std::pow(density * 0.25, 1.0 / 3.0);
   const Dtype hs = s * 0.5;
   const int sx = static_cast<int>(L / s);
@@ -53,10 +62,10 @@ void init() {
         const Dtype x = ix*s;
         const Dtype y = iy*s;
         const Dtype z = iz*s;
-        add_particle(x     ,y   ,z);
-        add_particle(x     ,y+hs,z+hs);
-        add_particle(x+hs  ,y   ,z+hs);
-        add_particle(x+hs  ,y+hs,z);
+        add_particle(x     ,y   ,z, q);
+        add_particle(x     ,y+hs,z+hs, q);
+        add_particle(x+hs  ,y   ,z+hs, q);
+        add_particle(x+hs  ,y+hs,z, q);
       }
     }
   }
@@ -64,7 +73,6 @@ void init() {
     p[i].x = 0.0;
     p[i].y = 0.0;
     p[i].z = 0.0;
-    p[i].w = 0.0;
   }
 }
 
@@ -89,7 +97,8 @@ void register_pair(const int index1, const int index2) {
   number_of_pairs++;
 }
 
-void makepair() {
+template <typename Vec>
+void makepair(const Vec* q) {
   const auto SL2 = SEARCH_LENGTH * SEARCH_LENGTH;
   const auto pn = particle_number;
   for (int i = 0; i < pn; i++) {
@@ -200,8 +209,11 @@ void make_aligned_pairlist() {
 }
 
 void allocate() {
-  q.allocate(N);
-  p.allocate(N);
+  q_f3.allocate(N); p_f3.allocate(N);
+  q_d3.allocate(N); p_d3.allocate(N);
+  q_f4.allocate(N); p_f4.allocate(N);
+  q_d4.allocate(N); p_d4.allocate(N);
+  
   sorted_list.allocate(MAX_PAIRS);
   aligned_list.allocate(MAX_PAIRS);
   number_of_partners.allocate(N);
@@ -209,15 +221,31 @@ void allocate() {
 }
 
 void cleanup() {
-  q.deallocate();
-  p.deallocate();
+  q_f3.deallocate(); p_f3.deallocate();
+  q_d3.deallocate(); p_d3.deallocate();
+  q_f4.deallocate(); p_f4.deallocate();
+  q_d4.deallocate(); p_d4.deallocate();
+  
   sorted_list.deallocate();
   aligned_list.deallocate();
   number_of_partners.deallocate();
   pointer.deallocate();
 }
 
-void copy_to_gpu() {
+template <typename Vec1, typename Vec2>
+void copy_vec(Vec1* v1,
+              Vec2* v2,
+              const int ptcl_num) {
+  for (int i = 0; i < ptcl_num; i++) {
+    v1[i].x = v2[i].x;
+    v1[i].y = v2[i].y;
+    v1[i].z = v2[i].z;
+  }
+}
+
+template <typename Vec>
+void copy_to_gpu(cuda_ptr<Vec>& q,
+                 cuda_ptr<Vec>& p) {
   q.host2dev();
   p.host2dev();
   sorted_list.host2dev();
@@ -226,12 +254,15 @@ void copy_to_gpu() {
   pointer.host2dev();
 }
 
-void copy_to_host() {
+template <typename Vec>
+void copy_to_host(cuda_ptr<Vec>& p) {
   p.dev2host();
 }
 
 // for check
-void force_sorted() {
+template <typename Vec>
+void force_sorted(const Vec* q,
+                  Vec* p) {
   const auto pn = particle_number;
   for (int i = 0; i < pn; i++) {
     const auto qx_key = q[i].x;
@@ -261,51 +292,100 @@ void force_sorted() {
   }
 }
 
+template <typename Vec, typename Dtype, typename ptr_func>
+void measure(ptr_func kernel,
+             const char* name,
+             cuda_ptr<Vec>& q,
+             cuda_ptr<Vec>& p,
+             const Dtype dt_,
+             const Dtype CL2_,
+             const int32_t* list,
+             const int32_t* partner_pointer) {
+  const int block_num = particle_number / THREAD_BLOCKS + 1;
+  const auto st = myclock();
+  copy_to_gpu(q, p);
+  for (int i = 0; i < LOOP; i++) {
+    kernel<<<block_num, THREAD_BLOCKS>>>(q, p, particle_number, dt_, CL2_, list, number_of_partners, partner_pointer);
+  }
+  copy_to_host(p);
+  const auto diff = myclock() - st;
+  fprintf(stderr, "N=%d, %s %f [sec]\n", particle_number, name, diff);
+}
+
+template <typename Vec>
+void print_head_momentum(const Vec* p) {
+  for (int i = 0; i < 10; i++) {
+    fprintf(stdout, "%.10f %.10f %.10f\n", p[i].x, p[i].y, p[i].z);
+  }
+}
+
+#define STR(s) #s
+#define MEASURE_FOR_ALLTYPES(fname, list, p_pointer)  \
+  do {                                                \
+    measure(fname<float3, float>,                     \
+            STR(fname ## _float3),                    \
+            q_f3,                                     \
+            p_f3,                                     \
+            static_cast<float>(dt),                   \
+            static_cast<float>(CL2),                  \
+            list,                                     \
+            p_pointer);                               \
+    measure(fname<float4, float>,                     \
+            STR(fname ## _float4),                    \
+            q_f4,                                     \
+            p_f4,                                     \
+            static_cast<float>(dt),                   \
+            static_cast<float>(CL2),                  \
+            list,                                     \
+            p_pointer);                               \
+    measure(fname<double3, double>,                   \
+            STR(fname ## _double3),                   \
+            q_d3,                                     \
+            p_d3,                                     \
+            static_cast<double>(dt),                  \
+            static_cast<double>(CL2),                 \
+            list,                                     \
+            p_pointer);                               \
+    measure(fname<double4, double>,                   \
+            STR(fname ## _double4),                   \
+            q_d4,                                     \
+            p_d4,                                     \
+            static_cast<double>(dt),                  \
+            static_cast<double>(CL2),                 \
+            list,                                     \
+            p_pointer);                               \
+  } while (false)
+
 int main() {
   allocate();
-  init();
+  init(&q_d3[0], &p_d3[0]);
+  copy_vec(&q_f3[0], &q_d3[0], particle_number); copy_vec(&p_f3[0], &p_d3[0], particle_number);
+  copy_vec(&q_f4[0], &q_d3[0], particle_number); copy_vec(&p_f4[0], &p_d3[0], particle_number);
+  copy_vec(&q_d4[0], &q_d3[0], particle_number); copy_vec(&p_d4[0], &p_d3[0], particle_number);
+  
   const auto flag = loadpair();
   if (!flag) {
     fprintf(stderr, "Now make pairlist %s.\n", cache_file_name);
     number_of_pairs = 0;
-    makepair();
+    makepair(&q_d3[0]);
     makepaircache();
   }
 
   make_aligned_pairlist();
 
-  const int block_num = particle_number / THREAD_BLOCKS + 1;
-
-  const auto st = myclock();
-#ifndef EN_TEST
-  copy_to_gpu();
-#endif
-  const int LOOP = 100;
-  for (int i = 0; i < LOOP; i++) {
-
-#ifdef EN_TEST
-    force_sorted();
+#ifdef EN_TEST_CPU
+  for (int i = 0; i < LOOP; i++) force_sorted(&q_d3[0], &p_d3[0]);
+  print_head_momentum(&p_d3[0]);
+#elif defined EN_TEST_GPU
+  MEASURE_FOR_ALLTYPES(force_kernel_plain, sorted_list, pointer);
+  // MEASURE_FOR_ALLTYPES(force_kernel_unrolling, sorted_list, pointer);
+  print_head_momentum(&p_d3[0]);
 #else
-
-    // force_kernel_plain<<<block_num, THREAD_BLOCKS>>>(q, p, sorted_list, number_of_partners, pointer, particle_number, dt, CL2);
-    
-    // force_kernel_memopt<<<block_num, THREAD_BLOCKS>>>(q, p, sorted_list, number_of_partners, pointer, particle_number, dt, CL2);
-
-    // force_kernel_memopt2<<<block_num, THREAD_BLOCKS>>>(q, p, aligned_list, number_of_partners, particle_number, dt, CL2);
-
-    force_kernel_unrolling<<<block_num, THREAD_BLOCKS>>>(q, p, aligned_list, number_of_partners, particle_number, dt, CL2);
+  MEASURE_FOR_ALLTYPES(force_kernel_plain, sorted_list, pointer);
+  MEASURE_FOR_ALLTYPES(force_kernel_memopt, sorted_list, pointer);
+  MEASURE_FOR_ALLTYPES(force_kernel_memopt2, aligned_list, nullptr);
+  MEASURE_FOR_ALLTYPES(force_kernel_unrolling, aligned_list, nullptr);
 #endif
-  }
-#ifndef EN_TEST
-  copy_to_host();
-#endif
-  const auto diff = myclock() - st;
-
-  fprintf(stderr, "N=%d, %s %f [sec]\n", particle_number, "plain", diff);
-
-  for (int i = 0; i < 10; i++) {
-    fprintf(stdout, "%.10f %.10f %.10f\n", p[i].x, p[i].y, p[i].z);
-  }
 
   cleanup();
 }
