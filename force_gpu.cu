@@ -416,8 +416,10 @@ int main() {
   for (int i = 0; i < LOOP; i++) force_sorted(&q_d3[0], &p_d3[0]);
   print_head_momentum(&p_d3[0]);
 #elif defined EN_TEST_GPU
-  MEASURE_FOR_ALLTYPES(force_kernel_plain, sorted_list, pointer);
+  // MEASURE_FOR_ALLTYPES(force_kernel_plain, sorted_list, pointer);
   // MEASURE_FOR_ALLTYPES(force_kernel_unrolling, aligned_list, nullptr);
+  // MEASURE_FOR_ALLTYPES(force_kernel_swpl, aligned_list, nullptr);
+  MEASURE_FOR_ALLTYPES(force_kernel_swpl2, aligned_list, nullptr);
   print_head_momentum(&p_d3[0]);
 #elif defined EN_ACTION_REACTION
   MEASURE_FOR_ALLTYPES(force_kernel_plain_with_aar, sorted_list, pointer);
@@ -427,6 +429,8 @@ int main() {
   MEASURE_FOR_ALLTYPES(force_kernel_plain, sorted_list, pointer);
   MEASURE_FOR_ALLTYPES(force_kernel_memopt, sorted_list, pointer);
   MEASURE_FOR_ALLTYPES(force_kernel_memopt2, aligned_list, nullptr);
+  MEASURE_FOR_ALLTYPES(force_kernel_swpl, aligned_list, nullptr);
+  MEASURE_FOR_ALLTYPES(force_kernel_swpl2, aligned_list, nullptr);
   MEASURE_FOR_ALLTYPES(force_kernel_unrolling, aligned_list, nullptr);
 #endif
 

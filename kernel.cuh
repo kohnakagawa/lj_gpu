@@ -302,3 +302,140 @@ __global__ void force_kernel_unrolling(const Vec*     __restrict__ q,
     p[tid] = pf;
   }
 }
+
+// ASSUME: np >= 3
+template <typename Vec, typename Dtype>
+__global__ void force_kernel_swpl(const Vec*     __restrict__ q,
+                                  Vec*           __restrict__ p,
+                                  const int32_t particle_number,
+                                  const Dtype dt,
+                                  const Dtype CL2,
+                                  const int32_t* __restrict__ aligned_list,
+                                  const int32_t* __restrict__ number_of_partners,
+                                  const int32_t* __restrict__ pointer = nullptr) {
+  const auto tid = threadIdx.x + blockIdx.x * blockDim.x;
+  if (tid < particle_number) {
+    const auto qi = q[tid];
+    const auto np = number_of_partners[tid];
+    const int32_t* ptr_list = &aligned_list[tid];
+
+    auto pf = p[tid];
+
+    Dtype r2, r6, df_0, df_1;
+
+    // load (k == 0)
+    auto j = __ldg(ptr_list);
+    ptr_list += particle_number;
+    auto dx_0 = q[j].x - qi.x;
+    auto dy_0 = q[j].y - qi.y;
+    auto dz_0 = q[j].z - qi.z;
+
+    // calc (k == 0)
+    r2 = dx_0 * dx_0 + dy_0 * dy_0 + dz_0 * dz_0;
+    r6 = r2 * r2 * r2;
+    df_0 = ((static_cast<Dtype>(24.0) * r6 - static_cast<Dtype>(48.0)) / (r6 * r6 * r2)) * dt;
+    if (r2 > CL2) df_0 = 0.0;
+
+    // load (k == 1)
+    j = __ldg(ptr_list);
+    ptr_list += particle_number;
+    auto dx_1 = q[j].x - qi.x;
+    auto dy_1 = q[j].y - qi.y;
+    auto dz_1 = q[j].z - qi.z;
+
+    for (int32_t k = 2; k < np; k++) {
+      // store (k)
+      pf.x += df_0 * dx_0;
+      pf.y += df_0 * dy_0;
+      pf.z += df_0 * dz_0;
+
+      // calc (k + 1)
+      r2 = dx_1 * dx_1 + dy_1 * dy_1 + dz_1 * dz_1;
+      r6 = r2 * r2 * r2;
+      df_0 = ((static_cast<Dtype>(24.0) * r6 - static_cast<Dtype>(48.0)) / (r6 * r6 * r2)) * dt;
+      if (r2 > CL2) df_0 = 0.0;
+
+      dx_0 = dx_1; dy_0 = dy_1; dz_0 = dz_1;
+
+      // load (k + 2)
+      j = __ldg(ptr_list);
+      ptr_list += particle_number;
+      dx_1 = q[j].x - qi.x;
+      dy_1 = q[j].y - qi.y;
+      dz_1 = q[j].z - qi.z;
+    }
+
+    // calc (k == np - 1)
+    r2 = dx_1 * dx_1 + dy_1 * dy_1 + dz_1 * dz_1;
+    r6 = r2 * r2 * r2;
+    df_1 = ((static_cast<Dtype>(24.0) * r6 - static_cast<Dtype>(48.0)) / (r6 * r6 * r2)) * dt;
+    if (r2 > CL2) df_1 = 0.0;
+
+    // store (k == np - 2, np - 1)
+    pf.x += df_1 * dx_1 + df_0 * dx_0;
+    pf.y += df_1 * dy_1 + df_0 * dy_0;
+    pf.z += df_1 * dz_1 + df_0 * dz_0;
+
+    p[tid] = pf;
+ }
+}
+
+// modified from lj_simd/force_aos.cpp
+template <typename Vec, typename Dtype>
+__global__ void force_kernel_swpl2(const Vec*     __restrict__ q,
+                                   Vec*           __restrict__ p,
+                                   const int32_t particle_number,
+                                   const Dtype dt,
+                                   const Dtype CL2,
+                                   const int32_t* __restrict__ aligned_list,
+                                   const int32_t* __restrict__ number_of_partners,
+                                   const int32_t* __restrict__ pointer = nullptr) {
+  const auto tid = threadIdx.x + blockIdx.x * blockDim.x;
+  if (tid < particle_number) {
+    const auto qi = q[tid];
+    const auto np = number_of_partners[tid];
+    const int32_t* ptr_list = &aligned_list[tid];
+
+    auto pf = p[tid];
+
+    auto j = __ldg(ptr_list);
+    ptr_list += particle_number;
+    auto dxa = q[j].x - qi.x;
+    auto dya = q[j].y - qi.y;
+    auto dza = q[j].z - qi.z;
+    Dtype df = 0.0;
+    Dtype dxb = 0.0, dyb = 0.0, dzb = 0.0;
+
+    for (int32_t k = 0; k < np; k++) {
+      const auto dx = dxa;
+      const auto dy = dya;
+      const auto dz = dza;
+      const auto r2 = dx * dx + dy * dy + dz * dz;
+
+      j = __ldg(ptr_list);
+      ptr_list += particle_number;
+
+      dxa = q[j].x - qi.x;
+      dya = q[j].y - qi.y;
+      dza = q[j].z - qi.z;
+
+      // store prev
+      pf.x += df * dxb;
+      pf.y += df * dyb;
+      pf.z += df * dzb;
+
+      // calc next
+      const auto r6 = r2 * r2 * r2;
+      df = ((static_cast<Dtype>(24.0) * r6 - static_cast<Dtype>(48.0)) / (r6 * r6 * r2)) * dt;
+      if (r2 > CL2) df = 0.0;
+      dxb = dx;
+      dyb = dy;
+      dzb = dz;
+    }
+    pf.x += df * dxb;
+    pf.y += df * dyb;
+    pf.z += df * dzb;
+
+    p[tid] = pf;
+  }
+}
