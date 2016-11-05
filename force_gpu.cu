@@ -11,11 +11,13 @@
 typedef double Dtype;
 
 const Dtype density = 1.0;
-const int N = 400000;
+// const int N = 400000;
+const int N = 1000000;
 const int NUM_NEIGH = 60;
 const int MAX_PAIRS = NUM_NEIGH * N;
 const int LOOP = 100;
-Dtype L = 50.0;
+// Dtype L = 50.0;
+Dtype L = 70.0;
 const Dtype dt = 0.001;
 cuda_ptr<float3> q_f3, p_f3;
 cuda_ptr<float4> q_f4, p_f4;
