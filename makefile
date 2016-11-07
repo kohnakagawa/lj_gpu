@@ -6,7 +6,8 @@ OPT_FLAGS = -O3 -funroll-loops -ffast-math
 
 gpu_profile = yes
 
-CUDA_HOME=/usr/local/cuda
+# CUDA_HOME=/usr/local/cuda
+CUDA_HOME=/home/app/cuda/cuda-7.0
 NVCC=$(CUDA_HOME)/bin/nvcc
 NVCCFLAGS= -O3 -std=c++11 -arch=sm_35 -Xcompiler "$(WARNINGS) $(OPT_FLAGS)" -ccbin=g++
 INCLUDE = -I$(CUDA_HOME)/include -I$(CUDA_HOME)/samples/common/inc
@@ -66,16 +67,18 @@ test: aos_pair.out aos_intrin.out soa_pair.out soa_intrin.out
 	./soa_intrin.out > soa_intrin.dat
 	diff soa_pair.dat soa_intrin.dat
 
-test_gpu: cpu_aar.out cpu_ref.out gpu_test.out gpu_aar.out
+test_gpu: cpu_aar.out cpu_ref.out gpu_test.out
 	./cpu_aar.out > cpu_aar.txt
 	./cpu_ref.out > cpu_ref.txt
 	./gpu_test.out > gpu_test.txt
-	./gpu_aar.out > gpu_aar.txt
 	diff cpu_aar.txt cpu_ref.txt
 	diff cpu_ref.txt gpu_test.txt
-	diff gpu_test.txt gpu_aar.txt
 
-bench: gpu.out gpu_aar.out
+bench: aos_intrin.out soa_intrin.out aos_pair.out soa_pair.out gpu_aar.out gpu.out
+	./aos_intrin.out
+	./soa_intrin.out
+	./aos_pair.out
+	./soa_pair.out
 	./gpu_aar.out
 	./gpu.out
 

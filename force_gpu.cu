@@ -11,13 +11,13 @@
 typedef double Dtype;
 
 const Dtype density = 1.0;
-// const int N = 400000;
-const int N = 1000000;
+const int N = 400000;
+// const int N = 1000000;
 const int NUM_NEIGH = 60;
 const int MAX_PAIRS = NUM_NEIGH * N;
 const int LOOP = 100;
-// Dtype L = 50.0;
-Dtype L = 70.0;
+Dtype L = 50.0;
+// Dtype L = 70.0;
 const Dtype dt = 0.001;
 cuda_ptr<float3> q_f3, p_f3;
 cuda_ptr<float4> q_f4, p_f4;
@@ -39,8 +39,7 @@ const char* cache_file_name = ".cache_pair_half.dat";
 #else
 const char* cache_file_name = ".cache_pair_all.dat";
 #endif
-const int THREAD_BLOCKS = 128;
-// const int THREAD_BLOCKS = 256;
+const int THREAD_BLOCK = 128;
 
 template <typename Vec>
 void add_particle(const Dtype x,
@@ -340,11 +339,11 @@ void measure(ptr_func kernel,
              const Dtype CL2_,
              const int32_t* list,
              const int32_t* partner_pointer) {
-  const int block_num = particle_number / THREAD_BLOCKS + 1;
+  const int block_num = particle_number / THREAD_BLOCK + 1;
   const auto st = myclock();
   copy_to_gpu(q, p);
   for (int i = 0; i < LOOP; i++) {
-    kernel<<<block_num, THREAD_BLOCKS>>>(q, p, particle_number, dt_, CL2_, list, number_of_partners, partner_pointer);
+    kernel<<<block_num, THREAD_BLOCK>>>(q, p, particle_number, dt_, CL2_, list, number_of_partners, partner_pointer);
   }
   copy_to_host(p);
   const auto diff = myclock() - st;
@@ -407,10 +406,9 @@ int main() {
     fprintf(stderr, "Now make pairlist %s.\n", cache_file_name);
     number_of_pairs = 0;
     makepair(&q_d3[0]);
+    random_shfl();
     makepaircache();
   }
-
-  random_shfl();
 
   make_aligned_pairlist();
 
@@ -418,17 +416,23 @@ int main() {
   for (int i = 0; i < LOOP; i++) force_sorted(&q_d3[0], &p_d3[0]);
   print_head_momentum(&p_d3[0]);
 #elif defined EN_TEST_GPU
-  // MEASURE_FOR_ALLTYPES(force_kernel_plain, sorted_list, pointer);
-  // MEASURE_FOR_ALLTYPES(force_kernel_unrolling, aligned_list, nullptr);
+  MEASURE_FOR_ALLTYPES(force_kernel_plain, sorted_list, pointer);
+  // MEASURE_FOR_ALLTYPES(force_kernel_ifless, sorted_list, pointer);
+  // MEASURE_FOR_ALLTYPES(force_kernel_memopt, sorted_list, pointer);
+  // MEASURE_FOR_ALLTYPES(force_kernel_memopt2, sorted_list, pointer);
   // MEASURE_FOR_ALLTYPES(force_kernel_swpl, aligned_list, nullptr);
-  MEASURE_FOR_ALLTYPES(force_kernel_swpl2, aligned_list, nullptr);
+  // MEASURE_FOR_ALLTYPES(force_kernel_swpl2, aligned_list, nullptr);
+  // MEASURE_FOR_ALLTYPES(force_kernel_unrolling, aligned_list, nullptr);
   print_head_momentum(&p_d3[0]);
 #elif defined EN_ACTION_REACTION
   MEASURE_FOR_ALLTYPES(force_kernel_plain_with_aar, sorted_list, pointer);
+  MEASURE_FOR_ALLTYPES(force_kernel_ifless_with_aar, sorted_list, pointer);
   MEASURE_FOR_ALLTYPES(force_kernel_memopt_with_aar, sorted_list, pointer);
   MEASURE_FOR_ALLTYPES(force_kernel_memopt2_with_aar, aligned_list, nullptr);
+  // print_head_momentum(&p_d3[0]);
 #else
   MEASURE_FOR_ALLTYPES(force_kernel_plain, sorted_list, pointer);
+  MEASURE_FOR_ALLTYPES(force_kernel_ifless, sorted_list, pointer);
   MEASURE_FOR_ALLTYPES(force_kernel_memopt, sorted_list, pointer);
   MEASURE_FOR_ALLTYPES(force_kernel_memopt2, aligned_list, nullptr);
   MEASURE_FOR_ALLTYPES(force_kernel_swpl, aligned_list, nullptr);
