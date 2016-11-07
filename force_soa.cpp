@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <immintrin.h>
+#include <algorithm>
 #include <random>
 #include <math.h>
 #include <sys/time.h>
@@ -103,6 +104,17 @@ makepair(void) {
     int index = pointer[i] + pointer2[i];
     sorted_list[index] = j;
     pointer2[i] ++;
+  }
+}
+//----------------------------------------------------------------------
+void
+random_shfl(void) {
+  static std::mt19937 mt;
+  const auto pn = particle_number;
+  for (int i = 0; i < pn; i++) {
+    const auto kp = pointer[i];
+    const auto np = number_of_partners[i];
+    std::shuffle(&sorted_list[kp], &sorted_list[kp + np], mt);
   }
 }
 //----------------------------------------------------------------------
@@ -355,6 +367,7 @@ int
 main(void) {
   init();
   makepair();
+  random_shfl();
 #ifdef PAIR
   measure(&force_pair, "pair");
   for (int i = 0; i < 10; i++) {
