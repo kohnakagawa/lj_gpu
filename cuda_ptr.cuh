@@ -9,13 +9,30 @@
  
 template <typename T>
 struct cuda_ptr {
-  T* dev_ptr = nullptr;
+  T* dev_ptr  = nullptr;
   T* host_ptr = nullptr;
   int size = -1;
   thrust::device_ptr<T> thrust_ptr;
   
-  cuda_ptr() {}
+  cuda_ptr<T>() {}
   // ~cuda_ptr() {deallocate();} // disable RAII
+
+  // disable copy constructor
+  const cuda_ptr<T>& operator = (const cuda_ptr<T>& obj) = delete;
+  cuda_ptr<T>(const cuda_ptr<T>& obj) = delete;
+
+  cuda_ptr<T>& operator = (cuda_ptr<T>&& obj) noexcept {
+    this->dev_ptr = obj.dev_ptr;
+    this->host_ptr = obj.host_ptr;
+
+    obj.dev_ptr = nullptr;
+    obj.host_ptr = nullptr;
+
+    return *this;
+  }
+  cuda_ptr<T>(cuda_ptr<T>&& obj) noexcept {
+    *this = std::move(obj);
+  }
  
   void allocate(const int size_) {
     size = size_;
@@ -68,9 +85,14 @@ struct cuda_ptr {
     thrust::fill(beg_ptr, beg_ptr + count, val);
   }
   
+  const T& operator [] (const int i) const {
+    return host_ptr[i];
+  }
+
   T& operator [] (const int i) {
     return host_ptr[i];
   }
+
   operator T* () {
     return dev_ptr;
   }
