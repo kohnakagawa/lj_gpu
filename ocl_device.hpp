@@ -94,10 +94,10 @@ public:
     kernel_names.push_back(name);
   }
 
-  void BuildProgram() {
+  void BuildProgram(const std::string build_opt) {
     program = cl::Program(context, sources);
     try {
-      program.build(devices);
+      program.build(devices, build_opt.c_str());
     } catch (cl::Error err) {
       if (err.err() == CL_BUILD_PROGRAM_FAILURE) {
         std::cerr << program.getBuildInfo<CL_PROGRAM_BUILD_LOG>(device) << std::endl;

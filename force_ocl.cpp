@@ -14,6 +14,7 @@ const char srcStr[] =
   ;
 
 typedef double Dtype;
+typedef cl_double3 Vec;
 
 const Dtype density = 1.0;
 const int N = 400000;
@@ -24,7 +25,7 @@ const int LOOP = 100;
 Dtype L = 50.0;
 // Dtype L = 70.0;
 const Dtype dt = 0.001;
-ocl_buf<cl_double4> q_d4, p_d4;
+ocl_buf<Vec> q, p;
 ocl_buf<cl_int> sorted_list, number_of_partners, pointer;
 ocl_buf<cl_int> aligned_list;
 int particle_number = 0;
@@ -304,7 +305,8 @@ void print_head_momentum(const Vec* p) {
 }
 
 int main() {
-  std::string ocl_fname("force_kernel_memopt2");
+  std::string ocl_fname("force_kernel_plain");
+  std::string compile_opt("-DVec=double3 -DDtype=double");
 
   // initialize device
   OclDevice ocldevice;
@@ -312,25 +314,25 @@ int main() {
   ocldevice.AddProgramSource(srcStr);
   ocldevice.AddKernelName(ocl_fname);
   ocldevice.CreateContext();
-  ocldevice.BuildProgram();
+  ocldevice.BuildProgram(compile_opt);
   ocldevice.CreateKernels();
   cl::Context& context = ocldevice.GetCurrentContext();
   cl::Device&  device  = ocldevice.GetCurrentDevice();
 
   // allocate memory
-  q_d4.Allocate(N, context, CL_MEM_READ_ONLY);
-  p_d4.Allocate(N, context, CL_MEM_READ_WRITE);
+  q.Allocate(N, context, CL_MEM_READ_ONLY);
+  p.Allocate(N, context, CL_MEM_READ_WRITE);
   sorted_list.Allocate(MAX_PAIRS, context, CL_MEM_READ_ONLY);
   aligned_list.Allocate(MAX_PAIRS, context, CL_MEM_READ_ONLY);
   number_of_partners.Allocate(N, context, CL_MEM_READ_ONLY);
   pointer.Allocate(N, context, CL_MEM_READ_ONLY);
 
-  init(&q_d4[0], &p_d4[0]);
+  init(&q[0], &p[0]);
 
   if (!loadpair()) {
     fprintf(stderr, "Now make pairlist %s.\n", cache_file_name);
     number_of_pairs = 0;
-    makepair(&q_d4[0]);
+    makepair(&q[0]);
     random_shfl();
     makepaircache();
   }
@@ -338,12 +340,12 @@ int main() {
   make_aligned_pairlist();
 
 #ifdef EN_TEST_CPU
-  for (int i = 0; i < LOOP; i++) force_sorted(&q_d4[0], &p_d4[0]);
-  print_head_momentum(&p_d4[0]);
+  for (int i = 0; i < LOOP; i++) force_sorted(&q[0], &p[0]);
+  print_head_momentum(&p[0]);
 #else
 
-  ocldevice.SetFunctionArg(ocl_fname, 0, q_d4.GetDevBuffer());
-  ocldevice.SetFunctionArg(ocl_fname, 1, p_d4.GetDevBuffer());
+  ocldevice.SetFunctionArg(ocl_fname, 0, q.GetDevBuffer());
+  ocldevice.SetFunctionArg(ocl_fname, 1, p.GetDevBuffer());
   ocldevice.SetFunctionArg(ocl_fname, 2, particle_number);
   ocldevice.SetFunctionArg(ocl_fname, 3, dt);
   ocldevice.SetFunctionArg(ocl_fname, 4, CL2);
@@ -357,8 +359,8 @@ int main() {
   const cl::CommandQueue queue(context, device);
 
   // copy from cpu to gpu
-  q_d4.Host2dev(queue, CL_FALSE);
-  p_d4.Host2dev(queue, CL_FALSE);
+  q.Host2dev(queue, CL_FALSE);
+  p.Host2dev(queue, CL_FALSE);
   sorted_list.Host2dev(queue, CL_FALSE);
   number_of_partners.Host2dev(queue, CL_FALSE);
   pointer.Host2dev(queue, CL_FALSE);
@@ -370,11 +372,11 @@ int main() {
   }
 
   // copy from gpu to cpu
-  p_d4.Dev2host(queue, CL_TRUE);
+  p.Dev2host(queue, CL_TRUE);
   const auto diff = myclock() - st;
-  fprintf(stderr, "N=%d, %s %f [sec]\n", particle_number, "force_kernel_memopt2", diff);
+  fprintf(stderr, "N=%d, %s %f [sec]\n", particle_number, ocl_fname.c_str(), diff);
   //
 
-  print_head_momentum(&p_d4[0]);
+  print_head_momentum(&p[0]);
 #endif
 }

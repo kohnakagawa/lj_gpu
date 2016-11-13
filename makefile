@@ -1,6 +1,6 @@
-TARGET= aos.out aos_pair.out aos_intrin.out soa.out soa_pair.out soa_intrin.out
 CACHE_FILE = .cache_pair_half.dat .cache_pair_all.dat
 
+SIMD = aos.out aos_pair.out aos_intrin.out soa.out soa_pair.out soa_intrin.out
 PTX = kernel.ptx kernel_aar.ptx
 OCL = gpu_ocl.out cpu_ocl_ref.out
 CUDA = gpu_cuda.out gpu_cuda_aar.out gpu_cuda_test.out cpu_cuda_aar_ref.out cpu_cuda_ref.out
@@ -11,21 +11,21 @@ GCC_FLAGS = -O3 -funroll-loops -ffast-math
 PGI_FLAGS = -O3
 OACC_FLAGS = -acc -ta=nvidia,cc35,keepgpu -Minfo=accel
 
-gpu_profile = yes
-
-# CUDA_HOME=/usr/local/cuda
-CUDA_HOME=/home/app/cuda/cuda-7.0
-NVCC=$(CUDA_HOME)/bin/nvcc
-NVCCFLAGS= -O3 -std=c++11 -arch=sm_35 -Xcompiler "$(WARNINGS) $(GCC_FLAGS)" -ccbin=g++
-INCLUDE = -I$(CUDA_HOME)/include -I$(CUDA_HOME)/samples/common/inc
-ifeq ($(gpu_profile), yes)
-NVCCFLAGS += -lineinfo -Xptxas -v
-endif
+cuda_profile = yes
 
 AMDAPP_ROOT=/opt/AMDAPPSDK-3.0
 BOOST_ROOT=/home/app/boost/1.58
 
-all: $(TARGET)
+# CUDA_HOME=/usr/local/cuda
+CUDA_HOME=/home/app/cuda/cuda-7.0 # for System B
+NVCC=$(CUDA_HOME)/bin/nvcc
+NVCCFLAGS= -O3 -std=c++11 -arch=sm_35 -Xcompiler "$(WARNINGS) $(GCC_FLAGS)" -ccbin=g++
+INCLUDE = -I$(CUDA_HOME)/include -I$(CUDA_HOME)/samples/common/inc
+ifeq ($(cuda_profile), yes)
+NVCCFLAGS += -lineinfo -Xptxas -v
+endif
+
+simd: $(SIMD)
 cuda: $(CUDA) $(PTX)
 ocl: $(OCL)
 oacc : $(OACC)
@@ -94,9 +94,9 @@ kernel_aar.ptx: force_cuda.cu
 	$(NVCC) $(NVCCFLAGS) -DEN_ACTION_REACTION $(INCLUDE) -ptx $< $(LIBRARY) -o $@
 
 clean:
-	rm -f $(TARGET) $(CUDA) $(PTX) $(OCL) $(OACC) *.gpu *~ *.core
+	rm -f $(SIMD) $(CUDA) $(PTX) $(OCL) $(OACC) *.gpu *~ *.core
 
-test: aos_pair.out aos_intrin.out soa_pair.out soa_intrin.out
+test_simd: aos_pair.out aos_intrin.out soa_pair.out soa_intrin.out
 	./aos_pair.out > aos_pair.dat
 	./aos_intrin.out > aos_intrin.dat
 	diff aos_pair.dat aos_intrin.dat
