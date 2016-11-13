@@ -1,6 +1,6 @@
 CACHE_FILE = .cache_pair_half.dat .cache_pair_all.dat
 
-SIMD = aos.out aos_pair.out aos_intrin.out soa.out soa_pair.out soa_intrin.out
+AVX = aos.out aos_pair.out aos_intrin.out soa.out soa_pair.out soa_intrin.out
 PTX = kernel.ptx kernel_aar.ptx
 OCL = gpu_ocl.out cpu_ocl_ref.out
 CUDA = gpu_cuda.out gpu_cuda_aar.out gpu_cuda_test.out cpu_cuda_aar_ref.out cpu_cuda_ref.out
@@ -25,7 +25,7 @@ ifeq ($(cuda_profile), yes)
 NVCCFLAGS += -lineinfo -Xptxas -v
 endif
 
-simd: $(SIMD)
+avx: $(AVX)
 cuda: $(CUDA) $(PTX)
 ocl: $(OCL)
 oacc : $(OACC)
@@ -94,9 +94,9 @@ kernel_aar.ptx: force_cuda.cu
 	$(NVCC) $(NVCCFLAGS) -DEN_ACTION_REACTION $(INCLUDE) -ptx $< $(LIBRARY) -o $@
 
 clean:
-	rm -f $(SIMD) $(CUDA) $(PTX) $(OCL) $(OACC) *.gpu *~ *.core
+	rm -f $(AVX) $(CUDA) $(PTX) $(OCL) $(OACC) *.gpu *~ *.core
 
-test_simd: aos_pair.out aos_intrin.out soa_pair.out soa_intrin.out
+test_avx: aos_pair.out aos_intrin.out soa_pair.out soa_intrin.out
 	./aos_pair.out > aos_pair.dat
 	./aos_intrin.out > aos_intrin.dat
 	diff aos_pair.dat aos_intrin.dat
