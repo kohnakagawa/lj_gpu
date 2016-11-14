@@ -17,7 +17,7 @@ AMDAPP_ROOT=/opt/AMDAPPSDK-3.0
 BOOST_ROOT=/home/app/boost/1.58
 
 # CUDA_HOME=/usr/local/cuda
-CUDA_HOME=/home/app/cuda/cuda-7.0 # for System B
+CUDA_HOME=/home/app/cuda/cuda-7.0
 NVCC=$(CUDA_HOME)/bin/nvcc
 NVCCFLAGS= -O3 -std=c++11 -arch=sm_35 -Xcompiler "$(WARNINGS) $(GCC_FLAGS)" -ccbin=g++
 INCLUDE = -I$(CUDA_HOME)/include -I$(CUDA_HOME)/samples/common/inc
