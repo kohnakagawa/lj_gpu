@@ -1,6 +1,6 @@
 @ CPU E5-2670v3 12core 2.5GHz
 @ GPU nVIDIA Tesla K40 2880 CUDA cores
-@ GPU AMD Radeon Fury X
+@ AMD Radeon (TM) R9 Fury Series
 
 CPU thread 1
 (pairlist id is sorted.)
@@ -15,6 +15,19 @@ N=119164, soa_intrin 6.017336 [sec]
 N=119164, aos_pair 8.200783 [sec]
 N=119164, soa_pair 9.668927 [sec]
 
+OpenACC
+N=119164, acc_reactless_soa 0.657026 [sec]
+N=119164, acc_reactless_memopt_soa 0.629187 [sec]
+N=119164, acc_sorted_soa_atomic 1.373633
+N=119164, acc_reactless_aos_double4 1.124388 [sec]
+N=119164, acc_reactless_aos_double3 1.088787 [sec]
+N=119164, acc_reactless_memopt_aos_double4 0.679629 [sec]
+N=119164, acc_reactless_memopt_aos_double3 0.666351 [sec]
+
+OpenCL
+N=119164, force_kernel_plain_double3 0.462375 [sec]
+
+CUDA
 GPU THREAD_BLOCK 64
 (pairlist id is random.)
 N=119164, force_kernel_plain_with_aar_float3 0.869116 [sec]
@@ -61,6 +74,7 @@ N=119164, force_kernel_unrolling_float3 0.217721 [sec]
 N=119164, force_kernel_unrolling_float4 0.149082 [sec]
 N=119164, force_kernel_unrolling_double3 0.239832 [sec]
 N=119164, force_kernel_unrolling_double4 0.225761 [sec]
+
 
 GPU THREAD_BLOCK 128
 (pairlist id is random.)
