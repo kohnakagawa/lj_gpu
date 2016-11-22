@@ -4,7 +4,7 @@ AVX = aos.out aos_pair.out aos_intrin.out soa.out soa_pair.out soa_intrin.out
 PTX = kernel.ptx kernel_aar.ptx
 OCL = gpu_ocl.out cpu_ocl_ref.out
 CUDA = gpu_cuda.out gpu_cuda_aar.out gpu_cuda_test.out cpu_cuda_aar_ref.out cpu_cuda_ref.out
-OACC = gpu_oacc_soa.out cpu_oacc_ref.out gpu_oacc_aos_d4.out gpu_oacc_aos_d3.out gpu_oacc_aos_memopt_d4.out gpu_oacc_aos_memopt_d3.out
+OACC = cpu_oacc_ref.out gpu_oacc_soa.out gpu_oacc_soa_memopt.out gpu_oacc_soa_small_mod.out gpu_oacc_soa_atomic.out gpu_oacc_aos_d3.out gpu_oacc_aos_d4.out gpu_oacc_aos_memopt_d3.out gpu_oacc_aos_memopt_d4.out
 
 WARNINGS = -Wall -Wextra -Wunused-variable -Wsign-compare
 GCC_FLAGS = -O3 -funroll-loops -ffast-math
@@ -69,6 +69,15 @@ cpu_oacc_ref.out: force_oacc_soa.cpp
 gpu_oacc_soa.out: force_oacc_soa.cpp
 	pgcpp $(OACC_FLAGS) $(PGI_FLAGS) -DOACC -I$(BOOST_ROOT)/include $< -L$(BOOST_ROOT)/lib -lboost_system -lboost_random -o $@
 
+gpu_oacc_soa_memopt.out: force_oacc_soa.cpp
+	pgcpp $(OACC_FLAGS) $(PGI_FLAGS) -DOACC_MEMOPT -I$(BOOST_ROOT)/include $< -L$(BOOST_ROOT)/lib -lboost_system -lboost_random -o $@
+
+gpu_oacc_soa_small_mod.out: force_oacc_soa_small_mod.cpp
+	pgcpp $(OACC_FLAGS) $(PGI_FLAGS) -DOACC -I$(BOOST_ROOT)/include $< -L$(BOOST_ROOT)/lib -lboost_system -lboost_random -o $@
+
+gpu_oacc_soa_atomic.out: force_oacc_soa_small_mod.cpp
+	pgcpp $(OACC_FLAGS) $(PGI_FLAGS) -DEN_ACTION_REACTION -I$(BOOST_ROOT)/include $< -L$(BOOST_ROOT)/lib -lboost_system -lboost_random -o $@
+
 gpu_oacc_aos_d3.out: force_oacc_aos.cpp
 	pgcpp $(OACC_FLAGS) $(PGI_FLAGS) -DOACC -I$(BOOST_ROOT)/include $< -L$(BOOST_ROOT)/lib -lboost_system -lboost_random -o $@
 
@@ -119,12 +128,18 @@ test_ocl: $(OCL)
 test_oacc: $(OACC)
 	./cpu_oacc_ref.out > cpu_oacc_ref.txt
 	./gpu_oacc_soa.out > gpu_oacc_soa.txt
+	./gpu_oacc_soa_memopt.out > gpu_oacc_soa_memopt.txt
+	./gpu_oacc_soa_small_mod.out > gpu_oacc_soa_small_mod.txt
+	./gpu_oacc_soa_atomic.out > gpu_oacc_soa_atomic.txt
 	./gpu_oacc_aos_d4.out > gpu_oacc_aos_d4.txt
 	./gpu_oacc_aos_d3.out > gpu_oacc_aos_d3.txt
 	./gpu_oacc_aos_memopt_d4.out > gpu_oacc_aos_memopt_d4.txt
 	./gpu_oacc_aos_memopt_d3.out > gpu_oacc_aos_memopt_d3.txt
 	diff cpu_oacc_ref.txt gpu_oacc_soa.txt
-	diff gpu_oacc_soa.txt gpu_oacc_aos_d4.txt
+	diff gpu_oacc_soa.txt gpu_oacc_soa_memopt.txt
+	diff gpu_oacc_soa_memopt.txt gpu_oacc_soa_small_mod.txt
+	diff gpu_oacc_soa_small_mod.txt gpu_oacc_soa_atomic.txt
+	diff gpu_oacc_soa_atomic.txt gpu_oacc_aos_d4.txt
 	diff gpu_oacc_aos_d4.txt gpu_oacc_aos_d3.txt
 	diff gpu_oacc_aos_d3.txt gpu_oacc_aos_memopt_d4.txt
 	diff gpu_oacc_aos_memopt_d4.txt gpu_oacc_aos_memopt_d3.txt
