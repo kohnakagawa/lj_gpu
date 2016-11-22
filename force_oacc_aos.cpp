@@ -144,7 +144,8 @@ makepair(void) {
   }
 }
 //----------------------------------------------------------------------
-void make_aligned_pairlist() {
+void
+make_aligned_pairlist(void) {
   for (int i = 0; i < particle_number; i++) {
     const int np = number_of_partners[i];
     const int kp = pointer[i];
