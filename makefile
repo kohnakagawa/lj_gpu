@@ -11,7 +11,7 @@ OACC = cpu_oacc_ref.out gpu_oacc_soa.out gpu_oacc_soa_memopt.out gpu_oacc_soa_sm
 WARNINGS = -Wall -Wextra -Wunused-variable -Wsign-compare
 GCC_FLAGS = -O3 -funroll-loops -ffast-math
 PGI_FLAGS = -fast
-OACC_FLAGS = -acc -ta=nvidia,cc35,keepgpu,keepptx,cuda7.0 -Minfo=accel
+OACC_FLAGS = -acc -ta=nvidia,cc35,keep,cuda7.0 -Minfo=accel
 
 cuda_profile = yes
 
@@ -111,7 +111,7 @@ kernel.sass: kernel.cubin
 	$(CUDA_HOME)/bin/cuobjdump -sass $< > $@
 
 clean:
-	rm -f $(AVX) $(CUDA) $(PTX) $(OCL) $(OACC) *.gpu *~ *.core
+	rm -f $(AVX) $(CUDA) $(PTX) $(OCL) $(OACC) *.gpu *.ptx *.sass *.cubin *~ *.core
 
 test_avx: aos_pair.out aos_intrin.out soa_pair.out soa_intrin.out
 	./aos_pair.out > aos_pair.dat
