@@ -21,8 +21,8 @@ N=119164, acc_reactless_memopt_soa 0.628451 [sec]
 N=119164, acc_sorted_atomic 1.554307 [sec]
 N=119164, acc_reactless_aos_double4 1.370726 [sec]
 N=119164, acc_reactless_aos_double3 1.262781 [sec]
-N=119164, acc_reactless_memopt_aos_double4 0.544661 [sec]
-N=119164, acc_reactless_memopt_aos_double3 0.553888 [sec]
+N=119164, acc_reactless_memopt_aos_double4 0.507114 [sec]
+N=119164, acc_reactless_memopt_aos_double3 0.532149 [sec]
 
 OpenCL
 N=119164, force_kernel_plain_double3 0.462375 [sec]

@@ -297,11 +297,11 @@ force_reactless_memopt_tuned(){
   for (int i=0; i<pn; i++) {
     const Vec qi = q[i];
     const int np = number_of_partners[i];
-    Vec pf = p[i];
-    const int32_t* ptr_list = &aligned_list[i];
+    double pfx = 0.0;
+    double pfy = 0.0;
+    double pfz = 0.0;
     for (int k=0; k<np; k++) {
-      // const int j = aligned_list[i + k * particle_number];
-      const int j = *ptr_list;
+      const int j = aligned_list[i + k * particle_number];
       const double dx = q[j].x - qi.x;
       const double dy = q[j].y - qi.y;
       const double dz = q[j].z - qi.z;
@@ -309,12 +309,13 @@ force_reactless_memopt_tuned(){
       const double r6 = r2*r2*r2;
       double df = ((24.0*r6-48.0)/(r6*r6*r2))*dt;
       if (r2 > CL2) df = 0.0;
-      pf.x += df*dx;
-      pf.y += df*dy;
-      pf.z += df*dz;
-      ptr_list += pn;
+      pfx += df*dx;
+      pfy += df*dy;
+      pfz += df*dz;
     }
-    p[i] = pf;
+    p[i].x += pfx;
+    p[i].y += pfy;
+    p[i].z += pfz;
   }
 }
 //----------------------------------------------------------------------
