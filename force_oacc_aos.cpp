@@ -291,6 +291,34 @@ force_reactless_memopt(){
 }
 //----------------------------------------------------------------------
 void
+force_reactless_memopt_tuned(){
+  const int pn = particle_number;
+#pragma acc kernels present(q, p, number_of_partners, aligned_list)
+  for (int i=0; i<pn; i++) {
+    const Vec qi = q[i];
+    const int np = number_of_partners[i];
+    Vec pf = p[i];
+    const int32_t* ptr_list = &aligned_list[i];
+    for (int k=0; k<np; k++) {
+      // const int j = aligned_list[i + k * particle_number];
+      const int j = *ptr_list;
+      const double dx = q[j].x - qi.x;
+      const double dy = q[j].y - qi.y;
+      const double dz = q[j].z - qi.z;
+      const double r2 = (dx*dx + dy*dy + dz*dz);
+      const double r6 = r2*r2*r2;
+      double df = ((24.0*r6-48.0)/(r6*r6*r2))*dt;
+      if (r2 > CL2) df = 0.0;
+      pf.x += df*dx;
+      pf.y += df*dy;
+      pf.z += df*dz;
+      ptr_list += pn;
+    }
+    p[i] = pf;
+  }
+}
+//----------------------------------------------------------------------
+void
 measure(void(*pfunc)(), const char *name) {
   double st = myclock();
   const int LOOP = 100;
@@ -333,7 +361,7 @@ main(void) {
     printf("%.10f %.10f %.10f\n", p[i].x, p[i].y, p[i].z);
   }
 #elif defined OACC_MEMOPT
-  measure_gpu(&force_reactless_memopt, "acc_reactless_memopt_aos");
+  measure_gpu(&force_reactless_memopt_tuned, "acc_reactless_memopt_aos");
   for (int i = 0; i < 10; i++) {
     printf("%.10f %.10f %.10f\n", p[i].x, p[i].y, p[i].z);
   }

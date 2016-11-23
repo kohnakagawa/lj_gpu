@@ -2,13 +2,15 @@ CACHE_FILE = .cache_pair_half.dat .cache_pair_all.dat
 
 AVX = aos.out aos_pair.out aos_intrin.out soa.out soa_pair.out soa_intrin.out
 PTX = kernel.ptx kernel_aar.ptx
+SASS = kernel.sass
+CUBIN = kernel.cubin
 OCL = gpu_ocl.out cpu_ocl_ref.out
 CUDA = gpu_cuda.out gpu_cuda_aar.out gpu_cuda_test.out cpu_cuda_aar_ref.out cpu_cuda_ref.out
 OACC = cpu_oacc_ref.out gpu_oacc_soa.out gpu_oacc_soa_memopt.out gpu_oacc_soa_small_mod.out gpu_oacc_soa_atomic.out gpu_oacc_aos_d3.out gpu_oacc_aos_d4.out gpu_oacc_aos_memopt_d3.out gpu_oacc_aos_memopt_d4.out
 
 WARNINGS = -Wall -Wextra -Wunused-variable -Wsign-compare
 GCC_FLAGS = -O3 -funroll-loops -ffast-math
-PGI_FLAGS = -O3
+PGI_FLAGS = -fast
 OACC_FLAGS = -acc -ta=nvidia,cc35,keepgpu,keepptx,cuda7.0 -Minfo=accel
 
 cuda_profile = yes
@@ -26,7 +28,7 @@ NVCCFLAGS += -lineinfo -Xptxas -v
 endif
 
 avx: $(AVX)
-cuda: $(CUDA) $(PTX)
+cuda: $(CUDA) $(PTX) $(CUBIN) $(SASS)
 ocl: $(OCL)
 oacc : $(OACC)
 
@@ -73,7 +75,7 @@ gpu_oacc_soa_memopt.out: force_oacc_soa.cpp
 	pgcpp $(OACC_FLAGS) $(PGI_FLAGS) -DOACC_MEMOPT -I$(BOOST_ROOT)/include $< -L$(BOOST_ROOT)/lib -lboost_system -lboost_random -o $@
 
 gpu_oacc_soa_small_mod.out: force_oacc_soa_small_mod.cpp
-	pgcpp $(OACC_FLAGS) $(PGI_FLAGS) -DOACC -I$(BOOST_ROOT)/include $< -L$(BOOST_ROOT)/lib -lboost_system -lboost_random -o $@
+	pgcpp $(OACC_FLAGS) $(PGI_FLAGS) -DOACC_MEMOPT -I$(BOOST_ROOT)/include $< -L$(BOOST_ROOT)/lib -lboost_system -lboost_random -o $@
 
 gpu_oacc_soa_atomic.out: force_oacc_soa_small_mod.cpp
 	pgcpp $(OACC_FLAGS) $(PGI_FLAGS) -DEN_ACTION_REACTION -I$(BOOST_ROOT)/include $< -L$(BOOST_ROOT)/lib -lboost_system -lboost_random -o $@
@@ -101,6 +103,12 @@ kernel.ptx: force_cuda.cu
 
 kernel_aar.ptx: force_cuda.cu
 	$(NVCC) $(NVCCFLAGS) -DEN_ACTION_REACTION $(INCLUDE) -ptx $< $(LIBRARY) -o $@
+
+kernel.cubin: force_cuda.cu
+	$(NVCC) $(NVCCFLAGS) $(INCLUDE) -cubin $< $(LIBRARY) -o $@
+
+kernel.sass: kernel.cubin
+	$(CUDA_HOME)/bin/cuobjdump -sass $< > $@
 
 clean:
 	rm -f $(AVX) $(CUDA) $(PTX) $(OCL) $(OACC) *.gpu *~ *.core

@@ -23,6 +23,7 @@ int i_particles[MAX_PAIRS];
 int j_particles[MAX_PAIRS];
 int pointer[N], pointer2[N];
 int sorted_list[MAX_PAIRS];
+int aligned_list[MAX_PAIRS];
 
 const double CUTOFF_LENGTH = 3.0;
 const double SEARCH_LENGTH = 3.3;
@@ -112,6 +113,18 @@ makepair(void) {
     int index = pointer[i] + pointer2[i];
     sorted_list[index] = j;
     pointer2[i] ++;
+  }
+}
+//----------------------------------------------------------------------
+void
+make_aligned_pairlist(void) {
+  for (int i = 0; i < particle_number; i++) {
+    const int np = number_of_partners[i];
+    const int kp = pointer[i];
+    for (int k = 0; k < np; k++) {
+      const int j = sorted_list[kp + k];
+      aligned_list[i + k * particle_number] = j;
+    }
   }
 }
 //----------------------------------------------------------------------
@@ -242,6 +255,44 @@ force_reactless(const double* __restrict qx,
 }
 //----------------------------------------------------------------------
 void
+force_reactless_memopt(const double* __restrict qx,
+                       const double* __restrict qy,
+                       const double* __restrict qz,
+                       double* __restrict px,
+                       double* __restrict py,
+                       double* __restrict pz,
+                       const int* __restrict number_of_partners,
+                       const int* __restrict aligned_list){
+  const int pn = particle_number;
+#pragma acc kernels present(qx, qy, qz, px, py, pz, number_of_partners, aligned_list)
+  for (int i=0; i<pn; i++) {
+    const double qx_key = qx[i];
+    const double qy_key = qy[i];
+    const double qz_key = qz[i];
+    const int np = number_of_partners[i];
+    double pfx = 0;
+    double pfy = 0;
+    double pfz = 0;
+    for (int k=0; k<np; k++) {
+      const int j = aligned_list[i + k * particle_number];
+      double dx = qx[j] - qx_key;
+      double dy = qy[j] - qy_key;
+      double dz = qz[j] - qz_key;
+      double r2 = (dx*dx + dy*dy + dz*dz);
+      double r6 = r2*r2*r2;
+      double df = ((24.0*r6-48.0)/(r6*r6*r2))*dt;
+      if (r2 > CL2) df = 0.0;
+      pfx += df*dx;
+      pfy += df*dy;
+      pfz += df*dz;
+    }
+    px[i] += pfx;
+    py[i] += pfy;
+    pz[i] += pfz;
+  }
+}
+//----------------------------------------------------------------------
+void
 measure(void(*pfunc)(), const char *name) {
   double st = myclock();
   const int LOOP = 100;
@@ -257,10 +308,14 @@ void
 measure_gpu(ptr_func kernel, const char *name) {
   double st = myclock();
   const int LOOP = 100;
-#pragma acc data copy(px[0:N], py[0:N], pz[0:N]) copyin(qx[0:N], qy[0:N], qz[0:N], number_of_partners[0:N], pointer[0:N], sorted_list[0:MAX_PAIRS])
+#pragma acc data copy(px[0:N], py[0:N], pz[0:N]) copyin(qx[0:N], qy[0:N], qz[0:N], number_of_partners[0:N], pointer[0:N], sorted_list[0:MAX_PAIRS], aligned_list[0:MAX_PAIRS])
   {
     for (int i = 0; i < LOOP; i++) {
+#if defined EN_ACTION_REACTION || defined OACC
       kernel(qx, qy, qz, px, py, pz, number_of_partners, pointer, sorted_list);
+#elif OACC_MEMOPT
+      kernel(qx, qy, qz, px, py, pz, number_of_partners, aligned_list);
+#endif
     }
   }
   double t = myclock() - st;
@@ -272,13 +327,19 @@ main(void) {
   init();
   makepair();
   random_shfl();
+  make_aligned_pairlist();
 #ifdef EN_ACTION_REACTION
   measure_gpu(&force_sorted, "acc_sorted");
   for (int i = 0; i < 10; i++) {
     printf("%.10f %.10f %.10f\n", px[i], py[i], pz[i]);
   }
 #elif OACC
-  measure_gpu(&force_reactless, "acc_reactless_soa_min");
+  measure_gpu(&force_reactless, "acc_reactless_soa_small_mod");
+  for (int i = 0; i < 10; i++) {
+    printf("%.10f %.10f %.10f\n", px[i], py[i], pz[i]);
+  }
+#elif OACC_MEMOPT
+  measure_gpu(&force_reactless_memopt, "acc_reactless_soa_memopt_small_mod");
   for (int i = 0; i < 10; i++) {
     printf("%.10f %.10f %.10f\n", px[i], py[i], pz[i]);
   }
