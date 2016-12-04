@@ -11,7 +11,7 @@ OACC = cpu_oacc_ref.out gpu_oacc_soa.out gpu_oacc_soa_memopt.out gpu_oacc_soa_sm
 WARNINGS = -Wall -Wextra -Wunused-variable -Wsign-compare
 GCC_FLAGS = -O3 -funroll-loops -ffast-math
 PGI_FLAGS = -fast
-OACC_FLAGS = -acc -ta=nvidia,cc35,keep,cuda7.0 -Minfo=accel
+OACC_FLAGS = -acc -ta=nvidia,cc35,keep,cuda7.0,ptxinfo -Minfo=accel
 
 cuda_profile = yes
 
