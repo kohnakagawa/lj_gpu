@@ -338,8 +338,9 @@ void measure(ptr_func kernel,
              const Dtype dt_,
              const Dtype CL2_,
              const int32_t* list,
-             const int32_t* partner_pointer) {
-  const int block_num = particle_number / THREAD_BLOCK + 1;
+             const int32_t* partner_pointer,
+             const int32_t tot_thread) {
+  const int block_num = (tot_thread - 1) / THREAD_BLOCK + 1;
   const auto st = myclock();
   copy_to_gpu(q, p);
   for (int i = 0; i < LOOP; i++) {
@@ -358,7 +359,7 @@ void print_head_momentum(const Vec* p) {
 }
 
 #define STR(s) #s
-#define MEASURE_FOR_ALLTYPES(fname, list, p_pointer)  \
+#define MEASURE_FOR_ALLTYPES(fname, list, p_pointer, tot_thread) \
   do {                                                \
     measure(fname<float3, float>,                     \
             STR(fname ## _float3),                    \
@@ -367,7 +368,8 @@ void print_head_momentum(const Vec* p) {
             static_cast<float>(dt),                   \
             static_cast<float>(CL2),                  \
             list,                                     \
-            p_pointer);                               \
+            p_pointer,                                \
+            tot_thread);                              \
     measure(fname<float4, float>,                     \
             STR(fname ## _float4),                    \
             q_f4,                                     \
@@ -375,7 +377,8 @@ void print_head_momentum(const Vec* p) {
             static_cast<float>(dt),                   \
             static_cast<float>(CL2),                  \
             list,                                     \
-            p_pointer);                               \
+            p_pointer,                                \
+            tot_thread);                              \
     measure(fname<double3, double>,                   \
             STR(fname ## _double3),                   \
             q_d3,                                     \
@@ -383,7 +386,8 @@ void print_head_momentum(const Vec* p) {
             static_cast<double>(dt),                  \
             static_cast<double>(CL2),                 \
             list,                                     \
-            p_pointer);                               \
+            p_pointer,                                \
+            tot_thread);                              \
     measure(fname<double4, double>,                   \
             STR(fname ## _double4),                   \
             q_d4,                                     \
@@ -391,7 +395,8 @@ void print_head_momentum(const Vec* p) {
             static_cast<double>(dt),                  \
             static_cast<double>(CL2),                 \
             list,                                     \
-            p_pointer);                               \
+            p_pointer,                                \
+            tot_thread);                              \
   } while (false)
 
 int main() {
@@ -400,7 +405,7 @@ int main() {
   copy_vec(&q_f3[0], &q_d3[0], particle_number); copy_vec(&p_f3[0], &p_d3[0], particle_number);
   copy_vec(&q_f4[0], &q_d3[0], particle_number); copy_vec(&p_f4[0], &p_d3[0], particle_number);
   copy_vec(&q_d4[0], &q_d3[0], particle_number); copy_vec(&p_d4[0], &p_d3[0], particle_number);
-  
+
   const auto flag = loadpair();
   if (!flag) {
     fprintf(stderr, "Now make pairlist %s.\n", cache_file_name);
@@ -416,28 +421,30 @@ int main() {
   for (int i = 0; i < LOOP; i++) force_sorted(&q_d3[0], &p_d3[0]);
   print_head_momentum(&p_d3[0]);
 #elif defined EN_TEST_GPU
-  MEASURE_FOR_ALLTYPES(force_kernel_plain, sorted_list, pointer);
-  // MEASURE_FOR_ALLTYPES(force_kernel_ifless, sorted_list, pointer);
-  // MEASURE_FOR_ALLTYPES(force_kernel_memopt, sorted_list, pointer);
-  // MEASURE_FOR_ALLTYPES(force_kernel_memopt2, sorted_list, pointer);
-  // MEASURE_FOR_ALLTYPES(force_kernel_swpl, aligned_list, nullptr);
-  // MEASURE_FOR_ALLTYPES(force_kernel_swpl2, aligned_list, nullptr);
-  // MEASURE_FOR_ALLTYPES(force_kernel_unrolling, aligned_list, nullptr);
+  // MEASURE_FOR_ALLTYPES(force_kernel_plain, sorted_list, pointer, particle_number);
+  // MEASURE_FOR_ALLTYPES(force_kernel_ifless, sorted_list, pointer, particle_number);
+  // MEASURE_FOR_ALLTYPES(force_kernel_memopt, sorted_list, pointer, particle_number);
+  // MEASURE_FOR_ALLTYPES(force_kernel_memopt2, sorted_list, pointer, particle_number);
+  // MEASURE_FOR_ALLTYPES(force_kernel_swpl, aligned_list, nullptr, particle_number);
+  // MEASURE_FOR_ALLTYPES(force_kernel_swpl2, aligned_list, nullptr, particle_number);
+  // MEASURE_FOR_ALLTYPES(force_kernel_unrolling, aligned_list, nullptr, particle_number);
+  MEASURE_FOR_ALLTYPES(force_kernel_warp_unroll, sorted_list, pointer, particle_number * 32);
   print_head_momentum(&p_d3[0]);
 #elif defined EN_ACTION_REACTION
-  MEASURE_FOR_ALLTYPES(force_kernel_plain_with_aar, sorted_list, pointer);
-  MEASURE_FOR_ALLTYPES(force_kernel_ifless_with_aar, sorted_list, pointer);
-  MEASURE_FOR_ALLTYPES(force_kernel_memopt_with_aar, sorted_list, pointer);
-  MEASURE_FOR_ALLTYPES(force_kernel_memopt2_with_aar, aligned_list, nullptr);
+  MEASURE_FOR_ALLTYPES(force_kernel_plain_with_aar, sorted_list, pointer, particle_number);
+  MEASURE_FOR_ALLTYPES(force_kernel_ifless_with_aar, sorted_list, pointer, particle_number);
+  MEASURE_FOR_ALLTYPES(force_kernel_memopt_with_aar, sorted_list, pointer, particle_number);
+  MEASURE_FOR_ALLTYPES(force_kernel_memopt2_with_aar, aligned_list, nullptr, particle_number);
   // print_head_momentum(&p_d3[0]);
 #else
-  MEASURE_FOR_ALLTYPES(force_kernel_plain, sorted_list, pointer);
-  MEASURE_FOR_ALLTYPES(force_kernel_ifless, sorted_list, pointer);
-  MEASURE_FOR_ALLTYPES(force_kernel_memopt, sorted_list, pointer);
-  MEASURE_FOR_ALLTYPES(force_kernel_memopt2, aligned_list, nullptr);
-  MEASURE_FOR_ALLTYPES(force_kernel_swpl, aligned_list, nullptr);
-  MEASURE_FOR_ALLTYPES(force_kernel_swpl2, aligned_list, nullptr);
-  MEASURE_FOR_ALLTYPES(force_kernel_unrolling, aligned_list, nullptr);
+  MEASURE_FOR_ALLTYPES(force_kernel_plain, sorted_list, pointer, particle_number);
+  MEASURE_FOR_ALLTYPES(force_kernel_ifless, sorted_list, pointer, particle_number);
+  MEASURE_FOR_ALLTYPES(force_kernel_memopt, sorted_list, pointer, particle_number);
+  MEASURE_FOR_ALLTYPES(force_kernel_memopt2, aligned_list, nullptr, particle_number);
+  MEASURE_FOR_ALLTYPES(force_kernel_swpl, aligned_list, nullptr, particle_number);
+  MEASURE_FOR_ALLTYPES(force_kernel_swpl2, aligned_list, nullptr, particle_number);
+  MEASURE_FOR_ALLTYPES(force_kernel_unrolling, aligned_list, nullptr, particle_number);
+  MEASURE_FOR_ALLTYPES(force_kernel_warp_unroll, sorted_list, pointer, particle_number * 32);
 #endif
 
   cleanup();
