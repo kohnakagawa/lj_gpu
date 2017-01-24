@@ -85,6 +85,9 @@ void init(Vec* q,
     fprintf(stderr, "particle_number %d exceeds maximum buffer size %d\n", particle_number, N);
     std::quick_exit(EXIT_FAILURE);
   }
+
+  // std::mt19937 mt(123);
+  // std::shuffle(q, q + particle_number, mt);
 }
 
 double myclock() {
