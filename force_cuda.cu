@@ -153,7 +153,7 @@ void makepair(const Vec* q) {
     const auto index = pointer[i] + pointer2[i];
     sorted_list[index] = j;
     pointer2[i] ++;
-  }  
+  }
 }
 
 void makepaircache() {
@@ -232,7 +232,7 @@ void make_aligned_pairlist() {
 }
 
 void random_shfl() {
-  static std::mt19937 mt;
+  std::mt19937 mt(10);
   const auto pn = particle_number;
   for (int i = 0; i < pn; i++) {
     const auto kp = pointer[i];
@@ -246,7 +246,7 @@ void allocate() {
   q_d3.allocate(N); p_d3.allocate(N);
   q_f4.allocate(N); p_f4.allocate(N);
   q_d4.allocate(N); p_d4.allocate(N);
-  
+
   sorted_list.allocate(MAX_PAIRS);
   aligned_list.allocate(MAX_PAIRS);
   number_of_partners.allocate(N);
@@ -258,7 +258,7 @@ void cleanup() {
   q_d3.deallocate(); p_d3.deallocate();
   q_f4.deallocate(); p_f4.deallocate();
   q_d4.deallocate(); p_d4.deallocate();
-  
+
   sorted_list.deallocate();
   aligned_list.deallocate();
   number_of_partners.deallocate();
@@ -435,6 +435,7 @@ int main() {
   MEASURE_FOR_ALLTYPES(force_kernel_ifless_with_aar, sorted_list, pointer, particle_number);
   MEASURE_FOR_ALLTYPES(force_kernel_memopt_with_aar, sorted_list, pointer, particle_number);
   MEASURE_FOR_ALLTYPES(force_kernel_memopt2_with_aar, aligned_list, nullptr, particle_number);
+  MEASURE_FOR_ALLTYPES(force_kernel_warp_unroll_with_aar, sorted_list, pointer, particle_number);
   // print_head_momentum(&p_d3[0]);
 #else
   MEASURE_FOR_ALLTYPES(force_kernel_plain, sorted_list, pointer, particle_number);

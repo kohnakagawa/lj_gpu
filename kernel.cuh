@@ -1,15 +1,6 @@
 #pragma once
 
-__device__ __forceinline__ double atomicAdd(double* address, double val) {
-  auto address_as_ull = reinterpret_cast<unsigned long long int*>(address);
-  unsigned long long int old = *address_as_ull, assumed;
-  do {
-    assumed = old;
-    old = atomicCAS(address_as_ull, assumed,
-                    __double_as_longlong(val + __longlong_as_double(assumed)));
-  } while (assumed != old);
-  return __longlong_as_double(old);
-}
+#include "device_util.cuh"
 
 template <typename Vec, typename Dtype>
 __global__ void force_kernel_plain(const Vec* q,
@@ -288,6 +279,74 @@ __global__ void force_kernel_memopt2_with_aar(const Vec*     __restrict__ q,
 }
 
 template <typename Vec, typename Dtype>
+__global__ void force_kernel_warp_unroll_with_aar(const Vec*     __restrict__ q,
+                                                  Vec*           __restrict__ p,
+                                                  const int32_t particle_number,
+                                                  const Dtype dt,
+                                                  const Dtype CL2,
+                                                  const int32_t* __restrict__ sorted_list,
+                                                  const int32_t* __restrict__ number_of_partners,
+                                                  const int32_t* __restrict__ pointer) {
+  const auto i_ptcl_id = (threadIdx.x + blockIdx.x * blockDim.x) / warpSize;
+  if (i_ptcl_id < particle_number) {
+    const auto lid = lane_id();
+    const auto qi = q[i_ptcl_id];
+    const auto np = number_of_partners[i_ptcl_id];
+    const auto kp = pointer[i_ptcl_id] + lid;
+    const int32_t ini_loop = (np / warpSize) * warpSize;
+
+    Vec pf = {0.0};
+    int32_t k = 0;
+    for (; k < ini_loop; k += warpSize) {
+      const auto j = sorted_list[kp + k];
+      const auto dx = q[j].x - qi.x;
+      const auto dy = q[j].y - qi.y;
+      const auto dz = q[j].z - qi.z;
+      const auto r2 = dx * dx + dy * dy + dz * dz;
+      if (r2 <= CL2) {
+        const auto r6 = r2 * r2 * r2;
+        const auto df = ((static_cast<Dtype>(24.0) * r6 - static_cast<Dtype>(48.0)) / (r6 * r6 * r2)) * dt;
+        pf.x += df * dx;
+        pf.y += df * dy;
+        pf.z += df * dz;
+        atomicAdd(&p[j].x, -df * dx);
+        atomicAdd(&p[j].y, -df * dy);
+        atomicAdd(&p[j].z, -df * dz);
+      }
+    }
+
+    // remaining loop
+    if (lid < (np % warpSize)) {
+      const auto j = sorted_list[kp + k];
+      const auto dx = q[j].x - qi.x;
+      const auto dy = q[j].y - qi.y;
+      const auto dz = q[j].z - qi.z;
+      const auto r2 = dx * dx + dy * dy + dz * dz;
+      if (r2 <= CL2) {
+        const auto r6 = r2 * r2 * r2;
+        const auto df = ((static_cast<Dtype>(24.0) * r6 - static_cast<Dtype>(48.0)) / (r6 * r6 * r2)) * dt;
+        pf.x += df * dx;
+        pf.y += df * dy;
+        pf.z += df * dz;
+        atomicAdd(&p[j].x, -df * dx);
+        atomicAdd(&p[j].y, -df * dy);
+        atomicAdd(&p[j].z, -df * dz);
+      }
+    }
+
+    pf.x = warp_segment_reduce(pf.x);
+    pf.y = warp_segment_reduce(pf.y);
+    pf.z = warp_segment_reduce(pf.z);
+
+    if (lid == 0) {
+      atomicAdd(&p[i_ptcl_id].x, pf.x);
+      atomicAdd(&p[i_ptcl_id].y, pf.y);
+      atomicAdd(&p[i_ptcl_id].z, pf.z);
+    }
+  }
+}
+
+template <typename Vec, typename Dtype>
 __global__ void force_kernel_unrolling(const Vec*     __restrict__ q,
                                        Vec*           __restrict__ p,
                                        const int32_t particle_number,
@@ -498,18 +557,6 @@ __global__ void force_kernel_swpl2(const Vec*     __restrict__ q,
 
     p[tid] = pf;
   }
-}
-
-__device__ __forceinline__ int lane_id() {
-  return threadIdx.x % warpSize;
-}
-
-template <typename T>
-__device__ __forceinline__ T warp_segment_reduce(T var) {
-  for (int offset = (warpSize >> 1); offset > 0; offset >>= 1) {
-    var += __shfl_down(var, offset);
-  }
-  return var;
 }
 
 template <typename Vec, typename Dtype>

@@ -18,11 +18,17 @@ cuda_profile = yes
 AMDAPP_ROOT=/opt/AMDAPPSDK-3.0
 BOOST_ROOT=/home/app/boost/1.58
 
-# CUDA_HOME=/usr/local/cuda
-CUDA_HOME=/home/app/cuda/cuda-7.0
+CUDA_HOME=/usr/local/cuda
+# CUDA_HOME=/home/app/cuda/cuda-7.0
+
 NVCC=$(CUDA_HOME)/bin/nvcc
-NVCCFLAGS= -O3 -std=c++11 -arch=sm_35 -Xcompiler "$(WARNINGS) $(GCC_FLAGS)" -ccbin=g++
+
+ARCH=-arch=sm_60
+# ARCH=-arch=sm_35
+
+NVCCFLAGS= -O3 -std=c++11 $(ARCH) -Xcompiler "$(WARNINGS) $(GCC_FLAGS)" -ccbin=g++
 INCLUDE = -I$(CUDA_HOME)/include -I$(CUDA_HOME)/samples/common/inc
+
 ifeq ($(cuda_profile), yes)
 NVCCFLAGS += -lineinfo -Xptxas -v
 endif
