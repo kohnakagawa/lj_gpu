@@ -344,14 +344,18 @@ void measure(ptr_func kernel,
              const int32_t* partner_pointer,
              const int32_t tot_thread) {
   const int block_num = (tot_thread - 1) / THREAD_BLOCK + 1;
-  const auto st = myclock();
+  const auto st_all = myclock();
   copy_to_gpu(q, p);
+  const auto st_calc = myclock();
   for (int i = 0; i < LOOP; i++) {
     kernel<<<block_num, THREAD_BLOCK>>>(q, p, particle_number, dt_, CL2_, list, number_of_partners, partner_pointer);
   }
+  checkCudaErrors(cudaDeviceSynchronize());
+  const auto diff_calc = myclock() - st_calc;
   copy_to_host(p);
-  const auto diff = myclock() - st;
-  fprintf(stderr, "N=%d, %s %f [sec]\n", particle_number, name, diff);
+  const auto diff_all = myclock() - st_all;
+  fprintf(stderr, "N=%d, %s %f [sec]\n", particle_number, name, diff_all);
+  fprintf(stderr, "N=%d, %s %f [sec] (without Host<->Device)\n", particle_number, name, diff_calc);
 }
 
 template <typename Vec>
