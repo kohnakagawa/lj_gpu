@@ -359,8 +359,11 @@ void measure(ptr_func kernel,
 }
 
 template <typename Vec>
-void print_head_momentum(const Vec* p) {
-  for (int i = 0; i < 10; i++) {
+void print_results(const Vec* p) {
+  for (int i = 0; i < 5; i++) {
+    fprintf(stdout, "%.10f %.10f %.10f\n", p[i].x, p[i].y, p[i].z);
+  }
+  for (int i = particle_number - 5; i < particle_number; i++) {
     fprintf(stdout, "%.10f %.10f %.10f\n", p[i].x, p[i].y, p[i].z);
   }
 }
@@ -426,7 +429,7 @@ int main() {
 
 #ifdef EN_TEST_CPU
   for (int i = 0; i < LOOP; i++) force_sorted(&q_d3[0], &p_d3[0]);
-  print_head_momentum(&p_d3[0]);
+  print_results(&p_d3[0]);
 #elif defined EN_TEST_GPU
   // MEASURE_FOR_ALLTYPES(force_kernel_plain, sorted_list, pointer, particle_number);
   // MEASURE_FOR_ALLTYPES(force_kernel_ifless, sorted_list, pointer, particle_number);
@@ -436,14 +439,14 @@ int main() {
   // MEASURE_FOR_ALLTYPES(force_kernel_swpl2, aligned_list, nullptr, particle_number);
   // MEASURE_FOR_ALLTYPES(force_kernel_unrolling, aligned_list, nullptr, particle_number);
   MEASURE_FOR_ALLTYPES(force_kernel_warp_unroll, sorted_list, pointer, particle_number * 32);
-  print_head_momentum(&p_d3[0]);
+  print_results(&p_d3[0]);
 #elif defined EN_ACTION_REACTION
   MEASURE_FOR_ALLTYPES(force_kernel_plain_with_aar, sorted_list, pointer, particle_number);
   MEASURE_FOR_ALLTYPES(force_kernel_ifless_with_aar, sorted_list, pointer, particle_number);
   MEASURE_FOR_ALLTYPES(force_kernel_memopt_with_aar, sorted_list, pointer, particle_number);
   MEASURE_FOR_ALLTYPES(force_kernel_memopt2_with_aar, aligned_list, nullptr, particle_number);
-  MEASURE_FOR_ALLTYPES(force_kernel_warp_unroll_with_aar, sorted_list, pointer, particle_number);
-  // print_head_momentum(&p_d3[0]);
+  MEASURE_FOR_ALLTYPES(force_kernel_warp_unroll_with_aar, sorted_list, pointer, particle_number * 32);
+  // print_results(&p_d3[0]);
 #else
   MEASURE_FOR_ALLTYPES(force_kernel_plain, sorted_list, pointer, particle_number);
   MEASURE_FOR_ALLTYPES(force_kernel_ifless, sorted_list, pointer, particle_number);
