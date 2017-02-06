@@ -39,7 +39,7 @@ const char* cache_file_name = ".cache_pair_half.dat";
 #else
 const char* cache_file_name = ".cache_pair_all.dat";
 #endif
-const int THREAD_BLOCK = 128;
+int THREAD_BLOCK = 256;
 
 template <typename Vec>
 void add_particle(const Dtype x,
@@ -409,15 +409,21 @@ void print_results(const Vec* p) {
             tot_thread);                              \
   } while (false)
 
-int main() {
+int main(const int argc, const char* argv[]) {
+  if (argc >= 2) THREAD_BLOCK = std::atoi(argv[1]);
+
+  if (THREAD_BLOCK < 64 || THREAD_BLOCK > 1024) {
+    std::cerr << "THREAD_BLOCK size is too large or small.\n";
+    std::exit(1);
+  }
+
   allocate();
   init(&q_d3[0], &p_d3[0]);
   copy_vec(&q_f3[0], &q_d3[0], particle_number); copy_vec(&p_f3[0], &p_d3[0], particle_number);
   copy_vec(&q_f4[0], &q_d3[0], particle_number); copy_vec(&p_f4[0], &p_d3[0], particle_number);
   copy_vec(&q_d4[0], &q_d3[0], particle_number); copy_vec(&p_d4[0], &p_d3[0], particle_number);
 
-  const auto flag = loadpair();
-  if (!flag) {
+  if (!loadpair()) {
     fprintf(stderr, "Now make pairlist %s.\n", cache_file_name);
     number_of_pairs = 0;
     makepair(&q_d3[0]);
