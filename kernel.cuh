@@ -573,28 +573,11 @@ __global__ void force_kernel_warp_unroll(const Vec*     __restrict__ q,
     const auto lid = lane_id();
     const auto qi = q[i_ptcl_id];
     const auto np = number_of_partners[i_ptcl_id];
-    const auto kp = pointer[i_ptcl_id] + lid;
-    const int32_t ini_loop = (np / warpSize) * warpSize;
 
     Vec pf = {0.0};
     if (lid == 0) pf = p[i_ptcl_id];
-    int32_t k = 0;
-    for (; k < ini_loop; k += warpSize) {
-      const auto j  = sorted_list[kp + k];
-      const auto dx = q[j].x - qi.x;
-      const auto dy = q[j].y - qi.y;
-      const auto dz = q[j].z - qi.z;
-      const auto r2 = dx * dx + dy * dy + dz * dz;
-      const auto r6 = r2 * r2 * r2;
-      auto df = ((static_cast<Dtype>(24.0) * r6 - static_cast<Dtype>(48.0)) / (r6 * r6 * r2)) * dt;
-      if (r2 > CL2) df = 0.0;
-      pf.x += df * dx;
-      pf.y += df * dy;
-      pf.z += df * dz;
-    }
-
-    // remaining loop
-    if (lid < (np % warpSize)) {
+    const auto kp = pointer[i_ptcl_id];
+    for (int32_t k = lid; k < np; k += warpSize) {
       const auto j  = sorted_list[kp + k];
       const auto dx = q[j].x - qi.x;
       const auto dy = q[j].y - qi.y;
