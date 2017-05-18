@@ -440,7 +440,7 @@ int main(const int argc, const char* argv[]) {
   // MEASURE_FOR_ALLTYPES(force_kernel_plain, sorted_list, pointer, particle_number);
   // MEASURE_FOR_ALLTYPES(force_kernel_ifless, sorted_list, pointer, particle_number);
   // MEASURE_FOR_ALLTYPES(force_kernel_memopt, sorted_list, pointer, particle_number);
-  // MEASURE_FOR_ALLTYPES(force_kernel_memopt2, sorted_list, pointer, particle_number);
+  // MEASURE_FOR_ALLTYPES(force_kernel_memopt2, aligned_list, pointer, particle_number);
   // MEASURE_FOR_ALLTYPES(force_kernel_swpl, aligned_list, nullptr, particle_number);
   // MEASURE_FOR_ALLTYPES(force_kernel_swpl2, aligned_list, nullptr, particle_number);
   // MEASURE_FOR_ALLTYPES(force_kernel_unrolling, aligned_list, nullptr, particle_number);
