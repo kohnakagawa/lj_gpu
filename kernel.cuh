@@ -477,9 +477,8 @@ __global__ void force_kernel_unrolling2(const Vec*     __restrict__ q,
   const auto particle_number_x2 = particle_number << 1;
 
   auto pf = p[tid];
-  int32_t k = 0;
-  const auto ini_loop = np & 0x1;
-  for (; k < ini_loop; k++) {
+  int32_t k = np & 0x1;
+  if (k) {
     const auto j = __ldg(ptr_list);
     const auto dx = q[j].x - qi.x;
     const auto dy = q[j].y - qi.y;
