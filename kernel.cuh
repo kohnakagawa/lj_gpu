@@ -150,7 +150,7 @@ __global__ void force_kernel_memopt3(const Vec*     __restrict__ q,
 
     auto pf = p[tid];
     for (int32_t k = 0; k < np; k++) {
-      const auto j = __ldg(ptr_list); // use ROC
+      const auto j = *ptr_list; // use ROC
       const auto dx = q[j].x - qi.x;
       const auto dy = q[j].y - qi.y;
       const auto dz = q[j].z - qi.z;
@@ -168,6 +168,71 @@ __global__ void force_kernel_memopt3(const Vec*     __restrict__ q,
     }
     p[tid] = pf;
   }
+}
+
+template <typename Vec, typename Dtype>
+__global__ void force_kernel_memopt3_swpl(const Vec*     __restrict__ q,
+                                          Vec*           __restrict__ p,
+                                          const int32_t particle_number,
+                                          const Dtype dt,
+                                          const Dtype CL2,
+                                          const int32_t* __restrict__ aligned_list,
+                                          const int32_t* __restrict__ number_of_partners,
+                                          const int32_t* __restrict__ pointer = nullptr) {
+  const auto tid = threadIdx.x + blockIdx.x * blockDim.x;
+  if (tid >= particle_number) return;
+
+  const auto qi = q[tid];
+  const auto np = number_of_partners[tid];
+  const int32_t* ptr_list = &aligned_list[tid];
+
+  auto pf = p[tid];
+
+  auto j0 = *ptr_list;
+  ptr_list += particle_number;
+  auto qjx0 = q[j0].x;
+  auto qjy0 = q[j0].y;
+  auto qjz0 = q[j0].z;
+  for (int32_t k = 1; k < np; k++) {
+    const auto qjx = qjx0;
+    const auto qjy = qjy0;
+    const auto qjz = qjz0;
+
+    const auto dx = qjx - qi.x;
+    const auto dy = qjy - qi.y;
+    const auto dz = qjz - qi.z;
+    const auto r2 = dx * dx + dy * dy + dz * dz;
+    const auto r6 = r2 * r2 * r2;
+    const auto r14 = r6 * r6 * r2;
+    const auto invr14 = 1.0 / r14;
+    const auto df_numera = static_cast<Dtype>(24.0) * r6 - static_cast<Dtype>(48.0);
+    auto df = df_numera * invr14 * dt;
+    if (r2 > CL2) df = 0.0;
+    pf.x += df * dx;
+    pf.y += df * dy;
+    pf.z += df * dz;
+
+    j0 = *ptr_list;
+    ptr_list += particle_number;
+    qjx0 = q[j0].x;
+    qjy0 = q[j0].y;
+    qjz0 = q[j0].z;
+  }
+  const auto dx = qjx0 - qi.x;
+  const auto dy = qjy0 - qi.y;
+  const auto dz = qjz0 - qi.z;
+  const auto r2 = dx * dx + dy * dy + dz * dz;
+  const auto r6 = r2 * r2 * r2;
+  const auto r14 = r6 * r6 * r2;
+  const auto invr14 = 1.0 / r14;
+  const auto df_numera = static_cast<Dtype>(24.0) * r6 - static_cast<Dtype>(48.0);
+  auto df = df_numera * invr14 * dt;
+  if (r2 > CL2) df = 0.0;
+  pf.x += df * dx;
+  pf.y += df * dy;
+  pf.z += df * dz;
+
+  p[tid] = pf;
 }
 
 template <typename Vec, typename Dtype>
@@ -316,6 +381,48 @@ __global__ void force_kernel_memopt2_with_aar(const Vec*     __restrict__ q,
 }
 
 template <typename Vec, typename Dtype>
+__global__ void force_kernel_memopt3_with_aar(const Vec*     __restrict__ q,
+                                              Vec*           __restrict__ p,
+                                              const int32_t particle_number,
+                                              const Dtype dt,
+                                              const Dtype CL2,
+                                              const int32_t* __restrict__ aligned_list,
+                                              const int32_t* __restrict__ number_of_partners,
+                                              const int32_t* __restrict__ pointer = nullptr) {
+  const auto tid = threadIdx.x + blockIdx.x * blockDim.x;
+  if (tid >= particle_number) return;
+
+  const auto qi = q[tid];
+  const auto np = number_of_partners[tid];
+  const int32_t* ptr_list = &aligned_list[tid];
+
+  Dtype pfx = 0.0, pfy = 0.0, pfz = 0.0;
+  for (int32_t k = 0; k < np; k++) {
+    const auto j = *ptr_list;
+    ptr_list += particle_number;
+    const auto dx = q[j].x - qi.x;
+    const auto dy = q[j].y - qi.y;
+    const auto dz = q[j].z - qi.z;
+    const auto r2 = dx * dx + dy * dy + dz * dz;
+    if (r2 > CL2) continue;
+    const auto r6 = r2 * r2 * r2;
+    const auto r14 = r6 * r6 * r2;
+    const auto invr14 = 1.0 / r14;
+    const auto df_numera = static_cast<Dtype>(24.0) * r6 - static_cast<Dtype>(48.0);
+    auto df = df_numera * invr14 * dt;
+    pfx += df * dx;
+    pfy += df * dy;
+    pfz += df * dz;
+    atomicAdd(&p[j].x, -df * dx);
+    atomicAdd(&p[j].y, -df * dy);
+    atomicAdd(&p[j].z, -df * dz);
+  }
+  atomicAdd(&p[tid].x, pfx);
+  atomicAdd(&p[tid].y, pfy);
+  atomicAdd(&p[tid].z, pfz);
+}
+
+template <typename Vec, typename Dtype>
 __global__ void force_kernel_warp_unroll_with_aar(const Vec*     __restrict__ q,
                                                   Vec*           __restrict__ p,
                                                   const int32_t particle_number,
@@ -325,61 +432,39 @@ __global__ void force_kernel_warp_unroll_with_aar(const Vec*     __restrict__ q,
                                                   const int32_t* __restrict__ number_of_partners,
                                                   const int32_t* __restrict__ pointer) {
   const auto i_ptcl_id = (threadIdx.x + blockIdx.x * blockDim.x) / warpSize;
-  if (i_ptcl_id < particle_number) {
-    const auto lid = lane_id();
-    const auto qi = q[i_ptcl_id];
-    const auto np = number_of_partners[i_ptcl_id];
-    const auto kp = pointer[i_ptcl_id] + lid;
-    const int32_t ini_loop = (np / warpSize) * warpSize;
+  if (i_ptcl_id >= particle_number) return;
 
-    Vec pf = {0.0};
-    int32_t k = 0;
-    for (; k < ini_loop; k += warpSize) {
-      const auto j = sorted_list[kp + k];
-      const auto dx = q[j].x - qi.x;
-      const auto dy = q[j].y - qi.y;
-      const auto dz = q[j].z - qi.z;
-      const auto r2 = dx * dx + dy * dy + dz * dz;
-      if (r2 <= CL2) {
-        const auto r6 = r2 * r2 * r2;
-        const auto df = ((static_cast<Dtype>(24.0) * r6 - static_cast<Dtype>(48.0)) / (r6 * r6 * r2)) * dt;
-        pf.x += df * dx;
-        pf.y += df * dy;
-        pf.z += df * dz;
-        atomicAdd(&p[j].x, -df * dx);
-        atomicAdd(&p[j].y, -df * dy);
-        atomicAdd(&p[j].z, -df * dz);
-      }
-    }
+  const auto lid = lane_id();
+  const auto qi = q[i_ptcl_id];
+  const auto np = number_of_partners[i_ptcl_id];
+  const auto kp = pointer[i_ptcl_id];
 
-    // remaining loop
-    if (lid < (np % warpSize)) {
-      const auto j = sorted_list[kp + k];
-      const auto dx = q[j].x - qi.x;
-      const auto dy = q[j].y - qi.y;
-      const auto dz = q[j].z - qi.z;
-      const auto r2 = dx * dx + dy * dy + dz * dz;
-      if (r2 <= CL2) {
-        const auto r6 = r2 * r2 * r2;
-        const auto df = ((static_cast<Dtype>(24.0) * r6 - static_cast<Dtype>(48.0)) / (r6 * r6 * r2)) * dt;
-        pf.x += df * dx;
-        pf.y += df * dy;
-        pf.z += df * dz;
-        atomicAdd(&p[j].x, -df * dx);
-        atomicAdd(&p[j].y, -df * dy);
-        atomicAdd(&p[j].z, -df * dz);
-      }
-    }
+  Vec pf = {0.0};
+  for (int32_t k = lid; k < np; k += warpSize) {
+    const auto j = sorted_list[kp + k];
+    const auto dx = q[j].x - qi.x;
+    const auto dy = q[j].y - qi.y;
+    const auto dz = q[j].z - qi.z;
+    const auto r2 = dx * dx + dy * dy + dz * dz;
+    if (r2 > CL2) continue;
+    const auto r6 = r2 * r2 * r2;
+    const auto df = ((static_cast<Dtype>(24.0) * r6 - static_cast<Dtype>(48.0)) / (r6 * r6 * r2)) * dt;
+    pf.x += df * dx;
+    pf.y += df * dy;
+    pf.z += df * dz;
+    atomicAdd(&p[j].x, -df * dx);
+    atomicAdd(&p[j].y, -df * dy);
+    atomicAdd(&p[j].z, -df * dz);
+  }
 
-    pf.x = warp_segment_reduce(pf.x);
-    pf.y = warp_segment_reduce(pf.y);
-    pf.z = warp_segment_reduce(pf.z);
+  pf.x = warp_segment_reduce(pf.x);
+  pf.y = warp_segment_reduce(pf.y);
+  pf.z = warp_segment_reduce(pf.z);
 
-    if (lid == 0) {
-      atomicAdd(&p[i_ptcl_id].x, pf.x);
-      atomicAdd(&p[i_ptcl_id].y, pf.y);
-      atomicAdd(&p[i_ptcl_id].z, pf.z);
-    }
+  if (lid == 0) {
+    atomicAdd(&p[i_ptcl_id].x, pf.x);
+    atomicAdd(&p[i_ptcl_id].y, pf.y);
+    atomicAdd(&p[i_ptcl_id].z, pf.z);
   }
 }
 
@@ -743,35 +828,38 @@ __global__ void force_kernel_warp_unroll(const Vec*     __restrict__ q,
                                          const int32_t* __restrict__ number_of_partners,
                                          const int32_t* __restrict__ pointer) {
   const auto i_ptcl_id = (threadIdx.x + blockIdx.x * blockDim.x) / warpSize;
-  if (i_ptcl_id < particle_number) {
-    const auto lid = lane_id();
-    const auto qi = q[i_ptcl_id];
-    const auto np = number_of_partners[i_ptcl_id];
+  if (i_ptcl_id >= particle_number) return;
 
-    Vec pf = {0.0};
-    if (lid == 0) pf = p[i_ptcl_id];
-    const auto kp = pointer[i_ptcl_id];
-    for (int32_t k = lid; k < np; k += warpSize) {
-      const auto j  = sorted_list[kp + k];
-      const auto dx = q[j].x - qi.x;
-      const auto dy = q[j].y - qi.y;
-      const auto dz = q[j].z - qi.z;
-      const auto r2 = dx * dx + dy * dy + dz * dz;
-      const auto r6 = r2 * r2 * r2;
-      auto df = ((static_cast<Dtype>(24.0) * r6 - static_cast<Dtype>(48.0)) / (r6 * r6 * r2)) * dt;
-      if (r2 > CL2) df = 0.0;
-      pf.x += df * dx;
-      pf.y += df * dy;
-      pf.z += df * dz;
-    }
+  const auto lid = lane_id();
+  const auto qi = q[i_ptcl_id];
+  const auto np = number_of_partners[i_ptcl_id];
 
-    // warp reduction
-    pf.x = warp_segment_reduce(pf.x);
-    pf.y = warp_segment_reduce(pf.y);
-    pf.z = warp_segment_reduce(pf.z);
-
-    if (lid == 0) p[i_ptcl_id] = pf;
+  Vec pf = {0.0};
+  if (lid == 0) pf = p[i_ptcl_id];
+  const auto kp = pointer[i_ptcl_id];
+  for (int32_t k = lid; k < np; k += warpSize) {
+    const auto j  = sorted_list[kp + k];
+    const auto dx = q[j].x - qi.x;
+    const auto dy = q[j].y - qi.y;
+    const auto dz = q[j].z - qi.z;
+    const auto r2 = dx * dx + dy * dy + dz * dz;
+    const auto r6 = r2 * r2 * r2;
+    const auto r14 = r6 * r6 * r2;
+    const auto invr14 = 1.0 / r14;
+    const auto df_numera = static_cast<Dtype>(24.0) * r6 - static_cast<Dtype>(48.0);
+    auto df = df_numera * invr14 * dt;
+    if (r2 > CL2) df = 0.0;
+    pf.x += df * dx;
+    pf.y += df * dy;
+    pf.z += df * dz;
   }
+
+  // warp reduction
+  pf.x = warp_segment_reduce(pf.x);
+  pf.y = warp_segment_reduce(pf.y);
+  pf.z = warp_segment_reduce(pf.z);
+
+  if (lid == 0) p[i_ptcl_id] = pf;
 }
 
 // ASSUME: particle_number % 2 == 0

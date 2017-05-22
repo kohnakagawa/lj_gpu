@@ -444,20 +444,21 @@ int main(const int argc, const char* argv[]) {
   // MEASURE_FOR_ALLTYPES(force_kernel_memopt, sorted_list, pointer, particle_number);
   // MEASURE_FOR_ALLTYPES(force_kernel_memopt2, aligned_list, pointer, particle_number);
   // MEASURE_FOR_ALLTYPES(force_kernel_memopt3, aligned_list, pointer, particle_number);
+  // MEASURE_FOR_ALLTYPES(force_kernel_memopt3_swpl, aligned_list, pointer, particle_number);
   // MEASURE_FOR_ALLTYPES(force_kernel_swpl, aligned_list, nullptr, particle_number);
   // MEASURE_FOR_ALLTYPES(force_kernel_swpl2, aligned_list, nullptr, particle_number);
   // MEASURE_FOR_ALLTYPES(force_kernel_swpl3, aligned_list, nullptr, particle_number);
   // MEASURE_FOR_ALLTYPES(force_kernel_unrolling, aligned_list, nullptr, particle_number);
   // MEASURE_FOR_ALLTYPES(force_kernel_unrolling2, aligned_list, nullptr, particle_number);
-  // MEASURE_FOR_ALLTYPES(force_kernel_unrolling2, aligned_list, nullptr, particle_number);
-  MEASURE_FOR_ALLTYPES(force_kernel_memopt3_coarse, aligned_list, nullptr, particle_number / 2);
-  // MEASURE_FOR_ALLTYPES(force_kernel_warp_unroll, sorted_list, pointer, particle_number * 32);
+  // MEASURE_FOR_ALLTYPES(force_kernel_memopt3_coarse, aligned_list, nullptr, particle_number / 2);
+  MEASURE_FOR_ALLTYPES(force_kernel_warp_unroll, sorted_list, pointer, particle_number * 32);
   print_results(&p_d3[0]);
 #elif defined EN_ACTION_REACTION
   MEASURE_FOR_ALLTYPES(force_kernel_plain_with_aar, sorted_list, pointer, particle_number);
   MEASURE_FOR_ALLTYPES(force_kernel_ifless_with_aar, sorted_list, pointer, particle_number);
   MEASURE_FOR_ALLTYPES(force_kernel_memopt_with_aar, sorted_list, pointer, particle_number);
   MEASURE_FOR_ALLTYPES(force_kernel_memopt2_with_aar, aligned_list, nullptr, particle_number);
+  MEASURE_FOR_ALLTYPES(force_kernel_memopt3_with_aar, aligned_list, nullptr, particle_number);
   MEASURE_FOR_ALLTYPES(force_kernel_warp_unroll_with_aar, sorted_list, pointer, particle_number * 32);
   // print_results(&p_d3[0]);
 #else
@@ -466,6 +467,7 @@ int main(const int argc, const char* argv[]) {
   MEASURE_FOR_ALLTYPES(force_kernel_memopt, sorted_list, pointer, particle_number);
   MEASURE_FOR_ALLTYPES(force_kernel_memopt2, aligned_list, nullptr, particle_number);
   MEASURE_FOR_ALLTYPES(force_kernel_memopt3, aligned_list, nullptr, particle_number);
+  MEASURE_FOR_ALLTYPES(force_kernel_memopt3_swpl, aligned_list, pointer, particle_number);
   MEASURE_FOR_ALLTYPES(force_kernel_swpl, aligned_list, nullptr, particle_number);
   MEASURE_FOR_ALLTYPES(force_kernel_swpl2, aligned_list, nullptr, particle_number);
   MEASURE_FOR_ALLTYPES(force_kernel_swpl3, aligned_list, nullptr, particle_number);
