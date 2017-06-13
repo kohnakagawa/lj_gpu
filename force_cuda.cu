@@ -6,16 +6,18 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include "cuda_ptr.cuh"
-#include "kernel.cuh"
 
 typedef double Dtype;
 
-const Dtype density = 0.5;
-const int N = 400000;
+constexpr Dtype density = 0.5;
+constexpr int N = 400000;
 // const int N = 1000000;
-const int NUM_NEIGH = 60;
-const int MAX_PAIRS = NUM_NEIGH * N;
-const int LOOP = 100;
+constexpr int NUM_NEIGH = 60;
+constexpr int MAX_PAIRS = NUM_NEIGH * N;
+constexpr int LOOP = 100;
+
+#include "kernel.cuh"
+
 Dtype L = 50.0;
 // Dtype L = 70.0;
 const Dtype dt = 0.001;
@@ -25,6 +27,7 @@ cuda_ptr<double3> q_d3, p_d3;
 cuda_ptr<double4> q_d4, p_d4;
 cuda_ptr<int32_t> sorted_list, number_of_partners, pointer;
 cuda_ptr<int32_t> aligned_list;
+cuda_ptr<int32_t> sorted_list2d;
 int particle_number = 0;
 int number_of_pairs = 0;
 int i_particles[MAX_PAIRS];
@@ -236,6 +239,19 @@ void make_aligned_pairlist() {
   }
 }
 
+ void make_sorted_list2d() {
+   sorted_list2d.set_val(0);
+
+   for (int i = 0; i < particle_number; i++) {
+     const auto np = number_of_partners[i];
+     const auto kp = pointer[i];
+     for (int k = 0; k < np ; k++) {
+       const auto j = sorted_list[kp + k];
+       sorted_list2d[i * NUM_NEIGH + k] = j;
+     }
+   }
+ }
+
 void random_shfl() {
   std::mt19937 mt(10);
   const auto pn = particle_number;
@@ -254,6 +270,7 @@ void allocate() {
 
   sorted_list.allocate(MAX_PAIRS);
   aligned_list.allocate(MAX_PAIRS);
+  sorted_list2d.allocate(MAX_PAIRS);
   number_of_partners.allocate(N);
   pointer.allocate(N);
 }
@@ -266,6 +283,7 @@ void cleanup() {
 
   sorted_list.deallocate();
   aligned_list.deallocate();
+  sorted_list2d.deallocate();
   number_of_partners.deallocate();
   pointer.deallocate();
 }
@@ -288,6 +306,7 @@ void copy_to_gpu(cuda_ptr<Vec>& q,
   p.host2dev();
   sorted_list.host2dev();
   aligned_list.host2dev();
+  sorted_list2d.host2dev();
   number_of_partners.host2dev();
   pointer.host2dev();
 }
@@ -373,24 +392,6 @@ void print_results(const Vec* p) {
 #define STR(s) #s
 #define MEASURE_FOR_ALLTYPES(fname, list, p_pointer, tot_thread) \
   do {                                                \
-    measure(fname<float3, float>,                     \
-            STR(fname ## _float3),                    \
-            q_f3,                                     \
-            p_f3,                                     \
-            static_cast<float>(dt),                   \
-            static_cast<float>(CL2),                  \
-            list,                                     \
-            p_pointer,                                \
-            tot_thread);                              \
-    measure(fname<float4, float>,                     \
-            STR(fname ## _float4),                    \
-            q_f4,                                     \
-            p_f4,                                     \
-            static_cast<float>(dt),                   \
-            static_cast<float>(CL2),                  \
-            list,                                     \
-            p_pointer,                                \
-            tot_thread);                              \
     measure(fname<double3, double>,                   \
             STR(fname ## _double3),                   \
             q_d3,                                     \
@@ -434,6 +435,7 @@ int main(const int argc, const char* argv[]) {
   }
 
   make_aligned_pairlist();
+  make_sorted_list2d();
 
 #ifdef EN_TEST_CPU
   for (int i = 0; i < LOOP; i++) force_sorted(&q_d3[0], &p_d3[0]);
@@ -451,7 +453,8 @@ int main(const int argc, const char* argv[]) {
   // MEASURE_FOR_ALLTYPES(force_kernel_unrolling, aligned_list, nullptr, particle_number);
   // MEASURE_FOR_ALLTYPES(force_kernel_unrolling2, aligned_list, nullptr, particle_number);
   // MEASURE_FOR_ALLTYPES(force_kernel_memopt3_coarse, aligned_list, nullptr, particle_number / 2);
-  MEASURE_FOR_ALLTYPES(force_kernel_warp_unroll, sorted_list, pointer, particle_number * 32);
+  // MEASURE_FOR_ALLTYPES(force_kernel_warp_unroll, sorted_list, pointer, particle_number * 32);
+  MEASURE_FOR_ALLTYPES(force_kernel_warp_unroll_sorted2d, sorted_list2d, nullptr, particle_number * 32);
   print_results(&p_d3[0]);
 #elif defined EN_ACTION_REACTION
   MEASURE_FOR_ALLTYPES(force_kernel_plain_with_aar, sorted_list, pointer, particle_number);
@@ -475,6 +478,7 @@ int main(const int argc, const char* argv[]) {
   MEASURE_FOR_ALLTYPES(force_kernel_unrolling2, aligned_list, nullptr, particle_number);
   MEASURE_FOR_ALLTYPES(force_kernel_memopt3_coarse, aligned_list, nullptr, particle_number / 2);
   MEASURE_FOR_ALLTYPES(force_kernel_warp_unroll, sorted_list, pointer, particle_number * 32);
+  MEASURE_FOR_ALLTYPES(force_kernel_warp_unroll_sorted2d, sorted_list2d, nullptr, particle_number * 32);
 #endif
 
   cleanup();
