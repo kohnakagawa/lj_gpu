@@ -19,7 +19,7 @@ AMDAPP_ROOT=/opt/AMDAPPSDK-3.0
 BOOST_ROOT=/home/app/boost/1.58
 
 CUDA_HOME=/usr/local/cuda
-# CUDA_HOME=/home/app/cuda/cuda-7.0
+# CUDA_HOME=$(CUDA_PATH)
 
 NVCC=$(CUDA_HOME)/bin/nvcc
 
