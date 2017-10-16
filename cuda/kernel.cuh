@@ -862,50 +862,6 @@ __global__ void force_kernel_warp_unroll(const Vec*     __restrict__ q,
   if (lid == 0) p[i_ptcl_id] = pf;
 }
 
-template <typename Vec, typename Dtype>
-__global__ void force_kernel_warp_unroll_sorted2d(const Vec*     __restrict__ q,
-                                                  Vec*           __restrict__ p,
-                                                  const int32_t particle_number,
-                                                  const Dtype dt,
-                                                  const Dtype CL2,
-                                                  const int32_t* __restrict__ sorted_list2d,
-                                                  const int32_t* __restrict__ number_of_partners,
-                                                  const int32_t* __restrict__ pointer = nullptr) {
-  const auto i_ptcl_id = (threadIdx.x + blockIdx.x * blockDim.x) / warpSize;
-  if (i_ptcl_id >= particle_number) return;
-
-  const auto lid = lane_id();
-  const auto qi = q[i_ptcl_id];
-  const auto np = number_of_partners[i_ptcl_id];
-
-  Vec pf = {0.0};
-  if (lid == 0) pf = p[i_ptcl_id];
-
-  for (int32_t k = lid; k < np; k += warpSize) {
-    const auto j  = sorted_list2d[NUM_NEIGH * i_ptcl_id + k];
-    const auto dx = q[j].x - qi.x;
-    const auto dy = q[j].y - qi.y;
-    const auto dz = q[j].z - qi.z;
-    const auto r2 = dx * dx + dy * dy + dz * dz;
-    const auto r6 = r2 * r2 * r2;
-    const auto r14 = r6 * r6 * r2;
-    const auto invr14 = 1.0 / r14;
-    const auto df_numera = static_cast<Dtype>(24.0) * r6 - static_cast<Dtype>(48.0);
-    auto df = df_numera * invr14 * dt;
-    if (r2 > CL2) df = 0.0;
-    pf.x += df * dx;
-    pf.y += df * dy;
-    pf.z += df * dz;
-  }
-
-  // warp reduction
-  pf.x = warp_segment_reduce(pf.x);
-  pf.y = warp_segment_reduce(pf.y);
-  pf.z = warp_segment_reduce(pf.z);
-
-  if (lid == 0) p[i_ptcl_id] = pf;
-}
-
 // ASSUME: particle_number % 2 == 0
 template <typename Vec, typename Dtype>
 __global__ void force_kernel_memopt3_coarse(const Vec*     __restrict__ q,

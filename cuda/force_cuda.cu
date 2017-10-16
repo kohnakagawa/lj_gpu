@@ -412,8 +412,7 @@ int main(const int argc, const char* argv[]) {
   // MEASURE_FOR_ALLTYPES(force_kernel_unrolling, transposed_list, nullptr, particle_number);
   // MEASURE_FOR_ALLTYPES(force_kernel_unrolling2, transposed_list, nullptr, particle_number);
   // MEASURE_FOR_ALLTYPES(force_kernel_memopt3_coarse, transposed_list, nullptr, particle_number / 2);
-  // MEASURE_FOR_ALLTYPES(force_kernel_warp_unroll, sorted_list, pointer, particle_number * 32);
-  MEASURE_FOR_ALLTYPES(force_kernel_warp_unroll_sorted2d, sorted_list2d, nullptr, particle_number * 32);
+  MEASURE_FOR_ALLTYPES(force_kernel_warp_unroll, sorted_list, pointer, particle_number * 32);
   print_results(&p_d3[0]);
 #elif defined EN_ACTION_REACTION
   MEASURE_FOR_ALLTYPES(force_kernel_plain_with_aar, sorted_list, pointer, particle_number);
@@ -437,7 +436,6 @@ int main(const int argc, const char* argv[]) {
   MEASURE_FOR_ALLTYPES(force_kernel_unrolling2, transposed_list, nullptr, particle_number);
   MEASURE_FOR_ALLTYPES(force_kernel_memopt3_coarse, transposed_list, nullptr, particle_number / 2);
   MEASURE_FOR_ALLTYPES(force_kernel_warp_unroll, sorted_list, pointer, particle_number * 32);
-  MEASURE_FOR_ALLTYPES(force_kernel_warp_unroll_sorted2d, sorted_list2d, nullptr, particle_number * 32);
 #endif
 
   cleanup();
