@@ -45,7 +45,7 @@ kernel.sass: kernel.cubin
 	$(CUDA_HOME)/bin/cuobjdump -sass $< > $@
 
 clean:
-	rm -f $(AVX) $(CUDA) $(PTX) $(OCL) $(OACC) *.gpu *.ptx *.sass *.cubin *~ *.core
+	rm -f $(CUDA) $(PTX) $(CUBIN) $(SASS) *~ *.core
 
 clear:
 	rm -f $(CACHE_FILE)
