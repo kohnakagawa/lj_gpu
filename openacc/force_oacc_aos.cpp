@@ -331,7 +331,7 @@ main(void) {
   measure(force_reactless_memopt, "acc_reactless_memopt_aos");
   print_results();
 #elif OACC_TRANS_TUNED
-  measure(force_reactless_memopt_tuned, "acc_reactless_memopt_aos");
+  measure(force_reactless_memopt_tuned, "acc_reactless_memopt_tuned_aos");
   print_results();
 #endif
   deallocate();
