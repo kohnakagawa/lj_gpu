@@ -260,8 +260,11 @@ void copy_vec(Vec1* v1,
 }
 
 template <typename Vec>
-void print_head_momentum(const Vec* p) {
-  for (int i = 0; i < 10; i++) {
+void print_results(const Vec* p) {
+  for (int i = 0; i < 5; i++) {
+    fprintf(stdout, "%.10f %.10f %.10f\n", p[i].s[0], p[i].s[1], p[i].s[2]);
+  }
+  for (int i = particle_number-5; i < particle_number; i++) {
     fprintf(stdout, "%.10f %.10f %.10f\n", p[i].s[0], p[i].s[1], p[i].s[2]);
   }
 }
@@ -334,5 +337,5 @@ int main() {
   fprintf(stderr, "N=%d, %s %f [sec]\n", particle_number, ocl_fname.c_str(), diff);
   //
 
-  print_head_momentum(&p[0]);
+  print_results(&p[0]);
 }

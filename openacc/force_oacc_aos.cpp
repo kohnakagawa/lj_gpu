@@ -281,9 +281,13 @@ void
 measure(void(*pfunc)(), const char *name) {
   acc_init(acc_device_nvidia);
 
-#pragma acc enter data create(q[0:N], p[0:N], number_of_partners[0:N], pointer[0:N], sorted_list[0:MAX_PAIRS], transposed_list[0:MAX_PAIRS])
+#pragma acc enter data create(q[0:N], p[0:N], number_of_partners[0:N],  \
+                              pointer[0:N], sorted_list[0:MAX_PAIRS],   \
+                              transposed_list[0:MAX_PAIRS])
 
-#pragma acc update device(q[0:N], p[0:N], number_of_partners[0:N], pointer[0:N], sorted_list[0:MAX_PAIRS], transposed_list[0:MAX_PAIRS])
+#pragma acc update device(q[0:N], p[0:N], number_of_partners[0:N],  \
+                          pointer[0:N], sorted_list[0:MAX_PAIRS],   \
+                          transposed_list[0:MAX_PAIRS])
 
   auto st = myclock();
   const int LOOP = 100;
@@ -291,13 +295,26 @@ measure(void(*pfunc)(), const char *name) {
     pfunc();
   }
   auto t = myclock() - st;
-  fprintf(stderr, "N=%d, %s %f [sec] (without Host<->Device)\n", particle_number, name, t);
+  fprintf(stderr, "N=%d, %s %f [sec] (without Host<->Device)\n",
+          particle_number, name, t);
 
 #pragma acc update host(p[0:N])
 
-#pragma acc exit data delete(q[0:N], p[0:N], number_of_partners[0:N], pointer[0:N], sorted_list[0:MAX_PAIRS], transposed_list[0:MAX_PAIRS])
+#pragma acc exit data delete(q[0:N], p[0:N], number_of_partners[0:N], \
+                             pointer[0:N], sorted_list[0:MAX_PAIRS],  \
+                             transposed_list[0:MAX_PAIRS])
 
   acc_shutdown(acc_device_nvidia);
+}
+//----------------------------------------------------------------------
+void
+print_results(void) {
+  for (int i = 0; i < 5; i++) {
+    fprintf(stdout, "%.10f %.10f %.10f\n", p[i].x, p[i].y, p[i].z);
+  }
+  for (int i = particle_number - 5; i < particle_number; i++) {
+    fprintf(stdout, "%.10f %.10f %.10f\n", p[i].x, p[i].y, p[i].z);
+  }
 }
 //----------------------------------------------------------------------
 int
@@ -309,19 +326,13 @@ main(void) {
   make_transposed_list();
 #ifdef OACC_REF
   measure(force_reactless, "acc_reactless_aos");
-  for (int i = 0; i < 10; i++) {
-    printf("%.10f %.10f %.10f\n", p[i].x, p[i].y, p[i].z);
-  }
+  print_results();
 #elif OACC_TRANS
   measure(force_reactless_memopt, "acc_reactless_memopt_aos");
-  for (int i = 0; i < 10; i++) {
-    printf("%.10f %.10f %.10f\n", p[i].x, p[i].y, p[i].z);
-  }
+  print_results();
 #elif OACC_TRANS_TUNED
   measure(force_reactless_memopt_tuned, "acc_reactless_memopt_aos");
-  for (int i = 0; i < 10; i++) {
-    printf("%.10f %.10f %.10f\n", p[i].x, p[i].y, p[i].z);
-  }
+  print_results();
 #endif
   deallocate();
 }

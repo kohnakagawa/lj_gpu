@@ -266,9 +266,17 @@ void
 measure(void(*pfunc)(), const char *name) {
   acc_init(acc_device_nvidia);
 
-#pragma acc enter data create(px[0:N], py[0:N], pz[0:N], qx[0:N], qy[0:N], qz[0:N], number_of_partners[0:N], pointer[0:N], sorted_list[0:MAX_PAIRS], transposed_list[0:MAX_PAIRS])
+#pragma acc enter data create(px[0:N], py[0:N], pz[0:N],              \
+                              qx[0:N], qy[0:N], qz[0:N],              \
+                              number_of_partners[0:N], pointer[0:N],  \
+                              sorted_list[0:MAX_PAIRS],               \
+                              transposed_list[0:MAX_PAIRS])
 
-#pragma acc update device(px[0:N], py[0:N], pz[0:N], qx[0:N], qy[0:N], qz[0:N], number_of_partners[0:N], pointer[0:N], sorted_list[0:MAX_PAIRS], transposed_list[0:MAX_PAIRS])
+#pragma acc update device(px[0:N], py[0:N], pz[0:N],              \
+                          qx[0:N], qy[0:N], qz[0:N],              \
+                          number_of_partners[0:N], pointer[0:N],  \
+                          sorted_list[0:MAX_PAIRS],               \
+                          transposed_list[0:MAX_PAIRS])
 
   auto st = myclock();
   const int LOOP = 100;
@@ -280,9 +288,22 @@ measure(void(*pfunc)(), const char *name) {
 
 #pragma acc update host(px[0:N], py[0:N], pz[0:N])
 
-#pragma acc exit data delete(px[0:N], py[0:N], pz[0:N], qx[0:N], qy[0:N], qz[0:N], number_of_partners[0:N], pointer[0:N], sorted_list[0:MAX_PAIRS], transposed_list[0:MAX_PAIRS])
+#pragma acc exit data delete(px[0:N], py[0:N], pz[0:N], qx[0:N],        \
+                             qy[0:N], qz[0:N], number_of_partners[0:N], \
+                             pointer[0:N], sorted_list[0:MAX_PAIRS],    \
+                             transposed_list[0:MAX_PAIRS])
 
   acc_shutdown(acc_device_nvidia);
+}
+//----------------------------------------------------------------------
+void
+print_results(void) {
+  for (int i = 0; i < 5; i++) {
+    fprintf(stdout, "%.10f %.10f %.10f\n", px[i], py[i], pz[i]);
+  }
+  for (int i = particle_number - 5; i < particle_number; i++) {
+    fprintf(stdout, "%.10f %.10f %.10f\n", px[i], py[i], pz[i]);
+  }
 }
 //----------------------------------------------------------------------
 int
@@ -294,14 +315,10 @@ main(void) {
   make_transposed_list();
 #ifdef OACC_REF
   measure(&force_reactless, "acc_reactless_soa");
-  for (int i = 0; i < 10; i++) {
-    printf("%.10f %.10f %.10f\n", px[i], py[i], pz[i]);
-  }
+  print_results();
 #elif OACC_TRANS
   measure(&force_reactless_memopt, "acc_reactless_memopt_soa");
-  for (int i = 0; i < 10; i++) {
-    printf("%.10f %.10f %.10f\n", px[i], py[i], pz[i]);
-  }
+  print_results();
 #endif
   deallocate();
 }
