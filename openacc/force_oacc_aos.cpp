@@ -5,7 +5,7 @@
 #include <sys/time.h>
 #include <openacc.h>
 //----------------------------------------------------------------------
-const double density = 1.0;
+const double density = 0.5;
 const int N = 400000;
 const int MAX_PAIRS = 60 * N;
 double L = 50.0;

@@ -16,7 +16,7 @@ const char srcStr[] =
 typedef double Dtype;
 typedef cl_double3 Vec;
 
-const Dtype density = 1.0;
+const Dtype density = 0.5;
 const int N = 400000;
 // const int N = 1000000;
 const int NUM_NEIGH = 60;

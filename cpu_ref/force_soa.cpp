@@ -7,7 +7,7 @@
 #include <sys/time.h>
 #include <sys/stat.h>
 //----------------------------------------------------------------------
-const double density = 1.0;
+const double density = 0.5;
 const int N = 400000;
 const int MAX_PAIRS = 30 * N;
 double L = 50.0;
