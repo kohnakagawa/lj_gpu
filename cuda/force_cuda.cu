@@ -9,7 +9,7 @@
 
 typedef double Dtype;
 
-constexpr Dtype density = 0.5;
+constexpr Dtype density = 1.0;
 constexpr int N = 400000;
 // const int N = 1000000;
 constexpr int NUM_NEIGH = 60;
