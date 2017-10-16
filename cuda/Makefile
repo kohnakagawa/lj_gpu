@@ -17,7 +17,7 @@ NVCC=$(CUDA_HOME)/bin/nvcc
 ARCH=-arch=sm_35
 
 NVCCFLAGS= -O3 -std=c++11 $(ARCH) -Xcompiler "$(WARNINGS) $(GCC_FLAGS)" -ccbin=g++ -Xptxas -v
-INCLUDE = -I$(CUDA_HOME)/include -I$(CUDA_HOME)/samples/common/inc
+INCLUDE = -isystem $(CUDA_HOME)/include -isystem $(CUDA_HOME)/samples/common/inc
 
 all: $(CUDA)
 ptx: $(PTX)
@@ -28,6 +28,9 @@ gpu_cuda.out: force_cuda.cu
 
 gpu_cuda_aar.out: force_cuda.cu
 	$(NVCC) $(NVCCFLAGS) -DEN_ACTION_REACTION $(INCLUDE) $< $(LIBRARY) -o $@
+
+gpu_cuda_test.out: force_cuda.cu
+	$(NVCC) $(NVCCFLAGS) -DEN_TEST_GPU $(INCLUDE) $< $(LIBRARY) -o $@
 
 kernel.ptx: force_cuda.cu
 	$(NVCC) $(NVCCFLAGS) $(INCLUDE) -ptx $< $(LIBRARY) -o $@

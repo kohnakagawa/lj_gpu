@@ -1,19 +1,21 @@
 # SIMTization for Force Calculation of Lennard-Jones Potential
-### This project is forked from https://github.com/kaityo256/lj_simd
+- This project is forked from [lj\_simd](https://github.com/kaityo256/lj_simd)
 
 ## Usage 
-### NVIDIAのGPUで実行する場合 (CUDA)
-    $ make cuda
-    $ make test_cuda
+### NVIDIA GPU (CUDA implementations)
+``` bash
+$ cd cuda
+$ make
+```
 
-### NVIDIAのGPUで実行する場合 (OpenACC)
-    $ make oacc
-    $ make test_oacc
+### NVIDIA GPU (OpenACC implementations)
+``` bash
+$ cd openacc
+$ make
+```
     
-### AMDのGPUで実行する場合 (OpenCL)
-    $ make ocl
-    $ make test_ocl
-    
-### IntelのCPUで実行する場合
-    $ make avx
-    $ make test_avx
+### AMD GPU (OpenCL implementations)
+``` bash
+$ cd
+$ make
+```
