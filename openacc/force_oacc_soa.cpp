@@ -276,7 +276,7 @@ measure(void(*pfunc)(), const char *name) {
     pfunc();
   }
   auto t = myclock() - st;
-  fprintf(stderr, "N=%d, %s %f [sec]\n", particle_number, name, t);
+  fprintf(stderr, "N=%d, %s %f [sec] (without Host<->Device)\n", particle_number, name, t);
 
 #pragma acc update host(px[0:N], py[0:N], pz[0:N])
 
