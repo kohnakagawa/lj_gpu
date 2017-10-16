@@ -16,6 +16,6 @@ $ make
     
 ### AMD GPU (OpenCL implementations)
 ``` bash
-$ cd
+$ cd opencl
 $ make
 ```
