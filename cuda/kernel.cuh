@@ -105,14 +105,14 @@ __global__ void force_kernel_memopt2(const Vec*     __restrict__ q,
                                      const int32_t particle_number,
                                      const Dtype dt,
                                      const Dtype CL2,
-                                     const int32_t* __restrict__ aligned_list,
+                                     const int32_t* __restrict__ transposed_list,
                                      const int32_t* __restrict__ number_of_partners,
                                      const int32_t* __restrict__ pointer = nullptr) {
   const auto tid = threadIdx.x + blockIdx.x * blockDim.x;
   if (tid < particle_number) {
     const auto qi = q[tid];
     const auto np = number_of_partners[tid];
-    const int32_t* ptr_list = &aligned_list[tid];
+    const int32_t* ptr_list = &transposed_list[tid];
 
     auto pf = p[tid];
     for (int32_t k = 0; k < np; k++) {
@@ -139,14 +139,14 @@ __global__ void force_kernel_memopt3(const Vec*     __restrict__ q,
                                      const int32_t particle_number,
                                      const Dtype dt,
                                      const Dtype CL2,
-                                     const int32_t* __restrict__ aligned_list,
+                                     const int32_t* __restrict__ transposed_list,
                                      const int32_t* __restrict__ number_of_partners,
                                      const int32_t* __restrict__ pointer = nullptr) {
   const auto tid = threadIdx.x + blockIdx.x * blockDim.x;
   if (tid < particle_number) {
     const auto qi = q[tid];
     const auto np = number_of_partners[tid];
-    const int32_t* ptr_list = &aligned_list[tid];
+    const int32_t* ptr_list = &transposed_list[tid];
 
     auto pf = p[tid];
     for (int32_t k = 0; k < np; k++) {
@@ -176,7 +176,7 @@ __global__ void force_kernel_memopt3_swpl(const Vec*     __restrict__ q,
                                           const int32_t particle_number,
                                           const Dtype dt,
                                           const Dtype CL2,
-                                          const int32_t* __restrict__ aligned_list,
+                                          const int32_t* __restrict__ transposed_list,
                                           const int32_t* __restrict__ number_of_partners,
                                           const int32_t* __restrict__ pointer = nullptr) {
   const auto tid = threadIdx.x + blockIdx.x * blockDim.x;
@@ -184,7 +184,7 @@ __global__ void force_kernel_memopt3_swpl(const Vec*     __restrict__ q,
 
   const auto qi = q[tid];
   const auto np = number_of_partners[tid];
-  const int32_t* ptr_list = &aligned_list[tid];
+  const int32_t* ptr_list = &transposed_list[tid];
 
   auto pf = p[tid];
 
@@ -347,14 +347,14 @@ __global__ void force_kernel_memopt2_with_aar(const Vec*     __restrict__ q,
                                               const int32_t particle_number,
                                               const Dtype dt,
                                               const Dtype CL2,
-                                              const int32_t* __restrict__ aligned_list,
+                                              const int32_t* __restrict__ transposed_list,
                                               const int32_t* __restrict__ number_of_partners,
                                               const int32_t* __restrict__ pointer = nullptr) {
   const auto tid = threadIdx.x + blockIdx.x * blockDim.x;
   if (tid < particle_number) {
     const auto qi = q[tid];
     const auto np = number_of_partners[tid];
-    const int32_t* ptr_list = &aligned_list[tid];
+    const int32_t* ptr_list = &transposed_list[tid];
 
     Dtype pfx = 0.0, pfy = 0.0, pfz = 0.0;
     for (int32_t k = 0; k < np; k++) {
@@ -386,7 +386,7 @@ __global__ void force_kernel_memopt3_with_aar(const Vec*     __restrict__ q,
                                               const int32_t particle_number,
                                               const Dtype dt,
                                               const Dtype CL2,
-                                              const int32_t* __restrict__ aligned_list,
+                                              const int32_t* __restrict__ transposed_list,
                                               const int32_t* __restrict__ number_of_partners,
                                               const int32_t* __restrict__ pointer = nullptr) {
   const auto tid = threadIdx.x + blockIdx.x * blockDim.x;
@@ -394,7 +394,7 @@ __global__ void force_kernel_memopt3_with_aar(const Vec*     __restrict__ q,
 
   const auto qi = q[tid];
   const auto np = number_of_partners[tid];
-  const int32_t* ptr_list = &aligned_list[tid];
+  const int32_t* ptr_list = &transposed_list[tid];
 
   Dtype pfx = 0.0, pfy = 0.0, pfz = 0.0;
   for (int32_t k = 0; k < np; k++) {
@@ -474,14 +474,14 @@ __global__ void force_kernel_unrolling(const Vec*     __restrict__ q,
                                        const int32_t particle_number,
                                        const Dtype dt,
                                        const Dtype CL2,
-                                       const int32_t* __restrict__ aligned_list,
+                                       const int32_t* __restrict__ transposed_list,
                                        const int32_t* __restrict__ number_of_partners,
                                        const int32_t* __restrict__ pointer = nullptr) {
   const auto tid = threadIdx.x + blockIdx.x * blockDim.x;
   if (tid < particle_number) {
     const auto qi = q[tid];
     const auto np = number_of_partners[tid];
-    const int32_t* ptr_list = &aligned_list[tid];
+    const int32_t* ptr_list = &transposed_list[tid];
     const auto particle_number_x4 = particle_number << 2;
 
     auto pf = p[tid];
@@ -550,7 +550,7 @@ __global__ void force_kernel_unrolling2(const Vec*     __restrict__ q,
                                         const int32_t particle_number,
                                         const Dtype dt,
                                         const Dtype CL2,
-                                        const int32_t* __restrict__ aligned_list,
+                                        const int32_t* __restrict__ transposed_list,
                                         const int32_t* __restrict__ number_of_partners,
                                         const int32_t* __restrict__ pointer = nullptr) {
   const auto tid = threadIdx.x + blockIdx.x * blockDim.x;
@@ -558,7 +558,7 @@ __global__ void force_kernel_unrolling2(const Vec*     __restrict__ q,
 
   const auto qi = q[tid];
   const auto np = number_of_partners[tid];
-  const int32_t* ptr_list = &aligned_list[tid];
+  const int32_t* ptr_list = &transposed_list[tid];
   const auto particle_number_x2 = particle_number << 1;
 
   auto pf = p[tid];
@@ -626,14 +626,14 @@ __global__ void force_kernel_swpl(const Vec*     __restrict__ q,
                                   const int32_t particle_number,
                                   const Dtype dt,
                                   const Dtype CL2,
-                                  const int32_t* __restrict__ aligned_list,
+                                  const int32_t* __restrict__ transposed_list,
                                   const int32_t* __restrict__ number_of_partners,
                                   const int32_t* __restrict__ pointer = nullptr) {
   const auto tid = threadIdx.x + blockIdx.x * blockDim.x;
   if (tid < particle_number) {
     const auto qi = q[tid];
     const auto np = number_of_partners[tid];
-    const int32_t* ptr_list = &aligned_list[tid];
+    const int32_t* ptr_list = &transposed_list[tid];
 
     auto pf = p[tid];
 
@@ -703,14 +703,14 @@ __global__ void force_kernel_swpl2(const Vec*     __restrict__ q,
                                    const int32_t particle_number,
                                    const Dtype dt,
                                    const Dtype CL2,
-                                   const int32_t* __restrict__ aligned_list,
+                                   const int32_t* __restrict__ transposed_list,
                                    const int32_t* __restrict__ number_of_partners,
                                    const int32_t* __restrict__ pointer = nullptr) {
   const auto tid = threadIdx.x + blockIdx.x * blockDim.x;
   if (tid < particle_number) {
     const auto qi = q[tid];
     const auto np = number_of_partners[tid];
-    const int32_t* ptr_list = &aligned_list[tid];
+    const int32_t* ptr_list = &transposed_list[tid];
 
     auto pf = p[tid];
 
@@ -762,7 +762,7 @@ __global__ void force_kernel_swpl3(const Vec*     __restrict__ q,
                                    const int32_t particle_number,
                                    const Dtype dt,
                                    const Dtype CL2,
-                                   const int32_t* __restrict__ aligned_list,
+                                   const int32_t* __restrict__ transposed_list,
                                    const int32_t* __restrict__ number_of_partners,
                                    const int32_t* __restrict__ pointer = nullptr) {
   const auto tid = threadIdx.x + blockIdx.x * blockDim.x;
@@ -770,7 +770,7 @@ __global__ void force_kernel_swpl3(const Vec*     __restrict__ q,
 
   const auto qi = q[tid];
   const auto np = number_of_partners[tid];
-  const int32_t* ptr_list = &aligned_list[tid];
+  const int32_t* ptr_list = &transposed_list[tid];
 
   auto pf = p[tid];
 
@@ -913,7 +913,7 @@ __global__ void force_kernel_memopt3_coarse(const Vec*     __restrict__ q,
                                             const int32_t particle_number,
                                             const Dtype dt,
                                             const Dtype CL2,
-                                            const int32_t* __restrict__ aligned_list,
+                                            const int32_t* __restrict__ transposed_list,
                                             const int32_t* __restrict__ number_of_partners,
                                             const int32_t* __restrict__ pointer = nullptr) {
   const auto tid = threadIdx.x + blockIdx.x * blockDim.x;
@@ -930,8 +930,8 @@ __global__ void force_kernel_memopt3_coarse(const Vec*     __restrict__ q,
   const auto np0 = number_of_partners[ptcl_id0];
   const auto np1 = number_of_partners[ptcl_id1];
 
-  const int32_t* ptr_list0 = &aligned_list[ptcl_id0];
-  const int32_t* ptr_list1 = &aligned_list[ptcl_id1];
+  const int32_t* ptr_list0 = &transposed_list[ptcl_id0];
+  const int32_t* ptr_list1 = &transposed_list[ptcl_id1];
 
   const auto np = (np0 > np1) ? np0 : np1;
 

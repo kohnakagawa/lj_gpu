@@ -1,8 +1,9 @@
-#include <stdio.h>
+#include <cstdio>
 #include <algorithm>
-#include <math.h>
-#include <boost/random.hpp> // instead of C++11 random
+#include <cmath>
+#include <random>
 #include <sys/time.h>
+#include <openacc.h>
 //----------------------------------------------------------------------
 const double density = 1.0;
 const int N = 400000;
@@ -13,27 +14,63 @@ const double dt = 0.001;
 // enum {X, Y, Z};
 //double q[N][D];
 //double p[N][D];
-double qx[N], qy[N], qz[N];
-double px[N], py[N], pz[N];
+double* __restrict qx = NULL;
+double* __restrict qy = NULL;
+double* __restrict qz = NULL;
+double* __restrict px = NULL;
+double* __restrict py = NULL;
+double* __restrict pz = NULL;
 
 int particle_number = 0;
 int number_of_pairs = 0;
-int number_of_partners[N];
+int* __restrict number_of_partners = NULL;
 int i_particles[MAX_PAIRS];
 int j_particles[MAX_PAIRS];
-int pointer[N], pointer2[N];
-int sorted_list[MAX_PAIRS];
-int aligned_list[MAX_PAIRS];
+int pointer2[N];
+int* __restrict pointer = NULL;
+int* __restrict sorted_list = NULL;
+int* __restrict transposed_list = NULL;
 
 const double CUTOFF_LENGTH = 3.0;
 const double SEARCH_LENGTH = 3.3;
 const double CL2 = CUTOFF_LENGTH * CUTOFF_LENGTH;
 //----------------------------------------------------------------------
+void
+allocate(void) {
+  qx = new double [N];
+  qy = new double [N];
+  qz = new double [N];
+
+  px = new double [N];
+  py = new double [N];
+  pz = new double [N];
+
+  number_of_partners = new int [N];
+  pointer = new int [N];
+  sorted_list = new int [MAX_PAIRS];
+  transposed_list = new int [MAX_PAIRS];
+}
+//----------------------------------------------------------------------
+void
+deallocate(void) {
+  delete [] qx;
+  delete [] qy;
+  delete [] qz;
+
+  delete [] px;
+  delete [] py;
+  delete [] pz;
+
+  delete [] number_of_partners;
+  delete [] pointer;
+  delete [] sorted_list;
+  delete [] transposed_list;
+}
+//----------------------------------------------------------------------
 double
 uniform(void) {
-  static boost::random::mt19937 mt(2);
-  boost::random::uniform_real_distribution<double> ud(0.0, 0.1);
-  const double tmp = ud(mt); // do not use.
+  static std::mt19937 mt(2);
+  std::uniform_real_distribution<double> ud(0.0, 0.1);
   return ud(mt);
 }
 //----------------------------------------------------------------------
@@ -55,7 +92,7 @@ myclock(void) {
 void
 register_pair(int index1, int index2) {
   int i, j;
-#ifdef EN_ACTION_REACTION
+
   if (index1 < index2) {
     i = index1;
     j = index2;
@@ -63,13 +100,15 @@ register_pair(int index1, int index2) {
     i = index2;
     j = index1;
   }
-#else
-  i = index1;
-  j = index2;
-#endif
+
   i_particles[number_of_pairs] = i;
   j_particles[number_of_pairs] = j;
   number_of_partners[i]++;
+  number_of_pairs++;
+
+  i_particles[number_of_pairs] = j;
+  j_particles[number_of_pairs] = i;
+  number_of_partners[j]++;
   number_of_pairs++;
 }
 //----------------------------------------------------------------------
@@ -80,14 +119,9 @@ makepair(void) {
   for (int i = 0; i < pn; i++) {
     number_of_partners[i] = 0;
   }
-#ifdef EN_ACTION_REACTION
+
   for (int i = 0; i < particle_number - 1; i++) {
     for (int j = i + 1; j < particle_number; j++) {
-#else
-  for (int i = 0; i < particle_number; i++) {
-    for (int j = 0; j < particle_number; j++) {
-      if (i == j) continue;
-#endif
       const double dx = qx[i] - qx[j];
       const double dy = qy[i] - qy[j];
       const double dz = qz[i] - qz[j];
@@ -117,13 +151,13 @@ makepair(void) {
 }
 //----------------------------------------------------------------------
 void
-make_aligned_pairlist(void) {
+make_transposed_list(void) {
   for (int i = 0; i < particle_number; i++) {
     const int np = number_of_partners[i];
     const int kp = pointer[i];
     for (int k = 0; k < np; k++) {
       const int j = sorted_list[kp + k];
-      aligned_list[i + k * particle_number] = j;
+      transposed_list[i + k * particle_number] = j;
     }
   }
 }
@@ -140,7 +174,7 @@ random_shfl(void) {
 //----------------------------------------------------------------------
 void
 init(void) {
-  const double s = 1.0 / pow(density * 0.25, 1.0 / 3.0);
+  const double s = 1.0 / std::pow(density * 0.25, 1.0 / 3.0);
   const double hs = s * 0.5;
   int sx = static_cast<int>(L / s);
   int sy = static_cast<int>(L / s);
@@ -166,64 +200,7 @@ init(void) {
 }
 //----------------------------------------------------------------------
 void
-force_sorted(const double* __restrict qx,
-             const double* __restrict qy,
-             const double* __restrict qz,
-             double* __restrict px,
-             double* __restrict py,
-             double* __restrict pz,
-             const int* __restrict number_of_partners,
-             const int* __restrict pointer,
-             const int* __restrict sorted_list){
-  const int pn =particle_number;
-#pragma acc kernels present(qx, qy, qz, px, py, pz, number_of_partners, pointer, sorted_list)
-  for (int i=0; i<pn; i++) {
-    const double qx_key = qx[i];
-    const double qy_key = qy[i];
-    const double qz_key = qz[i];
-    const int np = number_of_partners[i];
-    double pfx = 0;
-    double pfy = 0;
-    double pfz = 0;
-    const int kp = pointer[i];
-    for (int k=0; k<np; k++) {
-      const int j = sorted_list[kp + k];
-      double dx = qx[j] - qx_key;
-      double dy = qy[j] - qy_key;
-      double dz = qz[j] - qz_key;
-      double r2 = (dx*dx + dy*dy + dz*dz);
-      if (r2 > CL2) continue;
-      double r6 = r2*r2*r2;
-      double df = ((24.0*r6-48.0)/(r6*r6*r2))*dt;
-      pfx += df*dx;
-      pfy += df*dy;
-      pfz += df*dz;
-#pragma acc atomic update
-        px[j] -= df*dx;
-#pragma acc atomic update
-        py[j] -= df*dy;
-#pragma acc atomic update
-        pz[j] -= df*dz;
-    }
-#pragma acc atomic update
-      px[i] += pfx;
-#pragma acc atomic update
-      py[i] += pfy;
-#pragma acc atomic update
-      pz[i] += pfz;
-  }
-}
-//----------------------------------------------------------------------
-void
-force_reactless(const double* __restrict qx,
-                const double* __restrict qy,
-                const double* __restrict qz,
-                double* __restrict px,
-                double* __restrict py,
-                double* __restrict pz,
-                const int* __restrict number_of_partners,
-                const int* __restrict pointer,
-                const int* __restrict sorted_list){
+force_reactless(){
   const int pn = particle_number;
 #pragma acc kernels present(qx, qy, qz, px, py, pz, number_of_partners, pointer, sorted_list)
   for (int i=0; i<pn; i++) {
@@ -255,16 +232,9 @@ force_reactless(const double* __restrict qx,
 }
 //----------------------------------------------------------------------
 void
-force_reactless_memopt(const double* __restrict qx,
-                       const double* __restrict qy,
-                       const double* __restrict qz,
-                       double* __restrict px,
-                       double* __restrict py,
-                       double* __restrict pz,
-                       const int* __restrict number_of_partners,
-                       const int* __restrict aligned_list){
+force_reactless_memopt(){
   const int pn = particle_number;
-#pragma acc kernels present(qx, qy, qz, px, py, pz, number_of_partners, aligned_list)
+#pragma acc kernels present(qx, qy, qz, px, py, pz, number_of_partners, transposed_list)
   for (int i=0; i<pn; i++) {
     const double qx_key = qx[i];
     const double qy_key = qy[i];
@@ -274,7 +244,7 @@ force_reactless_memopt(const double* __restrict qx,
     double pfy = 0;
     double pfz = 0;
     for (int k=0; k<np; k++) {
-      const int j = aligned_list[i + k * particle_number];
+      const int j = transposed_list[i + k * particle_number];
       double dx = qx[j] - qx_key;
       double dy = qy[j] - qy_key;
       double dz = qz[j] - qz_key;
@@ -294,55 +264,45 @@ force_reactless_memopt(const double* __restrict qx,
 //----------------------------------------------------------------------
 void
 measure(void(*pfunc)(), const char *name) {
-  double st = myclock();
+  acc_init(acc_device_nvidia);
+
+#pragma acc enter data create(px[0:N], py[0:N], pz[0:N], qx[0:N], qy[0:N], qz[0:N], number_of_partners[0:N], pointer[0:N], sorted_list[0:MAX_PAIRS], transposed_list[0:MAX_PAIRS])
+
+#pragma acc update device(px[0:N], py[0:N], pz[0:N], qx[0:N], qy[0:N], qz[0:N], number_of_partners[0:N], pointer[0:N], sorted_list[0:MAX_PAIRS], transposed_list[0:MAX_PAIRS])
+
+  auto st = myclock();
   const int LOOP = 100;
   for (int i = 0; i < LOOP; i++) {
     pfunc();
   }
-  double t = myclock() - st;
+  auto t = myclock() - st;
   fprintf(stderr, "N=%d, %s %f [sec]\n", particle_number, name, t);
-}
-//----------------------------------------------------------------------
-template <typename ptr_func>
-void
-measure_gpu(ptr_func kernel, const char *name) {
-  double st = myclock();
-  const int LOOP = 100;
-#pragma acc data copy(px[0:N], py[0:N], pz[0:N]) copyin(qx[0:N], qy[0:N], qz[0:N], number_of_partners[0:N], pointer[0:N], sorted_list[0:MAX_PAIRS], aligned_list[0:MAX_PAIRS])
-  {
-    for (int i = 0; i < LOOP; i++) {
-#if defined EN_ACTION_REACTION || defined OACC
-      kernel(qx, qy, qz, px, py, pz, number_of_partners, pointer, sorted_list);
-#elif OACC_MEMOPT
-      kernel(qx, qy, qz, px, py, pz, number_of_partners, aligned_list);
-#endif
-    }
-  }
-  double t = myclock() - st;
-  fprintf(stderr, "N=%d, %s %f [sec]\n", particle_number, name, t);
+
+#pragma acc update host(px[0:N], py[0:N], pz[0:N])
+
+#pragma acc exit data delete(px[0:N], py[0:N], pz[0:N], qx[0:N], qy[0:N], qz[0:N], number_of_partners[0:N], pointer[0:N], sorted_list[0:MAX_PAIRS], transposed_list[0:MAX_PAIRS])
+
+  acc_shutdown(acc_device_nvidia);
 }
 //----------------------------------------------------------------------
 int
 main(void) {
+  allocate();
   init();
   makepair();
   random_shfl();
-  make_aligned_pairlist();
-#ifdef EN_ACTION_REACTION
-  measure_gpu(&force_sorted, "acc_sorted");
+  make_transposed_list();
+#ifdef OACC_REF
+  measure(&force_reactless, "acc_reactless_soa");
   for (int i = 0; i < 10; i++) {
     printf("%.10f %.10f %.10f\n", px[i], py[i], pz[i]);
   }
-#elif OACC
-  measure_gpu(&force_reactless, "acc_reactless_soa_small_mod");
-  for (int i = 0; i < 10; i++) {
-    printf("%.10f %.10f %.10f\n", px[i], py[i], pz[i]);
-  }
-#elif OACC_MEMOPT
-  measure_gpu(&force_reactless_memopt, "acc_reactless_soa_memopt_small_mod");
+#elif OACC_TRANS
+  measure(&force_reactless_memopt, "acc_reactless_memopt_soa");
   for (int i = 0; i < 10; i++) {
     printf("%.10f %.10f %.10f\n", px[i], py[i], pz[i]);
   }
 #endif
+  deallocate();
 }
 //----------------------------------------------------------------------

@@ -27,7 +27,7 @@ Dtype L = 50.0;
 const Dtype dt = 0.001;
 ocl_buf<Vec> q, p;
 ocl_buf<cl_int> sorted_list, number_of_partners, pointer;
-ocl_buf<cl_int> aligned_list;
+ocl_buf<cl_int> transposed_list;
 int particle_number = 0;
 int number_of_pairs = 0;
 int i_particles[MAX_PAIRS];
@@ -227,13 +227,13 @@ bool loadpair() {
   return true;
 }
 
-void make_aligned_pairlist() {
+void make_transposed_pairlist() {
   for (int i = 0; i < particle_number; i++) {
     const auto np = number_of_partners[i];
     const auto kp = pointer[i];
     for (int k = 0; k < np; k++) {
       const auto j = sorted_list[kp + k];
-      aligned_list[i + k * particle_number] = j;
+      transposed_list[i + k * particle_number] = j;
     }
   }
 }
@@ -256,44 +256,6 @@ void copy_vec(Vec1* v1,
     v1[i].s[0] = v2[i].s[0];
     v1[i].s[1] = v2[i].s[1];
     v1[i].s[2] = v2[i].s[2];
-  }
-}
-
-// for check
-template <typename Vec>
-void force_sorted(const Vec* q,
-                  Vec* p) {
-  const auto pn = particle_number;
-  for (int i = 0; i < pn; i++) {
-    const auto qx_key = q[i].s[0];
-    const auto qy_key = q[i].s[1];
-    const auto qz_key = q[i].s[2];
-    const auto np = number_of_partners[i];
-    Dtype pfx = 0;
-    Dtype pfy = 0;
-    Dtype pfz = 0;
-    const auto kp = pointer[i];
-    for (int k = 0; k < np; k++) {
-      const auto j = sorted_list[kp + k];
-      const auto dx = q[j].s[0] - qx_key;
-      const auto dy = q[j].s[1] - qy_key;
-      const auto dz = q[j].s[2] - qz_key;
-      const auto r2 = (dx*dx + dy*dy + dz*dz);
-      if (r2 > CL2) continue;
-      const auto r6 = r2*r2*r2;
-      const auto df = ((static_cast<Dtype>(24.0)*r6-static_cast<Dtype>(48.0))/(r6*r6*r2))*dt;
-      pfx += df*dx;
-      pfy += df*dy;
-      pfz += df*dz;
-#ifdef EN_ACTION_REACTION
-      p[j].s[0] -= df*dx;
-      p[j].s[1] -= df*dy;
-      p[j].s[2] -= df*dz;
-#endif
-    }
-    p[i].s[0] += pfx;
-    p[i].s[1] += pfy;
-    p[i].s[2] += pfz;
   }
 }
 
@@ -323,7 +285,7 @@ int main() {
   q.Allocate(N, context, CL_MEM_READ_ONLY);
   p.Allocate(N, context, CL_MEM_READ_WRITE);
   sorted_list.Allocate(MAX_PAIRS, context, CL_MEM_READ_ONLY);
-  aligned_list.Allocate(MAX_PAIRS, context, CL_MEM_READ_ONLY);
+  transposed_list.Allocate(MAX_PAIRS, context, CL_MEM_READ_ONLY);
   number_of_partners.Allocate(N, context, CL_MEM_READ_ONLY);
   pointer.Allocate(N, context, CL_MEM_READ_ONLY);
 
@@ -337,19 +299,14 @@ int main() {
     makepaircache();
   }
 
-  make_aligned_pairlist();
-
-#ifdef EN_TEST_CPU
-  for (int i = 0; i < LOOP; i++) force_sorted(&q[0], &p[0]);
-  print_head_momentum(&p[0]);
-#else
+  make_transposed_pairlist();
 
   ocldevice.SetFunctionArg(ocl_fname, 0, q.GetDevBuffer());
   ocldevice.SetFunctionArg(ocl_fname, 1, p.GetDevBuffer());
   ocldevice.SetFunctionArg(ocl_fname, 2, particle_number);
   ocldevice.SetFunctionArg(ocl_fname, 3, dt);
   ocldevice.SetFunctionArg(ocl_fname, 4, CL2);
-  ocldevice.SetFunctionArg(ocl_fname, 5, aligned_list.GetDevBuffer());
+  ocldevice.SetFunctionArg(ocl_fname, 5, transposed_list.GetDevBuffer());
   ocldevice.SetFunctionArg(ocl_fname, 6, number_of_partners.GetDevBuffer());
   cl::Kernel& kernel = ocldevice.GetKernel(ocl_fname);
 
@@ -364,7 +321,7 @@ int main() {
   sorted_list.Host2dev(queue, CL_FALSE);
   number_of_partners.Host2dev(queue, CL_FALSE);
   pointer.Host2dev(queue, CL_FALSE);
-  aligned_list.Host2dev(queue, CL_FALSE);
+  transposed_list.Host2dev(queue, CL_FALSE);
   for (int i = 0; i < LOOP; i++) {
     // cl::Event event;
     queue.enqueueNDRangeKernel(kernel, cl::NullRange, cl::NDRange(particle_number), cl::NullRange);
@@ -378,5 +335,4 @@ int main() {
   //
 
   print_head_momentum(&p[0]);
-#endif
 }

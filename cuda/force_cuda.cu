@@ -26,7 +26,7 @@ cuda_ptr<float4> q_f4, p_f4;
 cuda_ptr<double3> q_d3, p_d3;
 cuda_ptr<double4> q_d4, p_d4;
 cuda_ptr<int32_t> sorted_list, number_of_partners, pointer;
-cuda_ptr<int32_t> aligned_list;
+cuda_ptr<int32_t> transposed_list;
 cuda_ptr<int32_t> sorted_list2d;
 int particle_number = 0;
 int number_of_pairs = 0;
@@ -226,15 +226,15 @@ bool loadpair() {
   return true;
 }
 
-void make_aligned_pairlist() {
-  aligned_list.set_val(0);
+void make_transposed_pairlist() {
+  transposed_list.set_val(0);
 
   for (int i = 0; i < particle_number; i++) {
     const auto np = number_of_partners[i];
     const auto kp = pointer[i];
     for (int k = 0; k < np; k++) {
       const auto j = sorted_list[kp + k];
-      aligned_list[i + k * particle_number] = j;
+      transposed_list[i + k * particle_number] = j;
     }
   }
 }
@@ -269,7 +269,7 @@ void allocate() {
   q_d4.allocate(N); p_d4.allocate(N);
 
   sorted_list.allocate(MAX_PAIRS);
-  aligned_list.allocate(MAX_PAIRS);
+  transposed_list.allocate(MAX_PAIRS);
   sorted_list2d.allocate(MAX_PAIRS);
   number_of_partners.allocate(N);
   pointer.allocate(N);
@@ -282,7 +282,7 @@ void cleanup() {
   q_d4.deallocate(); p_d4.deallocate();
 
   sorted_list.deallocate();
-  aligned_list.deallocate();
+  transposed_list.deallocate();
   sorted_list2d.deallocate();
   number_of_partners.deallocate();
   pointer.deallocate();
@@ -305,7 +305,7 @@ void copy_to_gpu(cuda_ptr<Vec>& q,
   q.host2dev();
   p.host2dev();
   sorted_list.host2dev();
-  aligned_list.host2dev();
+  transposed_list.host2dev();
   sorted_list2d.host2dev();
   number_of_partners.host2dev();
   pointer.host2dev();
@@ -314,44 +314,6 @@ void copy_to_gpu(cuda_ptr<Vec>& q,
 template <typename Vec>
 void copy_to_host(cuda_ptr<Vec>& p) {
   p.dev2host();
-}
-
-// for check
-template <typename Vec>
-void force_sorted(const Vec* q,
-                  Vec* p) {
-  const auto pn = particle_number;
-  for (int i = 0; i < pn; i++) {
-    const auto qx_key = q[i].x;
-    const auto qy_key = q[i].y;
-    const auto qz_key = q[i].z;
-    const auto np = number_of_partners[i];
-    Dtype pfx = 0;
-    Dtype pfy = 0;
-    Dtype pfz = 0;
-    const auto kp = pointer[i];
-    for (int k = 0; k < np; k++) {
-      const auto j = sorted_list[kp + k];
-      const auto dx = q[j].x - qx_key;
-      const auto dy = q[j].y - qy_key;
-      const auto dz = q[j].z - qz_key;
-      const auto r2 = (dx*dx + dy*dy + dz*dz);
-      if (r2 > CL2) continue;
-      const auto r6 = r2*r2*r2;
-      const auto df = ((static_cast<Dtype>(24.0)*r6-static_cast<Dtype>(48.0))/(r6*r6*r2))*dt;
-      pfx += df*dx;
-      pfy += df*dy;
-      pfz += df*dz;
-#ifdef EN_ACTION_REACTION
-      p[j].x -= df*dx;
-      p[j].y -= df*dy;
-      p[j].z -= df*dz;
-#endif
-    }
-    p[i].x += pfx;
-    p[i].y += pfy;
-    p[i].z += pfz;
-  }
 }
 
 template <typename Vec, typename Dtype, typename ptr_func>
@@ -434,25 +396,22 @@ int main(const int argc, const char* argv[]) {
     makepaircache();
   }
 
-  make_aligned_pairlist();
+  make_transposed_pairlist();
   make_sorted_list2d();
 
-#ifdef EN_TEST_CPU
-  for (int i = 0; i < LOOP; i++) force_sorted(&q_d3[0], &p_d3[0]);
-  print_results(&p_d3[0]);
-#elif defined EN_TEST_GPU
+#ifdef EN_TEST_GPU
   // MEASURE_FOR_ALLTYPES(force_kernel_plain, sorted_list, pointer, particle_number);
   // MEASURE_FOR_ALLTYPES(force_kernel_ifless, sorted_list, pointer, particle_number);
   // MEASURE_FOR_ALLTYPES(force_kernel_memopt, sorted_list, pointer, particle_number);
-  // MEASURE_FOR_ALLTYPES(force_kernel_memopt2, aligned_list, pointer, particle_number);
-  // MEASURE_FOR_ALLTYPES(force_kernel_memopt3, aligned_list, pointer, particle_number);
-  // MEASURE_FOR_ALLTYPES(force_kernel_memopt3_swpl, aligned_list, pointer, particle_number);
-  // MEASURE_FOR_ALLTYPES(force_kernel_swpl, aligned_list, nullptr, particle_number);
-  // MEASURE_FOR_ALLTYPES(force_kernel_swpl2, aligned_list, nullptr, particle_number);
-  // MEASURE_FOR_ALLTYPES(force_kernel_swpl3, aligned_list, nullptr, particle_number);
-  // MEASURE_FOR_ALLTYPES(force_kernel_unrolling, aligned_list, nullptr, particle_number);
-  // MEASURE_FOR_ALLTYPES(force_kernel_unrolling2, aligned_list, nullptr, particle_number);
-  // MEASURE_FOR_ALLTYPES(force_kernel_memopt3_coarse, aligned_list, nullptr, particle_number / 2);
+  // MEASURE_FOR_ALLTYPES(force_kernel_memopt2, transposed_list, pointer, particle_number);
+  // MEASURE_FOR_ALLTYPES(force_kernel_memopt3, transposed_list, pointer, particle_number);
+  // MEASURE_FOR_ALLTYPES(force_kernel_memopt3_swpl, transposed_list, pointer, particle_number);
+  // MEASURE_FOR_ALLTYPES(force_kernel_swpl, transposed_list, nullptr, particle_number);
+  // MEASURE_FOR_ALLTYPES(force_kernel_swpl2, transposed_list, nullptr, particle_number);
+  // MEASURE_FOR_ALLTYPES(force_kernel_swpl3, transposed_list, nullptr, particle_number);
+  // MEASURE_FOR_ALLTYPES(force_kernel_unrolling, transposed_list, nullptr, particle_number);
+  // MEASURE_FOR_ALLTYPES(force_kernel_unrolling2, transposed_list, nullptr, particle_number);
+  // MEASURE_FOR_ALLTYPES(force_kernel_memopt3_coarse, transposed_list, nullptr, particle_number / 2);
   // MEASURE_FOR_ALLTYPES(force_kernel_warp_unroll, sorted_list, pointer, particle_number * 32);
   MEASURE_FOR_ALLTYPES(force_kernel_warp_unroll_sorted2d, sorted_list2d, nullptr, particle_number * 32);
   print_results(&p_d3[0]);
@@ -460,23 +419,23 @@ int main(const int argc, const char* argv[]) {
   MEASURE_FOR_ALLTYPES(force_kernel_plain_with_aar, sorted_list, pointer, particle_number);
   MEASURE_FOR_ALLTYPES(force_kernel_ifless_with_aar, sorted_list, pointer, particle_number);
   MEASURE_FOR_ALLTYPES(force_kernel_memopt_with_aar, sorted_list, pointer, particle_number);
-  MEASURE_FOR_ALLTYPES(force_kernel_memopt2_with_aar, aligned_list, nullptr, particle_number);
-  MEASURE_FOR_ALLTYPES(force_kernel_memopt3_with_aar, aligned_list, nullptr, particle_number);
+  MEASURE_FOR_ALLTYPES(force_kernel_memopt2_with_aar, transposed_list, nullptr, particle_number);
+  MEASURE_FOR_ALLTYPES(force_kernel_memopt3_with_aar, transposed_list, nullptr, particle_number);
   MEASURE_FOR_ALLTYPES(force_kernel_warp_unroll_with_aar, sorted_list, pointer, particle_number * 32);
   // print_results(&p_d3[0]);
 #else
   MEASURE_FOR_ALLTYPES(force_kernel_plain, sorted_list, pointer, particle_number);
   MEASURE_FOR_ALLTYPES(force_kernel_ifless, sorted_list, pointer, particle_number);
   MEASURE_FOR_ALLTYPES(force_kernel_memopt, sorted_list, pointer, particle_number);
-  MEASURE_FOR_ALLTYPES(force_kernel_memopt2, aligned_list, nullptr, particle_number);
-  MEASURE_FOR_ALLTYPES(force_kernel_memopt3, aligned_list, nullptr, particle_number);
-  MEASURE_FOR_ALLTYPES(force_kernel_memopt3_swpl, aligned_list, pointer, particle_number);
-  MEASURE_FOR_ALLTYPES(force_kernel_swpl, aligned_list, nullptr, particle_number);
-  MEASURE_FOR_ALLTYPES(force_kernel_swpl2, aligned_list, nullptr, particle_number);
-  MEASURE_FOR_ALLTYPES(force_kernel_swpl3, aligned_list, nullptr, particle_number);
-  MEASURE_FOR_ALLTYPES(force_kernel_unrolling, aligned_list, nullptr, particle_number);
-  MEASURE_FOR_ALLTYPES(force_kernel_unrolling2, aligned_list, nullptr, particle_number);
-  MEASURE_FOR_ALLTYPES(force_kernel_memopt3_coarse, aligned_list, nullptr, particle_number / 2);
+  MEASURE_FOR_ALLTYPES(force_kernel_memopt2, transposed_list, nullptr, particle_number);
+  MEASURE_FOR_ALLTYPES(force_kernel_memopt3, transposed_list, nullptr, particle_number);
+  MEASURE_FOR_ALLTYPES(force_kernel_memopt3_swpl, transposed_list, pointer, particle_number);
+  MEASURE_FOR_ALLTYPES(force_kernel_swpl, transposed_list, nullptr, particle_number);
+  MEASURE_FOR_ALLTYPES(force_kernel_swpl2, transposed_list, nullptr, particle_number);
+  MEASURE_FOR_ALLTYPES(force_kernel_swpl3, transposed_list, nullptr, particle_number);
+  MEASURE_FOR_ALLTYPES(force_kernel_unrolling, transposed_list, nullptr, particle_number);
+  MEASURE_FOR_ALLTYPES(force_kernel_unrolling2, transposed_list, nullptr, particle_number);
+  MEASURE_FOR_ALLTYPES(force_kernel_memopt3_coarse, transposed_list, nullptr, particle_number / 2);
   MEASURE_FOR_ALLTYPES(force_kernel_warp_unroll, sorted_list, pointer, particle_number * 32);
   MEASURE_FOR_ALLTYPES(force_kernel_warp_unroll_sorted2d, sorted_list2d, nullptr, particle_number * 32);
 #endif
