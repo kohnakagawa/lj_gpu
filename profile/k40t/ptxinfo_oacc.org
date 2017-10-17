@@ -1,34 +1,35 @@
-* SoA
+- SoA
 
 #+BEGIN_SRC txt
 force_reactless():
-force_reactless_memopt():
-ptxas info    : 0 bytes gmem
 ptxas info    : Compiling entry function '_Z15force_reactlessv_206_gpu' for 'sm_35'
 ptxas info    : Function properties for _Z15force_reactlessv_206_gpu
     0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
 ptxas info    : Used 64 registers, 400 bytes cmem[0], 8 bytes cmem[2]
+
+force_reactless_memopt():
 ptxas info    : Compiling entry function '_Z22force_reactless_memoptv_238_gpu' for 'sm_35'
 ptxas info    : Function properties for _Z22force_reactless_memoptv_238_gpu
     0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
 ptxas info    : Used 69 registers, 396 bytes cmem[0], 8 bytes cmem[2]
 #+END_SRC
 
-* AoS
+- AoS
 
 #+BEGIN_SRC txt
 force_reactless():
-force_reactless_memopt():
-force_reactless_memopt_tuned():
-ptxas info    : 0 bytes gmem
 ptxas info    : Compiling entry function '_Z22force_reactless_memoptv_223_gpu' for 'sm_35'
 ptxas info    : Function properties for _Z22force_reactless_memoptv_223_gpu
     0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
 ptxas info    : Used 64 registers, 364 bytes cmem[0], 8 bytes cmem[2]
+
+force_reactless_memopt():
 ptxas info    : Compiling entry function '_Z15force_reactlessv_191_gpu' for 'sm_35'
 ptxas info    : Function properties for _Z15force_reactlessv_191_gpu
     0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
 ptxas info    : Used 64 registers, 368 bytes cmem[0], 8 bytes cmem[2]
+
+force_reactless_memopt_tuned():
 ptxas info    : Compiling entry function '_Z28force_reactless_memopt_tunedv_254_gpu' for 'sm_35'
 ptxas info    : Function properties for _Z28force_reactless_memopt_tunedv_254_gpu
     0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads

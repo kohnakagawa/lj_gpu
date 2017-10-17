@@ -1,0 +1,11 @@
+#+BEGIN_SRC txt
+ptxas info    : Compiling entry function 'void force_kernel_warp_unroll<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)' for 'sm_60'
+ptxas info    : Function properties for void force_kernel_warp_unroll<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 40 registers, 384 bytes cmem[0], 20 bytes cmem[2]
+
+ptxas info    : Compiling entry function 'void force_kernel_memopt2<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)' for 'sm_60'
+ptxas info    : Function properties for void force_kernel_memopt2<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 48 registers, 384 bytes cmem[0], 32 bytes cmem[2]
+#+END_SRC
