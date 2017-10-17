@@ -2,7 +2,6 @@
 
 #+BEGIN_SRC txt
 force_reactless():
-ptxas info    : 0 bytes gmem
 ptxas info    : Compiling entry function '_Z15force_reactlessv_206_gpu' for 'sm_60'
 ptxas info    : Function properties for _Z15force_reactlessv_206_gpu
     0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
@@ -19,7 +18,6 @@ ptxas info    : Used 54 registers, 396 bytes cmem[0], 24 bytes cmem[2]
 
 #+BEGIN_SRC txt
 force_reactless():
-ptxas info    : 0 bytes gmem
 ptxas info    : Compiling entry function '_Z22force_reactless_memoptv_223_gpu' for 'sm_60'
 ptxas info    : Function properties for _Z22force_reactless_memoptv_223_gpu
     0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
