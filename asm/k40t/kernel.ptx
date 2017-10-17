@@ -11,21 +11,21 @@
 .address_size 64
 
 	// .weak	cudaMalloc
-.global .align 1 .b8 _ZN60_INTERNAL_45_tmpxft_00003224_00000000_7_force_cuda_cpp1_ii_L6thrust6system6detail10sequential3seqE[1];
-.shared .align 8 .b8 _ZN6thrust6system4cuda6detail5bulk_6detail62_GLOBAL__N__45_tmpxft_00003224_00000000_7_force_cuda_cpp1_ii_L19s_on_chip_allocatorE[24];
-.global .align 1 .b8 _ZN60_INTERNAL_45_tmpxft_00003224_00000000_7_force_cuda_cpp1_ii_L6thrust6system4cuda6detail5bulk_4rootE[1];
-.global .align 1 .b8 _ZN60_INTERNAL_45_tmpxft_00003224_00000000_7_force_cuda_cpp1_ii_L6thrust12placeholders2_1E[1];
-.global .align 1 .b8 _ZN60_INTERNAL_45_tmpxft_00003224_00000000_7_force_cuda_cpp1_ii_L6thrust12placeholders2_2E[1];
-.global .align 1 .b8 _ZN60_INTERNAL_45_tmpxft_00003224_00000000_7_force_cuda_cpp1_ii_L6thrust12placeholders2_3E[1];
-.global .align 1 .b8 _ZN60_INTERNAL_45_tmpxft_00003224_00000000_7_force_cuda_cpp1_ii_L6thrust12placeholders2_4E[1];
-.global .align 1 .b8 _ZN60_INTERNAL_45_tmpxft_00003224_00000000_7_force_cuda_cpp1_ii_L6thrust12placeholders2_5E[1];
-.global .align 1 .b8 _ZN60_INTERNAL_45_tmpxft_00003224_00000000_7_force_cuda_cpp1_ii_L6thrust12placeholders2_6E[1];
-.global .align 1 .b8 _ZN60_INTERNAL_45_tmpxft_00003224_00000000_7_force_cuda_cpp1_ii_L6thrust12placeholders2_7E[1];
-.global .align 1 .b8 _ZN60_INTERNAL_45_tmpxft_00003224_00000000_7_force_cuda_cpp1_ii_L6thrust12placeholders2_8E[1];
-.global .align 1 .b8 _ZN60_INTERNAL_45_tmpxft_00003224_00000000_7_force_cuda_cpp1_ii_L6thrust12placeholders2_9E[1];
-.global .align 1 .b8 _ZN60_INTERNAL_45_tmpxft_00003224_00000000_7_force_cuda_cpp1_ii_L6thrust12placeholders3_10E[1];
-.global .align 1 .b8 _ZN60_INTERNAL_45_tmpxft_00003224_00000000_7_force_cuda_cpp1_ii_L6thrust3seqE[1];
-.extern .shared .align 4 .b8 _ZN6thrust6system4cuda6detail5bulk_6detail20s_data_segment_beginE[];
+.global .align 1 .b8 _INTERNAL_45_tmpxft_00003224_00000000_7_force_cuda_cpp1_ii_L::thrust::system::detail::sequential::seq[1];
+.shared .align 8 .b8 thrust::system::cuda::detail::bulk_::detail::(anonymous namespace)::s_on_chip_allocator[24];
+.global .align 1 .b8 _INTERNAL_45_tmpxft_00003224_00000000_7_force_cuda_cpp1_ii_L::thrust::system::cuda::detail::bulk_::root[1];
+.global .align 1 .b8 _INTERNAL_45_tmpxft_00003224_00000000_7_force_cuda_cpp1_ii_L::thrust::placeholders::_1[1];
+.global .align 1 .b8 _INTERNAL_45_tmpxft_00003224_00000000_7_force_cuda_cpp1_ii_L::thrust::placeholders::_2[1];
+.global .align 1 .b8 _INTERNAL_45_tmpxft_00003224_00000000_7_force_cuda_cpp1_ii_L::thrust::placeholders::_3[1];
+.global .align 1 .b8 _INTERNAL_45_tmpxft_00003224_00000000_7_force_cuda_cpp1_ii_L::thrust::placeholders::_4[1];
+.global .align 1 .b8 _INTERNAL_45_tmpxft_00003224_00000000_7_force_cuda_cpp1_ii_L::thrust::placeholders::_5[1];
+.global .align 1 .b8 _INTERNAL_45_tmpxft_00003224_00000000_7_force_cuda_cpp1_ii_L::thrust::placeholders::_6[1];
+.global .align 1 .b8 _INTERNAL_45_tmpxft_00003224_00000000_7_force_cuda_cpp1_ii_L::thrust::placeholders::_7[1];
+.global .align 1 .b8 _INTERNAL_45_tmpxft_00003224_00000000_7_force_cuda_cpp1_ii_L::thrust::placeholders::_8[1];
+.global .align 1 .b8 _INTERNAL_45_tmpxft_00003224_00000000_7_force_cuda_cpp1_ii_L::thrust::placeholders::_9[1];
+.global .align 1 .b8 _INTERNAL_45_tmpxft_00003224_00000000_7_force_cuda_cpp1_ii_L::thrust::placeholders::_10[1];
+.global .align 1 .b8 _INTERNAL_45_tmpxft_00003224_00000000_7_force_cuda_cpp1_ii_L::thrust::seq[1];
+.extern .shared .align 4 .b8 thrust::system::cuda::detail::bulk_::detail::s_data_segment_begin[];
 
 .weak .func  (.param .b32 func_retval0) cudaMalloc(
 	.param .b64 cudaMalloc_param_0,
@@ -115,8 +115,8 @@
 	ret;
 }
 
-	// .globl	_ZnwmPv
-.visible .func  (.param .b64 func_retval0) _ZnwmPv(
+	// .globl	operator new(unsigned long, void*)
+.visible .func  (.param .b64 func_retval0) operator new(unsigned long, void*)(
 	.param .b64 _ZnwmPv_param_0,
 	.param .b64 _ZnwmPv_param_1
 )
@@ -129,8 +129,8 @@
 	ret;
 }
 
-	// .globl	_Z18force_kernel_plainI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z18force_kernel_plainI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_plain<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_plain<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z18force_kernel_plainI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z18force_kernel_plainI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z18force_kernel_plainI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -230,8 +230,8 @@ BB7_6:
 	ret;
 }
 
-	// .globl	_Z18force_kernel_plainI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z18force_kernel_plainI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_plain<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_plain<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z18force_kernel_plainI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z18force_kernel_plainI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z18force_kernel_plainI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -327,8 +327,8 @@ BB8_6:
 	ret;
 }
 
-	// .globl	_Z19force_kernel_iflessI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z19force_kernel_iflessI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_ifless<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_ifless<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z19force_kernel_iflessI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z19force_kernel_iflessI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z19force_kernel_iflessI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -426,8 +426,8 @@ BB9_4:
 	ret;
 }
 
-	// .globl	_Z19force_kernel_iflessI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z19force_kernel_iflessI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_ifless<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_ifless<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z19force_kernel_iflessI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z19force_kernel_iflessI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z19force_kernel_iflessI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -523,8 +523,8 @@ BB10_4:
 	ret;
 }
 
-	// .globl	_Z19force_kernel_memoptI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z19force_kernel_memoptI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_memopt<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_memopt<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z19force_kernel_memoptI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z19force_kernel_memoptI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z19force_kernel_memoptI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -633,8 +633,8 @@ BB11_5:
 	ret;
 }
 
-	// .globl	_Z19force_kernel_memoptI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z19force_kernel_memoptI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_memopt<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_memopt<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z19force_kernel_memoptI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z19force_kernel_memoptI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z19force_kernel_memoptI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -739,8 +739,8 @@ BB12_5:
 	ret;
 }
 
-	// .globl	_Z20force_kernel_memopt2I7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z20force_kernel_memopt2I7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_memopt2<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_memopt2<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z20force_kernel_memopt2I7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z20force_kernel_memopt2I7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z20force_kernel_memopt2I7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -834,8 +834,8 @@ BB13_5:
 	ret;
 }
 
-	// .globl	_Z20force_kernel_memopt2I7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z20force_kernel_memopt2I7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_memopt2<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_memopt2<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z20force_kernel_memopt2I7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z20force_kernel_memopt2I7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z20force_kernel_memopt2I7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -928,8 +928,8 @@ BB14_5:
 	ret;
 }
 
-	// .globl	_Z20force_kernel_memopt3I7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z20force_kernel_memopt3I7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_memopt3<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_memopt3<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z20force_kernel_memopt3I7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z20force_kernel_memopt3I7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z20force_kernel_memopt3I7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -1023,8 +1023,8 @@ BB15_5:
 	ret;
 }
 
-	// .globl	_Z20force_kernel_memopt3I7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z20force_kernel_memopt3I7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_memopt3<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_memopt3<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z20force_kernel_memopt3I7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z20force_kernel_memopt3I7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z20force_kernel_memopt3I7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -1117,8 +1117,8 @@ BB16_5:
 	ret;
 }
 
-	// .globl	_Z25force_kernel_memopt3_swplI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z25force_kernel_memopt3_swplI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_memopt3_swpl<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_memopt3_swpl<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z25force_kernel_memopt3_swplI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z25force_kernel_memopt3_swplI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z25force_kernel_memopt3_swplI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -1208,8 +1208,8 @@ BB17_4:
 	ret;
 }
 
-	// .globl	_Z25force_kernel_memopt3_swplI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z25force_kernel_memopt3_swplI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_memopt3_swpl<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_memopt3_swpl<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z25force_kernel_memopt3_swplI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z25force_kernel_memopt3_swplI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z25force_kernel_memopt3_swplI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -1298,8 +1298,8 @@ BB18_4:
 	ret;
 }
 
-	// .globl	_Z17force_kernel_swplI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z17force_kernel_swplI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_swpl<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_swpl<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z17force_kernel_swplI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z17force_kernel_swplI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z17force_kernel_swplI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -1439,8 +1439,8 @@ BB19_4:
 	ret;
 }
 
-	// .globl	_Z17force_kernel_swplI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z17force_kernel_swplI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_swpl<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_swpl<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z17force_kernel_swplI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z17force_kernel_swplI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z17force_kernel_swplI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -1578,8 +1578,8 @@ BB20_4:
 	ret;
 }
 
-	// .globl	_Z18force_kernel_swpl2I7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z18force_kernel_swpl2I7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_swpl2<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_swpl2<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z18force_kernel_swpl2I7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z18force_kernel_swpl2I7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z18force_kernel_swpl2I7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -1690,8 +1690,8 @@ BB21_4:
 	ret;
 }
 
-	// .globl	_Z18force_kernel_swpl2I7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z18force_kernel_swpl2I7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_swpl2<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_swpl2<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z18force_kernel_swpl2I7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z18force_kernel_swpl2I7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z18force_kernel_swpl2I7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -1801,8 +1801,8 @@ BB22_4:
 	ret;
 }
 
-	// .globl	_Z18force_kernel_swpl3I7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z18force_kernel_swpl3I7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_swpl3<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_swpl3<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z18force_kernel_swpl3I7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z18force_kernel_swpl3I7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z18force_kernel_swpl3I7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -1914,8 +1914,8 @@ BB23_4:
 	ret;
 }
 
-	// .globl	_Z18force_kernel_swpl3I7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z18force_kernel_swpl3I7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_swpl3<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_swpl3<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z18force_kernel_swpl3I7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z18force_kernel_swpl3I7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z18force_kernel_swpl3I7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -2026,8 +2026,8 @@ BB24_4:
 	ret;
 }
 
-	// .globl	_Z22force_kernel_unrollingI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z22force_kernel_unrollingI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_unrolling<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_unrolling<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z22force_kernel_unrollingI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z22force_kernel_unrollingI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z22force_kernel_unrollingI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -2245,8 +2245,8 @@ BB25_8:
 	ret;
 }
 
-	// .globl	_Z22force_kernel_unrollingI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z22force_kernel_unrollingI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_unrolling<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_unrolling<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z22force_kernel_unrollingI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z22force_kernel_unrollingI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z22force_kernel_unrollingI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -2459,8 +2459,8 @@ BB26_8:
 	ret;
 }
 
-	// .globl	_Z23force_kernel_unrolling2I7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z23force_kernel_unrolling2I7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_unrolling2<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_unrolling2<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z23force_kernel_unrolling2I7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z23force_kernel_unrolling2I7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z23force_kernel_unrolling2I7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -2628,8 +2628,8 @@ BB27_7:
 	ret;
 }
 
-	// .globl	_Z23force_kernel_unrolling2I7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z23force_kernel_unrolling2I7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_unrolling2<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_unrolling2<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z23force_kernel_unrolling2I7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z23force_kernel_unrolling2I7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z23force_kernel_unrolling2I7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -2794,8 +2794,8 @@ BB28_7:
 	ret;
 }
 
-	// .globl	_Z27force_kernel_memopt3_coarseI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z27force_kernel_memopt3_coarseI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_memopt3_coarse<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_memopt3_coarse<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z27force_kernel_memopt3_coarseI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z27force_kernel_memopt3_coarseI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z27force_kernel_memopt3_coarseI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -2943,8 +2943,8 @@ BB29_3:
 	ret;
 }
 
-	// .globl	_Z27force_kernel_memopt3_coarseI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z27force_kernel_memopt3_coarseI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_memopt3_coarse<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_memopt3_coarse<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z27force_kernel_memopt3_coarseI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z27force_kernel_memopt3_coarseI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z27force_kernel_memopt3_coarseI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -3090,8 +3090,8 @@ BB30_3:
 	ret;
 }
 
-	// .globl	_Z24force_kernel_warp_unrollI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z24force_kernel_warp_unrollI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_warp_unroll<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_warp_unroll<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z24force_kernel_warp_unrollI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z24force_kernel_warp_unrollI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z24force_kernel_warp_unrollI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -3404,8 +3404,8 @@ BB31_7:
 	ret;
 }
 
-	// .globl	_Z24force_kernel_warp_unrollI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z24force_kernel_warp_unrollI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_warp_unroll<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_warp_unroll<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z24force_kernel_warp_unrollI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z24force_kernel_warp_unrollI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z24force_kernel_warp_unrollI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -3719,8 +3719,8 @@ BB32_7:
 	ret;
 }
 
-	// .globl	_ZN6thrust6system4cuda6detail5bulk_6detail15launch_by_valueILj0ENS4_9cuda_taskINS3_14parallel_groupINS3_16concurrent_groupINS3_5agentILm1EEELm0EEELm0EEENS4_7closureINS2_17for_each_n_detail15for_each_kernelENS_5tupleINS4_6cursorILj0EEENS_10device_ptrIiEENS_6detail16wrapped_functionINSL_23device_generate_functorINSL_12fill_functorIiEEEEvEEjNS_9null_typeESS_SS_SS_SS_SS_EEEEEEEEvT0_
-.visible .entry _ZN6thrust6system4cuda6detail5bulk_6detail15launch_by_valueILj0ENS4_9cuda_taskINS3_14parallel_groupINS3_16concurrent_groupINS3_5agentILm1EEELm0EEELm0EEENS4_7closureINS2_17for_each_n_detail15for_each_kernelENS_5tupleINS4_6cursorILj0EEENS_10device_ptrIiEENS_6detail16wrapped_functionINSL_23device_generate_functorINSL_12fill_functorIiEEEEvEEjNS_9null_typeESS_SS_SS_SS_SS_EEEEEEEEvT0_(
+	// .globl	void thrust::system::cuda::detail::bulk_::detail::launch_by_value<0u, thrust::system::cuda::detail::bulk_::detail::cuda_task<thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>, thrust::system::cuda::detail::bulk_::detail::closure<thrust::system::cuda::detail::for_each_n_detail::for_each_kernel, thrust::tuple<thrust::system::cuda::detail::bulk_::detail::cursor<0u>, thrust::device_ptr<int>, thrust::detail::wrapped_function<thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >, void>, unsigned int, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type> > > >(thrust::system::cuda::detail::bulk_::detail::cuda_task<thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>, thrust::system::cuda::detail::bulk_::detail::closure<thrust::system::cuda::detail::for_each_n_detail::for_each_kernel, thrust::tuple<thrust::system::cuda::detail::bulk_::detail::cursor<0u>, thrust::device_ptr<int>, thrust::detail::wrapped_function<thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >, void>, unsigned int, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type> > >)
+.visible .entry void thrust::system::cuda::detail::bulk_::detail::launch_by_value<0u, thrust::system::cuda::detail::bulk_::detail::cuda_task<thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>, thrust::system::cuda::detail::bulk_::detail::closure<thrust::system::cuda::detail::for_each_n_detail::for_each_kernel, thrust::tuple<thrust::system::cuda::detail::bulk_::detail::cursor<0u>, thrust::device_ptr<int>, thrust::detail::wrapped_function<thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >, void>, unsigned int, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type> > > >(thrust::system::cuda::detail::bulk_::detail::cuda_task<thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>, thrust::system::cuda::detail::bulk_::detail::closure<thrust::system::cuda::detail::for_each_n_detail::for_each_kernel, thrust::tuple<thrust::system::cuda::detail::bulk_::detail::cursor<0u>, thrust::device_ptr<int>, thrust::detail::wrapped_function<thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >, void>, unsigned int, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type> > >)(
 	.param .align 8 .b8 _ZN6thrust6system4cuda6detail5bulk_6detail15launch_by_valueILj0ENS4_9cuda_taskINS3_14parallel_groupINS3_16concurrent_groupINS3_5agentILm1EEELm0EEELm0EEENS4_7closureINS2_17for_each_n_detail15for_each_kernelENS_5tupleINS4_6cursorILj0EEENS_10device_ptrIiEENS_6detail16wrapped_functionINSL_23device_generate_functorINSL_12fill_functorIiEEEEvEEjNS_9null_typeESS_SS_SS_SS_SS_EEEEEEEEvT0__param_0[64]
 )
 {
@@ -3738,7 +3738,7 @@ BB32_7:
 	ld.param.u64 	%rd5, [_ZN6thrust6system4cuda6detail5bulk_6detail15launch_by_valueILj0ENS4_9cuda_taskINS3_14parallel_groupINS3_16concurrent_groupINS3_5agentILm1EEELm0EEELm0EEENS4_7closureINS2_17for_each_n_detail15for_each_kernelENS_5tupleINS4_6cursorILj0EEENS_10device_ptrIiEENS_6detail16wrapped_functionINSL_23device_generate_functorINSL_12fill_functorIiEEEEvEEjNS_9null_typeESS_SS_SS_SS_SS_EEEEEEEEvT0__param_0+16];
 	mov.u32 	%r1, %tid.x;
 	setp.ne.s32	%p1, %r1, 0;
-	mov.u64 	%rd6, _ZN6thrust6system4cuda6detail5bulk_6detail62_GLOBAL__N__45_tmpxft_00003224_00000000_7_force_cuda_cpp1_ii_L19s_on_chip_allocatorE;
+	mov.u64 	%rd6, thrust::system::cuda::detail::bulk_::detail::(anonymous namespace)::s_on_chip_allocator;
 	cvta.shared.u64 	%rd7, %rd6;
 	setp.eq.s64	%p2, %rd7, 0;
 	or.pred  	%p3, %p1, %p2;
@@ -3746,11 +3746,11 @@ BB32_7:
 
 	cvt.s64.s32	%rd8, %r16;
 	mov.u32 	%r20, 0;
-	st.shared.u32 	[_ZN6thrust6system4cuda6detail5bulk_6detail62_GLOBAL__N__45_tmpxft_00003224_00000000_7_force_cuda_cpp1_ii_L19s_on_chip_allocatorE], %r20;
-	mov.u64 	%rd9, _ZN6thrust6system4cuda6detail5bulk_6detail20s_data_segment_beginE;
+	st.shared.u32 	[thrust::system::cuda::detail::bulk_::detail::(anonymous namespace)::s_on_chip_allocator], %r20;
+	mov.u64 	%rd9, thrust::system::cuda::detail::bulk_::detail::s_data_segment_begin;
 	cvta.shared.u64 	%rd10, %rd9;
-	st.shared.u64 	[_ZN6thrust6system4cuda6detail5bulk_6detail62_GLOBAL__N__45_tmpxft_00003224_00000000_7_force_cuda_cpp1_ii_L19s_on_chip_allocatorE+8], %rd10;
-	st.shared.u64 	[_ZN6thrust6system4cuda6detail5bulk_6detail62_GLOBAL__N__45_tmpxft_00003224_00000000_7_force_cuda_cpp1_ii_L19s_on_chip_allocatorE+16], %rd8;
+	st.shared.u64 	[thrust::system::cuda::detail::bulk_::detail::(anonymous namespace)::s_on_chip_allocator+8], %rd10;
+	st.shared.u64 	[thrust::system::cuda::detail::bulk_::detail::(anonymous namespace)::s_on_chip_allocator+16], %rd8;
 
 BB33_2:
 	mov.u32 	%r4, %ntid.x;
@@ -3779,8 +3779,8 @@ BB33_5:
 	ret;
 }
 
-	// .globl	_ZN6thrust6system4cuda6detail5bulk_6detail9make_gridINS3_14parallel_groupINS3_16concurrent_groupINS3_5agentILm1EEELm0EEELm0EEEEET_NSC_9size_typeENSC_10agent_typeESD_
-.visible .func  (.param .align 4 .b8 func_retval0[24]) _ZN6thrust6system4cuda6detail5bulk_6detail9make_gridINS3_14parallel_groupINS3_16concurrent_groupINS3_5agentILm1EEELm0EEELm0EEEEET_NSC_9size_typeENSC_10agent_typeESD_(
+	// .globl	thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul> thrust::system::cuda::detail::bulk_::detail::make_grid<thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul> >(thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>::size_type, thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>::agent_type, thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>::size_type)
+.visible .func  (.param .align 4 .b8 func_retval0[24]) thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul> thrust::system::cuda::detail::bulk_::detail::make_grid<thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul> >(thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>::size_type, thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>::agent_type, thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>::size_type)(
 	.param .b32 _ZN6thrust6system4cuda6detail5bulk_6detail9make_gridINS3_14parallel_groupINS3_16concurrent_groupINS3_5agentILm1EEELm0EEELm0EEEEET_NSC_9size_typeENSC_10agent_typeESD__param_0,
 	.param .align 4 .b8 _ZN6thrust6system4cuda6detail5bulk_6detail9make_gridINS3_14parallel_groupINS3_16concurrent_groupINS3_5agentILm1EEELm0EEELm0EEEEET_NSC_9size_typeENSC_10agent_typeESD__param_1[16],
 	.param .b32 _ZN6thrust6system4cuda6detail5bulk_6detail9make_gridINS3_14parallel_groupINS3_16concurrent_groupINS3_5agentILm1EEELm0EEELm0EEEEET_NSC_9size_typeENSC_10agent_typeESD__param_2
@@ -3804,8 +3804,8 @@ BB33_5:
 	ret;
 }
 
-	// .globl	_ZN6thrust6system4cuda6detail5bulk_6detail10make_blockINS3_16concurrent_groupINS3_5agentILm1EEELm0EEEEET_NSA_9size_typeESB_NSA_10agent_typeESB_
-.visible .func  (.param .align 4 .b8 func_retval0[16]) _ZN6thrust6system4cuda6detail5bulk_6detail10make_blockINS3_16concurrent_groupINS3_5agentILm1EEELm0EEEEET_NSA_9size_typeESB_NSA_10agent_typeESB_(
+	// .globl	thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul> thrust::system::cuda::detail::bulk_::detail::make_block<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul> >(thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>::size_type, thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>::size_type, thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>::agent_type, thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>::size_type)
+.visible .func  (.param .align 4 .b8 func_retval0[16]) thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul> thrust::system::cuda::detail::bulk_::detail::make_block<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul> >(thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>::size_type, thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>::size_type, thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>::agent_type, thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>::size_type)(
 	.param .b32 _ZN6thrust6system4cuda6detail5bulk_6detail10make_blockINS3_16concurrent_groupINS3_5agentILm1EEELm0EEEEET_NSA_9size_typeESB_NSA_10agent_typeESB__param_0,
 	.param .b32 _ZN6thrust6system4cuda6detail5bulk_6detail10make_blockINS3_16concurrent_groupINS3_5agentILm1EEELm0EEEEET_NSA_9size_typeESB_NSA_10agent_typeESB__param_1,
 	.param .align 4 .b8 _ZN6thrust6system4cuda6detail5bulk_6detail10make_blockINS3_16concurrent_groupINS3_5agentILm1EEELm0EEEEET_NSA_9size_typeESB_NSA_10agent_typeESB__param_2[4],
@@ -3847,8 +3847,8 @@ BB33_5:
 	ret;
 }
 
-	// .globl	_ZN6thrust6system4cuda6detail5bulk_6detail16apply_from_tupleINS2_17for_each_n_detail15for_each_kernelERNS3_14parallel_groupINS3_16concurrent_groupINS3_5agentILm1EEELm0EEELm0EEENS_10device_ptrIiEENS_6detail16wrapped_functionINSH_23device_generate_functorINSH_12fill_functorIiEEEEvEEjEEvT_RKNS_5tupleIT0_T1_T2_T3_NS_9null_typeESU_SU_SU_SU_SU_EE
-.visible .func _ZN6thrust6system4cuda6detail5bulk_6detail16apply_from_tupleINS2_17for_each_n_detail15for_each_kernelERNS3_14parallel_groupINS3_16concurrent_groupINS3_5agentILm1EEELm0EEELm0EEENS_10device_ptrIiEENS_6detail16wrapped_functionINSH_23device_generate_functorINSH_12fill_functorIiEEEEvEEjEEvT_RKNS_5tupleIT0_T1_T2_T3_NS_9null_typeESU_SU_SU_SU_SU_EE(
+	// .globl	void thrust::system::cuda::detail::bulk_::detail::apply_from_tuple<thrust::system::cuda::detail::for_each_n_detail::for_each_kernel, thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>&, thrust::device_ptr<int>, thrust::detail::wrapped_function<thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >, void>, unsigned int>(thrust::system::cuda::detail::for_each_n_detail::for_each_kernel, thrust::tuple<thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>&, thrust::device_ptr<int>, thrust::detail::wrapped_function<thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >, void>, unsigned int, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type> const&)
+.visible .func void thrust::system::cuda::detail::bulk_::detail::apply_from_tuple<thrust::system::cuda::detail::for_each_n_detail::for_each_kernel, thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>&, thrust::device_ptr<int>, thrust::detail::wrapped_function<thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >, void>, unsigned int>(thrust::system::cuda::detail::for_each_n_detail::for_each_kernel, thrust::tuple<thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>&, thrust::device_ptr<int>, thrust::detail::wrapped_function<thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >, void>, unsigned int, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type> const&)(
 	.param .align 1 .b8 _ZN6thrust6system4cuda6detail5bulk_6detail16apply_from_tupleINS2_17for_each_n_detail15for_each_kernelERNS3_14parallel_groupINS3_16concurrent_groupINS3_5agentILm1EEELm0EEELm0EEENS_10device_ptrIiEENS_6detail16wrapped_functionINSH_23device_generate_functorINSH_12fill_functorIiEEEEvEEjEEvT_RKNS_5tupleIT0_T1_T2_T3_NS_9null_typeESU_SU_SU_SU_SU_EE_param_0[1],
 	.param .b64 _ZN6thrust6system4cuda6detail5bulk_6detail16apply_from_tupleINS2_17for_each_n_detail15for_each_kernelERNS3_14parallel_groupINS3_16concurrent_groupINS3_5agentILm1EEELm0EEELm0EEENS_10device_ptrIiEENS_6detail16wrapped_functionINSH_23device_generate_functorINSH_12fill_functorIiEEEEvEEjEEvT_RKNS_5tupleIT0_T1_T2_T3_NS_9null_typeESU_SU_SU_SU_SU_EE_param_1
 )
@@ -3888,8 +3888,8 @@ BB37_3:
 	ret;
 }
 
-	// .globl	_ZN6thrust6system4cuda6detail5bulk_6detail15launch_by_valueILj0ENS4_9cuda_taskINS3_14parallel_groupINS3_16concurrent_groupINS3_5agentILm1EEELm0EEELm0EEENS4_7closureINS2_17for_each_n_detail15for_each_kernelENS_5tupleINS4_6cursorILj0EEENS_10device_ptrIiEENS_6detail16wrapped_functionINSL_23device_generate_functorINSL_12fill_functorIiEEEEvEElNS_9null_typeESS_SS_SS_SS_SS_EEEEEEEEvT0_
-.visible .entry _ZN6thrust6system4cuda6detail5bulk_6detail15launch_by_valueILj0ENS4_9cuda_taskINS3_14parallel_groupINS3_16concurrent_groupINS3_5agentILm1EEELm0EEELm0EEENS4_7closureINS2_17for_each_n_detail15for_each_kernelENS_5tupleINS4_6cursorILj0EEENS_10device_ptrIiEENS_6detail16wrapped_functionINSL_23device_generate_functorINSL_12fill_functorIiEEEEvEElNS_9null_typeESS_SS_SS_SS_SS_EEEEEEEEvT0_(
+	// .globl	void thrust::system::cuda::detail::bulk_::detail::launch_by_value<0u, thrust::system::cuda::detail::bulk_::detail::cuda_task<thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>, thrust::system::cuda::detail::bulk_::detail::closure<thrust::system::cuda::detail::for_each_n_detail::for_each_kernel, thrust::tuple<thrust::system::cuda::detail::bulk_::detail::cursor<0u>, thrust::device_ptr<int>, thrust::detail::wrapped_function<thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >, void>, long, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type> > > >(thrust::system::cuda::detail::bulk_::detail::cuda_task<thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>, thrust::system::cuda::detail::bulk_::detail::closure<thrust::system::cuda::detail::for_each_n_detail::for_each_kernel, thrust::tuple<thrust::system::cuda::detail::bulk_::detail::cursor<0u>, thrust::device_ptr<int>, thrust::detail::wrapped_function<thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >, void>, long, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type> > >)
+.visible .entry void thrust::system::cuda::detail::bulk_::detail::launch_by_value<0u, thrust::system::cuda::detail::bulk_::detail::cuda_task<thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>, thrust::system::cuda::detail::bulk_::detail::closure<thrust::system::cuda::detail::for_each_n_detail::for_each_kernel, thrust::tuple<thrust::system::cuda::detail::bulk_::detail::cursor<0u>, thrust::device_ptr<int>, thrust::detail::wrapped_function<thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >, void>, long, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type> > > >(thrust::system::cuda::detail::bulk_::detail::cuda_task<thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>, thrust::system::cuda::detail::bulk_::detail::closure<thrust::system::cuda::detail::for_each_n_detail::for_each_kernel, thrust::tuple<thrust::system::cuda::detail::bulk_::detail::cursor<0u>, thrust::device_ptr<int>, thrust::detail::wrapped_function<thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >, void>, long, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type> > >)(
 	.param .align 8 .b8 _ZN6thrust6system4cuda6detail5bulk_6detail15launch_by_valueILj0ENS4_9cuda_taskINS3_14parallel_groupINS3_16concurrent_groupINS3_5agentILm1EEELm0EEELm0EEENS4_7closureINS2_17for_each_n_detail15for_each_kernelENS_5tupleINS4_6cursorILj0EEENS_10device_ptrIiEENS_6detail16wrapped_functionINSL_23device_generate_functorINSL_12fill_functorIiEEEEvEElNS_9null_typeESS_SS_SS_SS_SS_EEEEEEEEvT0__param_0[72]
 )
 {
@@ -3907,7 +3907,7 @@ BB37_3:
 	ld.param.u64 	%rd10, [_ZN6thrust6system4cuda6detail5bulk_6detail15launch_by_valueILj0ENS4_9cuda_taskINS3_14parallel_groupINS3_16concurrent_groupINS3_5agentILm1EEELm0EEELm0EEENS4_7closureINS2_17for_each_n_detail15for_each_kernelENS_5tupleINS4_6cursorILj0EEENS_10device_ptrIiEENS_6detail16wrapped_functionINSL_23device_generate_functorINSL_12fill_functorIiEEEEvEElNS_9null_typeESS_SS_SS_SS_SS_EEEEEEEEvT0__param_0+16];
 	mov.u32 	%r1, %tid.x;
 	setp.ne.s32	%p1, %r1, 0;
-	mov.u64 	%rd12, _ZN6thrust6system4cuda6detail5bulk_6detail62_GLOBAL__N__45_tmpxft_00003224_00000000_7_force_cuda_cpp1_ii_L19s_on_chip_allocatorE;
+	mov.u64 	%rd12, thrust::system::cuda::detail::bulk_::detail::(anonymous namespace)::s_on_chip_allocator;
 	cvta.shared.u64 	%rd13, %rd12;
 	setp.eq.s64	%p2, %rd13, 0;
 	or.pred  	%p3, %p1, %p2;
@@ -3915,11 +3915,11 @@ BB37_3:
 
 	cvt.s64.s32	%rd14, %r10;
 	mov.u32 	%r14, 0;
-	st.shared.u32 	[_ZN6thrust6system4cuda6detail5bulk_6detail62_GLOBAL__N__45_tmpxft_00003224_00000000_7_force_cuda_cpp1_ii_L19s_on_chip_allocatorE], %r14;
-	mov.u64 	%rd15, _ZN6thrust6system4cuda6detail5bulk_6detail20s_data_segment_beginE;
+	st.shared.u32 	[thrust::system::cuda::detail::bulk_::detail::(anonymous namespace)::s_on_chip_allocator], %r14;
+	mov.u64 	%rd15, thrust::system::cuda::detail::bulk_::detail::s_data_segment_begin;
 	cvta.shared.u64 	%rd16, %rd15;
-	st.shared.u64 	[_ZN6thrust6system4cuda6detail5bulk_6detail62_GLOBAL__N__45_tmpxft_00003224_00000000_7_force_cuda_cpp1_ii_L19s_on_chip_allocatorE+8], %rd16;
-	st.shared.u64 	[_ZN6thrust6system4cuda6detail5bulk_6detail62_GLOBAL__N__45_tmpxft_00003224_00000000_7_force_cuda_cpp1_ii_L19s_on_chip_allocatorE+16], %rd14;
+	st.shared.u64 	[thrust::system::cuda::detail::bulk_::detail::(anonymous namespace)::s_on_chip_allocator+8], %rd16;
+	st.shared.u64 	[thrust::system::cuda::detail::bulk_::detail::(anonymous namespace)::s_on_chip_allocator+16], %rd14;
 
 BB38_2:
 	cvta.to.global.u64 	%rd1, %rd10;
@@ -3970,8 +3970,8 @@ BB38_4:
 	ret;
 }
 
-	// .globl	_ZN6thrust6system4cuda6detail5bulk_6detail16apply_from_tupleINS2_17for_each_n_detail15for_each_kernelERNS3_14parallel_groupINS3_16concurrent_groupINS3_5agentILm1EEELm0EEELm0EEENS_10device_ptrIiEENS_6detail16wrapped_functionINSH_23device_generate_functorINSH_12fill_functorIiEEEEvEElEEvT_RKNS_5tupleIT0_T1_T2_T3_NS_9null_typeESU_SU_SU_SU_SU_EE
-.visible .func _ZN6thrust6system4cuda6detail5bulk_6detail16apply_from_tupleINS2_17for_each_n_detail15for_each_kernelERNS3_14parallel_groupINS3_16concurrent_groupINS3_5agentILm1EEELm0EEELm0EEENS_10device_ptrIiEENS_6detail16wrapped_functionINSH_23device_generate_functorINSH_12fill_functorIiEEEEvEElEEvT_RKNS_5tupleIT0_T1_T2_T3_NS_9null_typeESU_SU_SU_SU_SU_EE(
+	// .globl	void thrust::system::cuda::detail::bulk_::detail::apply_from_tuple<thrust::system::cuda::detail::for_each_n_detail::for_each_kernel, thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>&, thrust::device_ptr<int>, thrust::detail::wrapped_function<thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >, void>, long>(thrust::system::cuda::detail::for_each_n_detail::for_each_kernel, thrust::tuple<thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>&, thrust::device_ptr<int>, thrust::detail::wrapped_function<thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >, void>, long, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type> const&)
+.visible .func void thrust::system::cuda::detail::bulk_::detail::apply_from_tuple<thrust::system::cuda::detail::for_each_n_detail::for_each_kernel, thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>&, thrust::device_ptr<int>, thrust::detail::wrapped_function<thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >, void>, long>(thrust::system::cuda::detail::for_each_n_detail::for_each_kernel, thrust::tuple<thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>&, thrust::device_ptr<int>, thrust::detail::wrapped_function<thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >, void>, long, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type> const&)(
 	.param .align 1 .b8 _ZN6thrust6system4cuda6detail5bulk_6detail16apply_from_tupleINS2_17for_each_n_detail15for_each_kernelERNS3_14parallel_groupINS3_16concurrent_groupINS3_5agentILm1EEELm0EEELm0EEENS_10device_ptrIiEENS_6detail16wrapped_functionINSH_23device_generate_functorINSH_12fill_functorIiEEEEvEElEEvT_RKNS_5tupleIT0_T1_T2_T3_NS_9null_typeESU_SU_SU_SU_SU_EE_param_0[1],
 	.param .b64 _ZN6thrust6system4cuda6detail5bulk_6detail16apply_from_tupleINS2_17for_each_n_detail15for_each_kernelERNS3_14parallel_groupINS3_16concurrent_groupINS3_5agentILm1EEELm0EEELm0EEENS_10device_ptrIiEENS_6detail16wrapped_functionINSH_23device_generate_functorINSH_12fill_functorIiEEEEvEElEEvT_RKNS_5tupleIT0_T1_T2_T3_NS_9null_typeESU_SU_SU_SU_SU_EE_param_1
 )
@@ -4011,8 +4011,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust16iterator_adaptorINS_10device_ptrI6float3EEPS2_S2_NS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIS2_EElEC1ERKS4_
-.visible .func _ZN6thrust16iterator_adaptorINS_10device_ptrI6float3EEPS2_S2_NS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIS2_EElEC1ERKS4_(
+	// .globl	thrust::iterator_adaptor<thrust::device_ptr<float3>, float3*, float3, thrust::system::cuda::detail::tag, thrust::random_access_traversal_tag, thrust::device_reference<float3>, long>::iterator_adaptor(float3* const&)
+.visible .func thrust::iterator_adaptor<thrust::device_ptr<float3>, float3*, float3, thrust::system::cuda::detail::tag, thrust::random_access_traversal_tag, thrust::device_reference<float3>, long>::iterator_adaptor(float3* const&)(
 	.param .b64 _ZN6thrust16iterator_adaptorINS_10device_ptrI6float3EEPS2_S2_NS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIS2_EElEC1ERKS4__param_0,
 	.param .b64 _ZN6thrust16iterator_adaptorINS_10device_ptrI6float3EEPS2_S2_NS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIS2_EElEC1ERKS4__param_1
 )
@@ -4027,8 +4027,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust16iterator_adaptorINS_10device_ptrI6float3EEPS2_S2_NS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIS2_EElEC2ERKS4_
-.visible .func _ZN6thrust16iterator_adaptorINS_10device_ptrI6float3EEPS2_S2_NS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIS2_EElEC2ERKS4_(
+	// .globl	thrust::iterator_adaptor<thrust::device_ptr<float3>, float3*, float3, thrust::system::cuda::detail::tag, thrust::random_access_traversal_tag, thrust::device_reference<float3>, long>::iterator_adaptor(float3* const&)
+.visible .func thrust::iterator_adaptor<thrust::device_ptr<float3>, float3*, float3, thrust::system::cuda::detail::tag, thrust::random_access_traversal_tag, thrust::device_reference<float3>, long>::iterator_adaptor(float3* const&)(
 	.param .b64 _ZN6thrust16iterator_adaptorINS_10device_ptrI6float3EEPS2_S2_NS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIS2_EElEC2ERKS4__param_0,
 	.param .b64 _ZN6thrust16iterator_adaptorINS_10device_ptrI6float3EEPS2_S2_NS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIS2_EElEC2ERKS4__param_1
 )
@@ -4043,8 +4043,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust7pointerI6float3NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC1Ev
-.visible .func _ZN6thrust7pointerI6float3NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC1Ev(
+	// .globl	thrust::pointer<float3, thrust::system::cuda::detail::tag, thrust::device_reference<float3>, thrust::device_ptr<float3> >::pointer()
+.visible .func thrust::pointer<float3, thrust::system::cuda::detail::tag, thrust::device_reference<float3>, thrust::device_ptr<float3> >::pointer()(
 	.param .b64 _ZN6thrust7pointerI6float3NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC1Ev_param_0
 )
 {
@@ -4057,8 +4057,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust7pointerI6float3NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC2Ev
-.visible .func _ZN6thrust7pointerI6float3NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC2Ev(
+	// .globl	thrust::pointer<float3, thrust::system::cuda::detail::tag, thrust::device_reference<float3>, thrust::device_ptr<float3> >::pointer()
+.visible .func thrust::pointer<float3, thrust::system::cuda::detail::tag, thrust::device_reference<float3>, thrust::device_ptr<float3> >::pointer()(
 	.param .b64 _ZN6thrust7pointerI6float3NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC2Ev_param_0
 )
 {
@@ -4071,8 +4071,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust7pointerI6float3NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC1IS1_EEPT_
-.visible .func _ZN6thrust7pointerI6float3NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC1IS1_EEPT_(
+	// .globl	thrust::pointer<float3, thrust::system::cuda::detail::tag, thrust::device_reference<float3>, thrust::device_ptr<float3> >::pointer<float3>(float3*)
+.visible .func thrust::pointer<float3, thrust::system::cuda::detail::tag, thrust::device_reference<float3>, thrust::device_ptr<float3> >::pointer<float3>(float3*)(
 	.param .b64 _ZN6thrust7pointerI6float3NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC1IS1_EEPT__param_0,
 	.param .b64 _ZN6thrust7pointerI6float3NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC1IS1_EEPT__param_1
 )
@@ -4086,8 +4086,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust7pointerI6float3NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC2IS1_EEPT_
-.visible .func _ZN6thrust7pointerI6float3NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC2IS1_EEPT_(
+	// .globl	thrust::pointer<float3, thrust::system::cuda::detail::tag, thrust::device_reference<float3>, thrust::device_ptr<float3> >::pointer<float3>(float3*)
+.visible .func thrust::pointer<float3, thrust::system::cuda::detail::tag, thrust::device_reference<float3>, thrust::device_ptr<float3> >::pointer<float3>(float3*)(
 	.param .b64 _ZN6thrust7pointerI6float3NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC2IS1_EEPT__param_0,
 	.param .b64 _ZN6thrust7pointerI6float3NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC2IS1_EEPT__param_1
 )
@@ -4101,8 +4101,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust16iterator_adaptorINS_10device_ptrI6float4EEPS2_S2_NS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIS2_EElEC1ERKS4_
-.visible .func _ZN6thrust16iterator_adaptorINS_10device_ptrI6float4EEPS2_S2_NS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIS2_EElEC1ERKS4_(
+	// .globl	thrust::iterator_adaptor<thrust::device_ptr<float4>, float4*, float4, thrust::system::cuda::detail::tag, thrust::random_access_traversal_tag, thrust::device_reference<float4>, long>::iterator_adaptor(float4* const&)
+.visible .func thrust::iterator_adaptor<thrust::device_ptr<float4>, float4*, float4, thrust::system::cuda::detail::tag, thrust::random_access_traversal_tag, thrust::device_reference<float4>, long>::iterator_adaptor(float4* const&)(
 	.param .b64 _ZN6thrust16iterator_adaptorINS_10device_ptrI6float4EEPS2_S2_NS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIS2_EElEC1ERKS4__param_0,
 	.param .b64 _ZN6thrust16iterator_adaptorINS_10device_ptrI6float4EEPS2_S2_NS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIS2_EElEC1ERKS4__param_1
 )
@@ -4117,8 +4117,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust16iterator_adaptorINS_10device_ptrI6float4EEPS2_S2_NS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIS2_EElEC2ERKS4_
-.visible .func _ZN6thrust16iterator_adaptorINS_10device_ptrI6float4EEPS2_S2_NS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIS2_EElEC2ERKS4_(
+	// .globl	thrust::iterator_adaptor<thrust::device_ptr<float4>, float4*, float4, thrust::system::cuda::detail::tag, thrust::random_access_traversal_tag, thrust::device_reference<float4>, long>::iterator_adaptor(float4* const&)
+.visible .func thrust::iterator_adaptor<thrust::device_ptr<float4>, float4*, float4, thrust::system::cuda::detail::tag, thrust::random_access_traversal_tag, thrust::device_reference<float4>, long>::iterator_adaptor(float4* const&)(
 	.param .b64 _ZN6thrust16iterator_adaptorINS_10device_ptrI6float4EEPS2_S2_NS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIS2_EElEC2ERKS4__param_0,
 	.param .b64 _ZN6thrust16iterator_adaptorINS_10device_ptrI6float4EEPS2_S2_NS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIS2_EElEC2ERKS4__param_1
 )
@@ -4133,8 +4133,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust7pointerI6float4NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC1Ev
-.visible .func _ZN6thrust7pointerI6float4NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC1Ev(
+	// .globl	thrust::pointer<float4, thrust::system::cuda::detail::tag, thrust::device_reference<float4>, thrust::device_ptr<float4> >::pointer()
+.visible .func thrust::pointer<float4, thrust::system::cuda::detail::tag, thrust::device_reference<float4>, thrust::device_ptr<float4> >::pointer()(
 	.param .b64 _ZN6thrust7pointerI6float4NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC1Ev_param_0
 )
 {
@@ -4147,8 +4147,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust7pointerI6float4NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC2Ev
-.visible .func _ZN6thrust7pointerI6float4NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC2Ev(
+	// .globl	thrust::pointer<float4, thrust::system::cuda::detail::tag, thrust::device_reference<float4>, thrust::device_ptr<float4> >::pointer()
+.visible .func thrust::pointer<float4, thrust::system::cuda::detail::tag, thrust::device_reference<float4>, thrust::device_ptr<float4> >::pointer()(
 	.param .b64 _ZN6thrust7pointerI6float4NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC2Ev_param_0
 )
 {
@@ -4161,8 +4161,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust7pointerI6float4NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC1IS1_EEPT_
-.visible .func _ZN6thrust7pointerI6float4NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC1IS1_EEPT_(
+	// .globl	thrust::pointer<float4, thrust::system::cuda::detail::tag, thrust::device_reference<float4>, thrust::device_ptr<float4> >::pointer<float4>(float4*)
+.visible .func thrust::pointer<float4, thrust::system::cuda::detail::tag, thrust::device_reference<float4>, thrust::device_ptr<float4> >::pointer<float4>(float4*)(
 	.param .b64 _ZN6thrust7pointerI6float4NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC1IS1_EEPT__param_0,
 	.param .b64 _ZN6thrust7pointerI6float4NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC1IS1_EEPT__param_1
 )
@@ -4176,8 +4176,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust7pointerI6float4NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC2IS1_EEPT_
-.visible .func _ZN6thrust7pointerI6float4NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC2IS1_EEPT_(
+	// .globl	thrust::pointer<float4, thrust::system::cuda::detail::tag, thrust::device_reference<float4>, thrust::device_ptr<float4> >::pointer<float4>(float4*)
+.visible .func thrust::pointer<float4, thrust::system::cuda::detail::tag, thrust::device_reference<float4>, thrust::device_ptr<float4> >::pointer<float4>(float4*)(
 	.param .b64 _ZN6thrust7pointerI6float4NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC2IS1_EEPT__param_0,
 	.param .b64 _ZN6thrust7pointerI6float4NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC2IS1_EEPT__param_1
 )
@@ -4191,8 +4191,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust16iterator_adaptorINS_10device_ptrI7double3EEPS2_S2_NS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIS2_EElEC1ERKS4_
-.visible .func _ZN6thrust16iterator_adaptorINS_10device_ptrI7double3EEPS2_S2_NS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIS2_EElEC1ERKS4_(
+	// .globl	thrust::iterator_adaptor<thrust::device_ptr<double3>, double3*, double3, thrust::system::cuda::detail::tag, thrust::random_access_traversal_tag, thrust::device_reference<double3>, long>::iterator_adaptor(double3* const&)
+.visible .func thrust::iterator_adaptor<thrust::device_ptr<double3>, double3*, double3, thrust::system::cuda::detail::tag, thrust::random_access_traversal_tag, thrust::device_reference<double3>, long>::iterator_adaptor(double3* const&)(
 	.param .b64 _ZN6thrust16iterator_adaptorINS_10device_ptrI7double3EEPS2_S2_NS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIS2_EElEC1ERKS4__param_0,
 	.param .b64 _ZN6thrust16iterator_adaptorINS_10device_ptrI7double3EEPS2_S2_NS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIS2_EElEC1ERKS4__param_1
 )
@@ -4207,8 +4207,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust16iterator_adaptorINS_10device_ptrI7double3EEPS2_S2_NS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIS2_EElEC2ERKS4_
-.visible .func _ZN6thrust16iterator_adaptorINS_10device_ptrI7double3EEPS2_S2_NS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIS2_EElEC2ERKS4_(
+	// .globl	thrust::iterator_adaptor<thrust::device_ptr<double3>, double3*, double3, thrust::system::cuda::detail::tag, thrust::random_access_traversal_tag, thrust::device_reference<double3>, long>::iterator_adaptor(double3* const&)
+.visible .func thrust::iterator_adaptor<thrust::device_ptr<double3>, double3*, double3, thrust::system::cuda::detail::tag, thrust::random_access_traversal_tag, thrust::device_reference<double3>, long>::iterator_adaptor(double3* const&)(
 	.param .b64 _ZN6thrust16iterator_adaptorINS_10device_ptrI7double3EEPS2_S2_NS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIS2_EElEC2ERKS4__param_0,
 	.param .b64 _ZN6thrust16iterator_adaptorINS_10device_ptrI7double3EEPS2_S2_NS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIS2_EElEC2ERKS4__param_1
 )
@@ -4223,8 +4223,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust7pointerI7double3NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC1Ev
-.visible .func _ZN6thrust7pointerI7double3NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC1Ev(
+	// .globl	thrust::pointer<double3, thrust::system::cuda::detail::tag, thrust::device_reference<double3>, thrust::device_ptr<double3> >::pointer()
+.visible .func thrust::pointer<double3, thrust::system::cuda::detail::tag, thrust::device_reference<double3>, thrust::device_ptr<double3> >::pointer()(
 	.param .b64 _ZN6thrust7pointerI7double3NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC1Ev_param_0
 )
 {
@@ -4237,8 +4237,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust7pointerI7double3NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC2Ev
-.visible .func _ZN6thrust7pointerI7double3NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC2Ev(
+	// .globl	thrust::pointer<double3, thrust::system::cuda::detail::tag, thrust::device_reference<double3>, thrust::device_ptr<double3> >::pointer()
+.visible .func thrust::pointer<double3, thrust::system::cuda::detail::tag, thrust::device_reference<double3>, thrust::device_ptr<double3> >::pointer()(
 	.param .b64 _ZN6thrust7pointerI7double3NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC2Ev_param_0
 )
 {
@@ -4251,8 +4251,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust7pointerI7double3NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC1IS1_EEPT_
-.visible .func _ZN6thrust7pointerI7double3NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC1IS1_EEPT_(
+	// .globl	thrust::pointer<double3, thrust::system::cuda::detail::tag, thrust::device_reference<double3>, thrust::device_ptr<double3> >::pointer<double3>(double3*)
+.visible .func thrust::pointer<double3, thrust::system::cuda::detail::tag, thrust::device_reference<double3>, thrust::device_ptr<double3> >::pointer<double3>(double3*)(
 	.param .b64 _ZN6thrust7pointerI7double3NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC1IS1_EEPT__param_0,
 	.param .b64 _ZN6thrust7pointerI7double3NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC1IS1_EEPT__param_1
 )
@@ -4266,8 +4266,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust7pointerI7double3NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC2IS1_EEPT_
-.visible .func _ZN6thrust7pointerI7double3NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC2IS1_EEPT_(
+	// .globl	thrust::pointer<double3, thrust::system::cuda::detail::tag, thrust::device_reference<double3>, thrust::device_ptr<double3> >::pointer<double3>(double3*)
+.visible .func thrust::pointer<double3, thrust::system::cuda::detail::tag, thrust::device_reference<double3>, thrust::device_ptr<double3> >::pointer<double3>(double3*)(
 	.param .b64 _ZN6thrust7pointerI7double3NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC2IS1_EEPT__param_0,
 	.param .b64 _ZN6thrust7pointerI7double3NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC2IS1_EEPT__param_1
 )
@@ -4281,8 +4281,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust16iterator_adaptorINS_10device_ptrI7double4EEPS2_S2_NS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIS2_EElEC1ERKS4_
-.visible .func _ZN6thrust16iterator_adaptorINS_10device_ptrI7double4EEPS2_S2_NS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIS2_EElEC1ERKS4_(
+	// .globl	thrust::iterator_adaptor<thrust::device_ptr<double4>, double4*, double4, thrust::system::cuda::detail::tag, thrust::random_access_traversal_tag, thrust::device_reference<double4>, long>::iterator_adaptor(double4* const&)
+.visible .func thrust::iterator_adaptor<thrust::device_ptr<double4>, double4*, double4, thrust::system::cuda::detail::tag, thrust::random_access_traversal_tag, thrust::device_reference<double4>, long>::iterator_adaptor(double4* const&)(
 	.param .b64 _ZN6thrust16iterator_adaptorINS_10device_ptrI7double4EEPS2_S2_NS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIS2_EElEC1ERKS4__param_0,
 	.param .b64 _ZN6thrust16iterator_adaptorINS_10device_ptrI7double4EEPS2_S2_NS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIS2_EElEC1ERKS4__param_1
 )
@@ -4297,8 +4297,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust16iterator_adaptorINS_10device_ptrI7double4EEPS2_S2_NS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIS2_EElEC2ERKS4_
-.visible .func _ZN6thrust16iterator_adaptorINS_10device_ptrI7double4EEPS2_S2_NS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIS2_EElEC2ERKS4_(
+	// .globl	thrust::iterator_adaptor<thrust::device_ptr<double4>, double4*, double4, thrust::system::cuda::detail::tag, thrust::random_access_traversal_tag, thrust::device_reference<double4>, long>::iterator_adaptor(double4* const&)
+.visible .func thrust::iterator_adaptor<thrust::device_ptr<double4>, double4*, double4, thrust::system::cuda::detail::tag, thrust::random_access_traversal_tag, thrust::device_reference<double4>, long>::iterator_adaptor(double4* const&)(
 	.param .b64 _ZN6thrust16iterator_adaptorINS_10device_ptrI7double4EEPS2_S2_NS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIS2_EElEC2ERKS4__param_0,
 	.param .b64 _ZN6thrust16iterator_adaptorINS_10device_ptrI7double4EEPS2_S2_NS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIS2_EElEC2ERKS4__param_1
 )
@@ -4313,8 +4313,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust7pointerI7double4NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC1Ev
-.visible .func _ZN6thrust7pointerI7double4NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC1Ev(
+	// .globl	thrust::pointer<double4, thrust::system::cuda::detail::tag, thrust::device_reference<double4>, thrust::device_ptr<double4> >::pointer()
+.visible .func thrust::pointer<double4, thrust::system::cuda::detail::tag, thrust::device_reference<double4>, thrust::device_ptr<double4> >::pointer()(
 	.param .b64 _ZN6thrust7pointerI7double4NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC1Ev_param_0
 )
 {
@@ -4327,8 +4327,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust7pointerI7double4NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC2Ev
-.visible .func _ZN6thrust7pointerI7double4NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC2Ev(
+	// .globl	thrust::pointer<double4, thrust::system::cuda::detail::tag, thrust::device_reference<double4>, thrust::device_ptr<double4> >::pointer()
+.visible .func thrust::pointer<double4, thrust::system::cuda::detail::tag, thrust::device_reference<double4>, thrust::device_ptr<double4> >::pointer()(
 	.param .b64 _ZN6thrust7pointerI7double4NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC2Ev_param_0
 )
 {
@@ -4341,8 +4341,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust7pointerI7double4NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC1IS1_EEPT_
-.visible .func _ZN6thrust7pointerI7double4NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC1IS1_EEPT_(
+	// .globl	thrust::pointer<double4, thrust::system::cuda::detail::tag, thrust::device_reference<double4>, thrust::device_ptr<double4> >::pointer<double4>(double4*)
+.visible .func thrust::pointer<double4, thrust::system::cuda::detail::tag, thrust::device_reference<double4>, thrust::device_ptr<double4> >::pointer<double4>(double4*)(
 	.param .b64 _ZN6thrust7pointerI7double4NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC1IS1_EEPT__param_0,
 	.param .b64 _ZN6thrust7pointerI7double4NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC1IS1_EEPT__param_1
 )
@@ -4356,8 +4356,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust7pointerI7double4NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC2IS1_EEPT_
-.visible .func _ZN6thrust7pointerI7double4NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC2IS1_EEPT_(
+	// .globl	thrust::pointer<double4, thrust::system::cuda::detail::tag, thrust::device_reference<double4>, thrust::device_ptr<double4> >::pointer<double4>(double4*)
+.visible .func thrust::pointer<double4, thrust::system::cuda::detail::tag, thrust::device_reference<double4>, thrust::device_ptr<double4> >::pointer<double4>(double4*)(
 	.param .b64 _ZN6thrust7pointerI7double4NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC2IS1_EEPT__param_0,
 	.param .b64 _ZN6thrust7pointerI7double4NS_6system4cuda6detail3tagENS_16device_referenceIS1_EENS_10device_ptrIS1_EEEC2IS1_EEPT__param_1
 )
@@ -4371,8 +4371,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust16iterator_adaptorINS_10device_ptrIiEEPiiNS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIiEElEC1ERKS3_
-.visible .func _ZN6thrust16iterator_adaptorINS_10device_ptrIiEEPiiNS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIiEElEC1ERKS3_(
+	// .globl	thrust::iterator_adaptor<thrust::device_ptr<int>, int*, int, thrust::system::cuda::detail::tag, thrust::random_access_traversal_tag, thrust::device_reference<int>, long>::iterator_adaptor(int* const&)
+.visible .func thrust::iterator_adaptor<thrust::device_ptr<int>, int*, int, thrust::system::cuda::detail::tag, thrust::random_access_traversal_tag, thrust::device_reference<int>, long>::iterator_adaptor(int* const&)(
 	.param .b64 _ZN6thrust16iterator_adaptorINS_10device_ptrIiEEPiiNS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIiEElEC1ERKS3__param_0,
 	.param .b64 _ZN6thrust16iterator_adaptorINS_10device_ptrIiEEPiiNS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIiEElEC1ERKS3__param_1
 )
@@ -4387,8 +4387,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust16iterator_adaptorINS_10device_ptrIiEEPiiNS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIiEElEC2ERKS3_
-.visible .func _ZN6thrust16iterator_adaptorINS_10device_ptrIiEEPiiNS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIiEElEC2ERKS3_(
+	// .globl	thrust::iterator_adaptor<thrust::device_ptr<int>, int*, int, thrust::system::cuda::detail::tag, thrust::random_access_traversal_tag, thrust::device_reference<int>, long>::iterator_adaptor(int* const&)
+.visible .func thrust::iterator_adaptor<thrust::device_ptr<int>, int*, int, thrust::system::cuda::detail::tag, thrust::random_access_traversal_tag, thrust::device_reference<int>, long>::iterator_adaptor(int* const&)(
 	.param .b64 _ZN6thrust16iterator_adaptorINS_10device_ptrIiEEPiiNS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIiEElEC2ERKS3__param_0,
 	.param .b64 _ZN6thrust16iterator_adaptorINS_10device_ptrIiEEPiiNS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIiEElEC2ERKS3__param_1
 )
@@ -4403,8 +4403,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZNK6thrust16iterator_adaptorINS_10device_ptrIiEEPiiNS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIiEElE4baseEv
-.visible .func  (.param .b64 func_retval0) _ZNK6thrust16iterator_adaptorINS_10device_ptrIiEEPiiNS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIiEElE4baseEv(
+	// .globl	thrust::iterator_adaptor<thrust::device_ptr<int>, int*, int, thrust::system::cuda::detail::tag, thrust::random_access_traversal_tag, thrust::device_reference<int>, long>::base() const
+.visible .func  (.param .b64 func_retval0) thrust::iterator_adaptor<thrust::device_ptr<int>, int*, int, thrust::system::cuda::detail::tag, thrust::random_access_traversal_tag, thrust::device_reference<int>, long>::base() const(
 	.param .b64 _ZNK6thrust16iterator_adaptorINS_10device_ptrIiEEPiiNS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIiEElE4baseEv_param_0
 )
 {
@@ -4416,8 +4416,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust16iterator_adaptorINS_10device_ptrIiEEPiiNS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIiEElE7advanceEl
-.visible .func _ZN6thrust16iterator_adaptorINS_10device_ptrIiEEPiiNS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIiEElE7advanceEl(
+	// .globl	thrust::iterator_adaptor<thrust::device_ptr<int>, int*, int, thrust::system::cuda::detail::tag, thrust::random_access_traversal_tag, thrust::device_reference<int>, long>::advance(long)
+.visible .func thrust::iterator_adaptor<thrust::device_ptr<int>, int*, int, thrust::system::cuda::detail::tag, thrust::random_access_traversal_tag, thrust::device_reference<int>, long>::advance(long)(
 	.param .b64 _ZN6thrust16iterator_adaptorINS_10device_ptrIiEEPiiNS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIiEElE7advanceEl_param_0,
 	.param .b64 _ZN6thrust16iterator_adaptorINS_10device_ptrIiEEPiiNS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIiEElE7advanceEl_param_1
 )
@@ -4434,8 +4434,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust16iterator_adaptorINS_10device_ptrIiEEPiiNS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIiEElE9incrementEv
-.visible .func _ZN6thrust16iterator_adaptorINS_10device_ptrIiEEPiiNS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIiEElE9incrementEv(
+	// .globl	thrust::iterator_adaptor<thrust::device_ptr<int>, int*, int, thrust::system::cuda::detail::tag, thrust::random_access_traversal_tag, thrust::device_reference<int>, long>::increment()
+.visible .func thrust::iterator_adaptor<thrust::device_ptr<int>, int*, int, thrust::system::cuda::detail::tag, thrust::random_access_traversal_tag, thrust::device_reference<int>, long>::increment()(
 	.param .b64 _ZN6thrust16iterator_adaptorINS_10device_ptrIiEEPiiNS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIiEElE9incrementEv_param_0
 )
 {
@@ -4449,8 +4449,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZNK6thrust16iterator_adaptorINS_10device_ptrIiEEPiiNS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIiEElE11distance_toIS2_S3_iS7_S8_SA_lEElRKNS0_IT_T0_T1_T2_T3_T4_T5_EE
-.visible .func  (.param .b64 func_retval0) _ZNK6thrust16iterator_adaptorINS_10device_ptrIiEEPiiNS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIiEElE11distance_toIS2_S3_iS7_S8_SA_lEElRKNS0_IT_T0_T1_T2_T3_T4_T5_EE(
+	// .globl	long thrust::iterator_adaptor<thrust::device_ptr<int>, int*, int, thrust::system::cuda::detail::tag, thrust::random_access_traversal_tag, thrust::device_reference<int>, long>::distance_to<thrust::device_ptr<int>, int*, int, thrust::system::cuda::detail::tag, thrust::random_access_traversal_tag, thrust::device_reference<int>, long>(thrust::iterator_adaptor<thrust::device_ptr<int>, int*, int, thrust::system::cuda::detail::tag, thrust::random_access_traversal_tag, thrust::device_reference<int>, long> const&) const
+.visible .func  (.param .b64 func_retval0) long thrust::iterator_adaptor<thrust::device_ptr<int>, int*, int, thrust::system::cuda::detail::tag, thrust::random_access_traversal_tag, thrust::device_reference<int>, long>::distance_to<thrust::device_ptr<int>, int*, int, thrust::system::cuda::detail::tag, thrust::random_access_traversal_tag, thrust::device_reference<int>, long>(thrust::iterator_adaptor<thrust::device_ptr<int>, int*, int, thrust::system::cuda::detail::tag, thrust::random_access_traversal_tag, thrust::device_reference<int>, long> const&) const(
 	.param .b64 _ZNK6thrust16iterator_adaptorINS_10device_ptrIiEEPiiNS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIiEElE11distance_toIS2_S3_iS7_S8_SA_lEElRKNS0_IT_T0_T1_T2_T3_T4_T5_EE_param_0,
 	.param .b64 _ZNK6thrust16iterator_adaptorINS_10device_ptrIiEEPiiNS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIiEElE11distance_toIS2_S3_iS7_S8_SA_lEElRKNS0_IT_T0_T1_T2_T3_T4_T5_EE_param_1
 )
@@ -4468,8 +4468,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZNK6thrust7pointerIiNS_6system4cuda6detail3tagENS_16device_referenceIiEENS_10device_ptrIiEEE11dereferenceEv
-.visible .func  (.param .align 8 .b8 func_retval0[8]) _ZNK6thrust7pointerIiNS_6system4cuda6detail3tagENS_16device_referenceIiEENS_10device_ptrIiEEE11dereferenceEv(
+	// .globl	thrust::pointer<int, thrust::system::cuda::detail::tag, thrust::device_reference<int>, thrust::device_ptr<int> >::dereference() const
+.visible .func  (.param .align 8 .b8 func_retval0[8]) thrust::pointer<int, thrust::system::cuda::detail::tag, thrust::device_reference<int>, thrust::device_ptr<int> >::dereference() const(
 	.param .b64 _ZNK6thrust7pointerIiNS_6system4cuda6detail3tagENS_16device_referenceIiEENS_10device_ptrIiEEE11dereferenceEv_param_0
 )
 {
@@ -4482,8 +4482,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust9referenceIiNS_10device_ptrIiEENS_16device_referenceIiEEEC2ERKS2_
-.visible .func _ZN6thrust9referenceIiNS_10device_ptrIiEENS_16device_referenceIiEEEC2ERKS2_(
+	// .globl	thrust::reference<int, thrust::device_ptr<int>, thrust::device_reference<int> >::reference(thrust::device_ptr<int> const&)
+.visible .func thrust::reference<int, thrust::device_ptr<int>, thrust::device_reference<int> >::reference(thrust::device_ptr<int> const&)(
 	.param .b64 _ZN6thrust9referenceIiNS_10device_ptrIiEENS_16device_referenceIiEEEC2ERKS2__param_0,
 	.param .b64 _ZN6thrust9referenceIiNS_10device_ptrIiEENS_16device_referenceIiEEEC2ERKS2__param_1
 )
@@ -4498,8 +4498,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust7pointerIiNS_6system4cuda6detail3tagENS_16device_referenceIiEENS_10device_ptrIiEEEC1Ev
-.visible .func _ZN6thrust7pointerIiNS_6system4cuda6detail3tagENS_16device_referenceIiEENS_10device_ptrIiEEEC1Ev(
+	// .globl	thrust::pointer<int, thrust::system::cuda::detail::tag, thrust::device_reference<int>, thrust::device_ptr<int> >::pointer()
+.visible .func thrust::pointer<int, thrust::system::cuda::detail::tag, thrust::device_reference<int>, thrust::device_ptr<int> >::pointer()(
 	.param .b64 _ZN6thrust7pointerIiNS_6system4cuda6detail3tagENS_16device_referenceIiEENS_10device_ptrIiEEEC1Ev_param_0
 )
 {
@@ -4512,8 +4512,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust7pointerIiNS_6system4cuda6detail3tagENS_16device_referenceIiEENS_10device_ptrIiEEEC2Ev
-.visible .func _ZN6thrust7pointerIiNS_6system4cuda6detail3tagENS_16device_referenceIiEENS_10device_ptrIiEEEC2Ev(
+	// .globl	thrust::pointer<int, thrust::system::cuda::detail::tag, thrust::device_reference<int>, thrust::device_ptr<int> >::pointer()
+.visible .func thrust::pointer<int, thrust::system::cuda::detail::tag, thrust::device_reference<int>, thrust::device_ptr<int> >::pointer()(
 	.param .b64 _ZN6thrust7pointerIiNS_6system4cuda6detail3tagENS_16device_referenceIiEENS_10device_ptrIiEEEC2Ev_param_0
 )
 {
@@ -4526,8 +4526,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZNK6thrust7pointerIiNS_6system4cuda6detail3tagENS_16device_referenceIiEENS_10device_ptrIiEEE3getEv
-.visible .func  (.param .b64 func_retval0) _ZNK6thrust7pointerIiNS_6system4cuda6detail3tagENS_16device_referenceIiEENS_10device_ptrIiEEE3getEv(
+	// .globl	thrust::pointer<int, thrust::system::cuda::detail::tag, thrust::device_reference<int>, thrust::device_ptr<int> >::get() const
+.visible .func  (.param .b64 func_retval0) thrust::pointer<int, thrust::system::cuda::detail::tag, thrust::device_reference<int>, thrust::device_ptr<int> >::get() const(
 	.param .b64 _ZNK6thrust7pointerIiNS_6system4cuda6detail3tagENS_16device_referenceIiEENS_10device_ptrIiEEE3getEv_param_0
 )
 {
@@ -4540,8 +4540,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust7pointerIiNS_6system4cuda6detail3tagENS_16device_referenceIiEENS_10device_ptrIiEEEC1IiEEPT_
-.visible .func _ZN6thrust7pointerIiNS_6system4cuda6detail3tagENS_16device_referenceIiEENS_10device_ptrIiEEEC1IiEEPT_(
+	// .globl	thrust::pointer<int, thrust::system::cuda::detail::tag, thrust::device_reference<int>, thrust::device_ptr<int> >::pointer<int>(int*)
+.visible .func thrust::pointer<int, thrust::system::cuda::detail::tag, thrust::device_reference<int>, thrust::device_ptr<int> >::pointer<int>(int*)(
 	.param .b64 _ZN6thrust7pointerIiNS_6system4cuda6detail3tagENS_16device_referenceIiEENS_10device_ptrIiEEEC1IiEEPT__param_0,
 	.param .b64 _ZN6thrust7pointerIiNS_6system4cuda6detail3tagENS_16device_referenceIiEENS_10device_ptrIiEEEC1IiEEPT__param_1
 )
@@ -4555,8 +4555,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust7pointerIiNS_6system4cuda6detail3tagENS_16device_referenceIiEENS_10device_ptrIiEEEC2IiEEPT_
-.visible .func _ZN6thrust7pointerIiNS_6system4cuda6detail3tagENS_16device_referenceIiEENS_10device_ptrIiEEEC2IiEEPT_(
+	// .globl	thrust::pointer<int, thrust::system::cuda::detail::tag, thrust::device_reference<int>, thrust::device_ptr<int> >::pointer<int>(int*)
+.visible .func thrust::pointer<int, thrust::system::cuda::detail::tag, thrust::device_reference<int>, thrust::device_ptr<int> >::pointer<int>(int*)(
 	.param .b64 _ZN6thrust7pointerIiNS_6system4cuda6detail3tagENS_16device_referenceIiEENS_10device_ptrIiEEEC2IiEEPT__param_0,
 	.param .b64 _ZN6thrust7pointerIiNS_6system4cuda6detail3tagENS_16device_referenceIiEENS_10device_ptrIiEEEC2IiEEPT__param_1
 )
@@ -4570,8 +4570,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust9referenceIiNS_10device_ptrIiEENS_16device_referenceIiEEEC1ERKS2_
-.visible .func _ZN6thrust9referenceIiNS_10device_ptrIiEENS_16device_referenceIiEEEC1ERKS2_(
+	// .globl	thrust::reference<int, thrust::device_ptr<int>, thrust::device_reference<int> >::reference(thrust::device_ptr<int> const&)
+.visible .func thrust::reference<int, thrust::device_ptr<int>, thrust::device_reference<int> >::reference(thrust::device_ptr<int> const&)(
 	.param .b64 _ZN6thrust9referenceIiNS_10device_ptrIiEENS_16device_referenceIiEEEC1ERKS2__param_0,
 	.param .b64 _ZN6thrust9referenceIiNS_10device_ptrIiEENS_16device_referenceIiEEEC1ERKS2__param_1
 )
@@ -4586,8 +4586,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZNK6thrust9referenceIiNS_10device_ptrIiEENS_16device_referenceIiEEEadEv
-.visible .func  (.param .align 8 .b8 func_retval0[8]) _ZNK6thrust9referenceIiNS_10device_ptrIiEENS_16device_referenceIiEEEadEv(
+	// .globl	thrust::reference<int, thrust::device_ptr<int>, thrust::device_reference<int> >::operator&() const
+.visible .func  (.param .align 8 .b8 func_retval0[8]) thrust::reference<int, thrust::device_ptr<int>, thrust::device_reference<int> >::operator&() const(
 	.param .b64 _ZNK6thrust9referenceIiNS_10device_ptrIiEENS_16device_referenceIiEEEadEv_param_0
 )
 {
@@ -4600,8 +4600,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail5seq_tC1Ev
-.visible .func _ZN6thrust6detail5seq_tC1Ev(
+	// .globl	thrust::detail::seq_t::seq_t()
+.visible .func thrust::detail::seq_t::seq_t()(
 	.param .b64 _ZN6thrust6detail5seq_tC1Ev_param_0
 )
 {
@@ -4611,8 +4611,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail5seq_tC2Ev
-.visible .func _ZN6thrust6detail5seq_tC2Ev(
+	// .globl	thrust::detail::seq_t::seq_t()
+.visible .func thrust::detail::seq_t::seq_t()(
 	.param .b64 _ZN6thrust6detail5seq_tC2Ev_param_0
 )
 {
@@ -4622,8 +4622,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail23device_generate_functorINS0_12fill_functorIiEEEclIiEEvRKT_
-.visible .func _ZN6thrust6detail23device_generate_functorINS0_12fill_functorIiEEEclIiEEvRKT_(
+	// .globl	void thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >::operator()<int>(int const&)
+.visible .func void thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >::operator()<int>(int const&)(
 	.param .b64 _ZN6thrust6detail23device_generate_functorINS0_12fill_functorIiEEEclIiEEvRKT__param_0,
 	.param .b64 _ZN6thrust6detail23device_generate_functorINS0_12fill_functorIiEEEclIiEEvRKT__param_1
 )
@@ -4639,8 +4639,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZNK6thrust6detail16wrapped_functionINS0_23device_generate_functorINS0_12fill_functorIiEEEEvEclINS_16device_referenceIiEEEEvRKT_
-.visible .func _ZNK6thrust6detail16wrapped_functionINS0_23device_generate_functorINS0_12fill_functorIiEEEEvEclINS_16device_referenceIiEEEEvRKT_(
+	// .globl	void thrust::detail::wrapped_function<thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >, void>::operator()<thrust::device_reference<int> >(thrust::device_reference<int> const&) const
+.visible .func void thrust::detail::wrapped_function<thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >, void>::operator()<thrust::device_reference<int> >(thrust::device_reference<int> const&) const(
 	.param .b64 _ZNK6thrust6detail16wrapped_functionINS0_23device_generate_functorINS0_12fill_functorIiEEEEvEclINS_16device_referenceIiEEEEvRKT__param_0,
 	.param .b64 _ZNK6thrust6detail16wrapped_functionINS0_23device_generate_functorINS0_12fill_functorIiEEEEvEclINS_16device_referenceIiEEEEvRKT__param_1
 )
@@ -4657,8 +4657,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust18raw_reference_castINS_16device_referenceIiEEEENS_6detail13raw_referenceIKT_E4typeERS6_
-.visible .func  (.param .b64 func_retval0) _ZN6thrust18raw_reference_castINS_16device_referenceIiEEEENS_6detail13raw_referenceIKT_E4typeERS6_(
+	// .globl	thrust::detail::raw_reference<thrust::device_reference<int> const>::type thrust::raw_reference_cast<thrust::device_reference<int> >(thrust::device_reference<int> const&)
+.visible .func  (.param .b64 func_retval0) thrust::detail::raw_reference<thrust::device_reference<int> const>::type thrust::raw_reference_cast<thrust::device_reference<int> >(thrust::device_reference<int> const&)(
 	.param .b64 _ZN6thrust18raw_reference_castINS_16device_referenceIiEEEENS_6detail13raw_referenceIKT_E4typeERS6__param_0
 )
 {
@@ -4671,8 +4671,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail4consIRNS_6system4cuda6detail5bulk_14parallel_groupINS5_16concurrent_groupINS5_5agentILm1EEELm0EEELm0EEENS1_INS_10device_ptrIiEENS1_INS0_16wrapped_functionINS0_23device_generate_functorINS0_12fill_functorIiEEEEvEENS1_IjNS_9null_typeEEEEEEEEC1ISB_KSE_KSK_KjKSL_SU_SU_SU_SU_SU_EERT_RT0_RT1_RT2_RT3_RT4_RT5_RT6_RT7_RT8_
-.visible .func _ZN6thrust6detail4consIRNS_6system4cuda6detail5bulk_14parallel_groupINS5_16concurrent_groupINS5_5agentILm1EEELm0EEELm0EEENS1_INS_10device_ptrIiEENS1_INS0_16wrapped_functionINS0_23device_generate_functorINS0_12fill_functorIiEEEEvEENS1_IjNS_9null_typeEEEEEEEEC1ISB_KSE_KSK_KjKSL_SU_SU_SU_SU_SU_EERT_RT0_RT1_RT2_RT3_RT4_RT5_RT6_RT7_RT8_(
+	// .globl	thrust::detail::cons<thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>&, thrust::detail::cons<thrust::device_ptr<int>, thrust::detail::cons<thrust::detail::wrapped_function<thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >, void>, thrust::detail::cons<unsigned int, thrust::null_type> > > >::cons<thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>, thrust::device_ptr<int> const, thrust::detail::wrapped_function<thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >, void> const, unsigned int const, thrust::null_type const, thrust::null_type const, thrust::null_type const, thrust::null_type const, thrust::null_type const, thrust::null_type const>(thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>&, thrust::device_ptr<int> const&, thrust::detail::wrapped_function<thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >, void> const&, unsigned int const&, thrust::null_type const&, thrust::null_type const&, thrust::null_type const&, thrust::null_type const&, thrust::null_type const&, thrust::null_type const&)
+.visible .func thrust::detail::cons<thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>&, thrust::detail::cons<thrust::device_ptr<int>, thrust::detail::cons<thrust::detail::wrapped_function<thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >, void>, thrust::detail::cons<unsigned int, thrust::null_type> > > >::cons<thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>, thrust::device_ptr<int> const, thrust::detail::wrapped_function<thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >, void> const, unsigned int const, thrust::null_type const, thrust::null_type const, thrust::null_type const, thrust::null_type const, thrust::null_type const, thrust::null_type const>(thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>&, thrust::device_ptr<int> const&, thrust::detail::wrapped_function<thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >, void> const&, unsigned int const&, thrust::null_type const&, thrust::null_type const&, thrust::null_type const&, thrust::null_type const&, thrust::null_type const&, thrust::null_type const&)(
 	.param .b64 _ZN6thrust6detail4consIRNS_6system4cuda6detail5bulk_14parallel_groupINS5_16concurrent_groupINS5_5agentILm1EEELm0EEELm0EEENS1_INS_10device_ptrIiEENS1_INS0_16wrapped_functionINS0_23device_generate_functorINS0_12fill_functorIiEEEEvEENS1_IjNS_9null_typeEEEEEEEEC1ISB_KSE_KSK_KjKSL_SU_SU_SU_SU_SU_EERT_RT0_RT1_RT2_RT3_RT4_RT5_RT6_RT7_RT8__param_0,
 	.param .b64 _ZN6thrust6detail4consIRNS_6system4cuda6detail5bulk_14parallel_groupINS5_16concurrent_groupINS5_5agentILm1EEELm0EEELm0EEENS1_INS_10device_ptrIiEENS1_INS0_16wrapped_functionINS0_23device_generate_functorINS0_12fill_functorIiEEEEvEENS1_IjNS_9null_typeEEEEEEEEC1ISB_KSE_KSK_KjKSL_SU_SU_SU_SU_SU_EERT_RT0_RT1_RT2_RT3_RT4_RT5_RT6_RT7_RT8__param_1,
 	.param .b64 _ZN6thrust6detail4consIRNS_6system4cuda6detail5bulk_14parallel_groupINS5_16concurrent_groupINS5_5agentILm1EEELm0EEELm0EEENS1_INS_10device_ptrIiEENS1_INS0_16wrapped_functionINS0_23device_generate_functorINS0_12fill_functorIiEEEEvEENS1_IjNS_9null_typeEEEEEEEEC1ISB_KSE_KSK_KjKSL_SU_SU_SU_SU_SU_EERT_RT0_RT1_RT2_RT3_RT4_RT5_RT6_RT7_RT8__param_2,
@@ -4705,8 +4705,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail4consIRNS_6system4cuda6detail5bulk_14parallel_groupINS5_16concurrent_groupINS5_5agentILm1EEELm0EEELm0EEENS1_INS_10device_ptrIiEENS1_INS0_16wrapped_functionINS0_23device_generate_functorINS0_12fill_functorIiEEEEvEENS1_IjNS_9null_typeEEEEEEEEC2ISB_KSE_KSK_KjKSL_SU_SU_SU_SU_SU_EERT_RT0_RT1_RT2_RT3_RT4_RT5_RT6_RT7_RT8_
-.visible .func _ZN6thrust6detail4consIRNS_6system4cuda6detail5bulk_14parallel_groupINS5_16concurrent_groupINS5_5agentILm1EEELm0EEELm0EEENS1_INS_10device_ptrIiEENS1_INS0_16wrapped_functionINS0_23device_generate_functorINS0_12fill_functorIiEEEEvEENS1_IjNS_9null_typeEEEEEEEEC2ISB_KSE_KSK_KjKSL_SU_SU_SU_SU_SU_EERT_RT0_RT1_RT2_RT3_RT4_RT5_RT6_RT7_RT8_(
+	// .globl	thrust::detail::cons<thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>&, thrust::detail::cons<thrust::device_ptr<int>, thrust::detail::cons<thrust::detail::wrapped_function<thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >, void>, thrust::detail::cons<unsigned int, thrust::null_type> > > >::cons<thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>, thrust::device_ptr<int> const, thrust::detail::wrapped_function<thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >, void> const, unsigned int const, thrust::null_type const, thrust::null_type const, thrust::null_type const, thrust::null_type const, thrust::null_type const, thrust::null_type const>(thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>&, thrust::device_ptr<int> const&, thrust::detail::wrapped_function<thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >, void> const&, unsigned int const&, thrust::null_type const&, thrust::null_type const&, thrust::null_type const&, thrust::null_type const&, thrust::null_type const&, thrust::null_type const&)
+.visible .func thrust::detail::cons<thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>&, thrust::detail::cons<thrust::device_ptr<int>, thrust::detail::cons<thrust::detail::wrapped_function<thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >, void>, thrust::detail::cons<unsigned int, thrust::null_type> > > >::cons<thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>, thrust::device_ptr<int> const, thrust::detail::wrapped_function<thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >, void> const, unsigned int const, thrust::null_type const, thrust::null_type const, thrust::null_type const, thrust::null_type const, thrust::null_type const, thrust::null_type const>(thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>&, thrust::device_ptr<int> const&, thrust::detail::wrapped_function<thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >, void> const&, unsigned int const&, thrust::null_type const&, thrust::null_type const&, thrust::null_type const&, thrust::null_type const&, thrust::null_type const&, thrust::null_type const&)(
 	.param .b64 _ZN6thrust6detail4consIRNS_6system4cuda6detail5bulk_14parallel_groupINS5_16concurrent_groupINS5_5agentILm1EEELm0EEELm0EEENS1_INS_10device_ptrIiEENS1_INS0_16wrapped_functionINS0_23device_generate_functorINS0_12fill_functorIiEEEEvEENS1_IjNS_9null_typeEEEEEEEEC2ISB_KSE_KSK_KjKSL_SU_SU_SU_SU_SU_EERT_RT0_RT1_RT2_RT3_RT4_RT5_RT6_RT7_RT8__param_0,
 	.param .b64 _ZN6thrust6detail4consIRNS_6system4cuda6detail5bulk_14parallel_groupINS5_16concurrent_groupINS5_5agentILm1EEELm0EEELm0EEENS1_INS_10device_ptrIiEENS1_INS0_16wrapped_functionINS0_23device_generate_functorINS0_12fill_functorIiEEEEvEENS1_IjNS_9null_typeEEEEEEEEC2ISB_KSE_KSK_KjKSL_SU_SU_SU_SU_SU_EERT_RT0_RT1_RT2_RT3_RT4_RT5_RT6_RT7_RT8__param_1,
 	.param .b64 _ZN6thrust6detail4consIRNS_6system4cuda6detail5bulk_14parallel_groupINS5_16concurrent_groupINS5_5agentILm1EEELm0EEELm0EEENS1_INS_10device_ptrIiEENS1_INS0_16wrapped_functionINS0_23device_generate_functorINS0_12fill_functorIiEEEEvEENS1_IjNS_9null_typeEEEEEEEEC2ISB_KSE_KSK_KjKSL_SU_SU_SU_SU_SU_EERT_RT0_RT1_RT2_RT3_RT4_RT5_RT6_RT7_RT8__param_2,
@@ -4739,8 +4739,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail4consIRNS_6system4cuda6detail5bulk_14parallel_groupINS5_16concurrent_groupINS5_5agentILm1EEELm0EEELm0EEENS1_INS_10device_ptrIiEENS1_INS0_16wrapped_functionINS0_23device_generate_functorINS0_12fill_functorIiEEEEvEENS1_IlNS_9null_typeEEEEEEEEC1ISB_KSE_KSK_KlKSL_SU_SU_SU_SU_SU_EERT_RT0_RT1_RT2_RT3_RT4_RT5_RT6_RT7_RT8_
-.visible .func _ZN6thrust6detail4consIRNS_6system4cuda6detail5bulk_14parallel_groupINS5_16concurrent_groupINS5_5agentILm1EEELm0EEELm0EEENS1_INS_10device_ptrIiEENS1_INS0_16wrapped_functionINS0_23device_generate_functorINS0_12fill_functorIiEEEEvEENS1_IlNS_9null_typeEEEEEEEEC1ISB_KSE_KSK_KlKSL_SU_SU_SU_SU_SU_EERT_RT0_RT1_RT2_RT3_RT4_RT5_RT6_RT7_RT8_(
+	// .globl	thrust::detail::cons<thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>&, thrust::detail::cons<thrust::device_ptr<int>, thrust::detail::cons<thrust::detail::wrapped_function<thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >, void>, thrust::detail::cons<long, thrust::null_type> > > >::cons<thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>, thrust::device_ptr<int> const, thrust::detail::wrapped_function<thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >, void> const, long const, thrust::null_type const, thrust::null_type const, thrust::null_type const, thrust::null_type const, thrust::null_type const, thrust::null_type const>(thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>&, thrust::device_ptr<int> const&, thrust::detail::wrapped_function<thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >, void> const&, long const&, thrust::null_type const&, thrust::null_type const&, thrust::null_type const&, thrust::null_type const&, thrust::null_type const&, thrust::null_type const&)
+.visible .func thrust::detail::cons<thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>&, thrust::detail::cons<thrust::device_ptr<int>, thrust::detail::cons<thrust::detail::wrapped_function<thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >, void>, thrust::detail::cons<long, thrust::null_type> > > >::cons<thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>, thrust::device_ptr<int> const, thrust::detail::wrapped_function<thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >, void> const, long const, thrust::null_type const, thrust::null_type const, thrust::null_type const, thrust::null_type const, thrust::null_type const, thrust::null_type const>(thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>&, thrust::device_ptr<int> const&, thrust::detail::wrapped_function<thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >, void> const&, long const&, thrust::null_type const&, thrust::null_type const&, thrust::null_type const&, thrust::null_type const&, thrust::null_type const&, thrust::null_type const&)(
 	.param .b64 _ZN6thrust6detail4consIRNS_6system4cuda6detail5bulk_14parallel_groupINS5_16concurrent_groupINS5_5agentILm1EEELm0EEELm0EEENS1_INS_10device_ptrIiEENS1_INS0_16wrapped_functionINS0_23device_generate_functorINS0_12fill_functorIiEEEEvEENS1_IlNS_9null_typeEEEEEEEEC1ISB_KSE_KSK_KlKSL_SU_SU_SU_SU_SU_EERT_RT0_RT1_RT2_RT3_RT4_RT5_RT6_RT7_RT8__param_0,
 	.param .b64 _ZN6thrust6detail4consIRNS_6system4cuda6detail5bulk_14parallel_groupINS5_16concurrent_groupINS5_5agentILm1EEELm0EEELm0EEENS1_INS_10device_ptrIiEENS1_INS0_16wrapped_functionINS0_23device_generate_functorINS0_12fill_functorIiEEEEvEENS1_IlNS_9null_typeEEEEEEEEC1ISB_KSE_KSK_KlKSL_SU_SU_SU_SU_SU_EERT_RT0_RT1_RT2_RT3_RT4_RT5_RT6_RT7_RT8__param_1,
 	.param .b64 _ZN6thrust6detail4consIRNS_6system4cuda6detail5bulk_14parallel_groupINS5_16concurrent_groupINS5_5agentILm1EEELm0EEELm0EEENS1_INS_10device_ptrIiEENS1_INS0_16wrapped_functionINS0_23device_generate_functorINS0_12fill_functorIiEEEEvEENS1_IlNS_9null_typeEEEEEEEEC1ISB_KSE_KSK_KlKSL_SU_SU_SU_SU_SU_EERT_RT0_RT1_RT2_RT3_RT4_RT5_RT6_RT7_RT8__param_2,
@@ -4773,8 +4773,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail4consIRNS_6system4cuda6detail5bulk_14parallel_groupINS5_16concurrent_groupINS5_5agentILm1EEELm0EEELm0EEENS1_INS_10device_ptrIiEENS1_INS0_16wrapped_functionINS0_23device_generate_functorINS0_12fill_functorIiEEEEvEENS1_IlNS_9null_typeEEEEEEEEC2ISB_KSE_KSK_KlKSL_SU_SU_SU_SU_SU_EERT_RT0_RT1_RT2_RT3_RT4_RT5_RT6_RT7_RT8_
-.visible .func _ZN6thrust6detail4consIRNS_6system4cuda6detail5bulk_14parallel_groupINS5_16concurrent_groupINS5_5agentILm1EEELm0EEELm0EEENS1_INS_10device_ptrIiEENS1_INS0_16wrapped_functionINS0_23device_generate_functorINS0_12fill_functorIiEEEEvEENS1_IlNS_9null_typeEEEEEEEEC2ISB_KSE_KSK_KlKSL_SU_SU_SU_SU_SU_EERT_RT0_RT1_RT2_RT3_RT4_RT5_RT6_RT7_RT8_(
+	// .globl	thrust::detail::cons<thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>&, thrust::detail::cons<thrust::device_ptr<int>, thrust::detail::cons<thrust::detail::wrapped_function<thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >, void>, thrust::detail::cons<long, thrust::null_type> > > >::cons<thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>, thrust::device_ptr<int> const, thrust::detail::wrapped_function<thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >, void> const, long const, thrust::null_type const, thrust::null_type const, thrust::null_type const, thrust::null_type const, thrust::null_type const, thrust::null_type const>(thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>&, thrust::device_ptr<int> const&, thrust::detail::wrapped_function<thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >, void> const&, long const&, thrust::null_type const&, thrust::null_type const&, thrust::null_type const&, thrust::null_type const&, thrust::null_type const&, thrust::null_type const&)
+.visible .func thrust::detail::cons<thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>&, thrust::detail::cons<thrust::device_ptr<int>, thrust::detail::cons<thrust::detail::wrapped_function<thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >, void>, thrust::detail::cons<long, thrust::null_type> > > >::cons<thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>, thrust::device_ptr<int> const, thrust::detail::wrapped_function<thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >, void> const, long const, thrust::null_type const, thrust::null_type const, thrust::null_type const, thrust::null_type const, thrust::null_type const, thrust::null_type const>(thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>&, thrust::device_ptr<int> const&, thrust::detail::wrapped_function<thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >, void> const&, long const&, thrust::null_type const&, thrust::null_type const&, thrust::null_type const&, thrust::null_type const&, thrust::null_type const&, thrust::null_type const&)(
 	.param .b64 _ZN6thrust6detail4consIRNS_6system4cuda6detail5bulk_14parallel_groupINS5_16concurrent_groupINS5_5agentILm1EEELm0EEELm0EEENS1_INS_10device_ptrIiEENS1_INS0_16wrapped_functionINS0_23device_generate_functorINS0_12fill_functorIiEEEEvEENS1_IlNS_9null_typeEEEEEEEEC2ISB_KSE_KSK_KlKSL_SU_SU_SU_SU_SU_EERT_RT0_RT1_RT2_RT3_RT4_RT5_RT6_RT7_RT8__param_0,
 	.param .b64 _ZN6thrust6detail4consIRNS_6system4cuda6detail5bulk_14parallel_groupINS5_16concurrent_groupINS5_5agentILm1EEELm0EEELm0EEENS1_INS_10device_ptrIiEENS1_INS0_16wrapped_functionINS0_23device_generate_functorINS0_12fill_functorIiEEEEvEENS1_IlNS_9null_typeEEEEEEEEC2ISB_KSE_KSK_KlKSL_SU_SU_SU_SU_SU_EERT_RT0_RT1_RT2_RT3_RT4_RT5_RT6_RT7_RT8__param_1,
 	.param .b64 _ZN6thrust6detail4consIRNS_6system4cuda6detail5bulk_14parallel_groupINS5_16concurrent_groupINS5_5agentILm1EEELm0EEELm0EEENS1_INS_10device_ptrIiEENS1_INS0_16wrapped_functionINS0_23device_generate_functorINS0_12fill_functorIiEEEEvEENS1_IlNS_9null_typeEEEEEEEEC2ISB_KSE_KSK_KlKSL_SU_SU_SU_SU_SU_EERT_RT0_RT1_RT2_RT3_RT4_RT5_RT6_RT7_RT8__param_2,
@@ -4807,8 +4807,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail10functional8argumentILj0EEC1Ev
-.visible .func _ZN6thrust6detail10functional8argumentILj0EEC1Ev(
+	// .globl	thrust::detail::functional::argument<0u>::argument()
+.visible .func thrust::detail::functional::argument<0u>::argument()(
 	.param .b64 _ZN6thrust6detail10functional8argumentILj0EEC1Ev_param_0
 )
 {
@@ -4818,8 +4818,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail10functional8argumentILj0EEC2Ev
-.visible .func _ZN6thrust6detail10functional8argumentILj0EEC2Ev(
+	// .globl	thrust::detail::functional::argument<0u>::argument()
+.visible .func thrust::detail::functional::argument<0u>::argument()(
 	.param .b64 _ZN6thrust6detail10functional8argumentILj0EEC2Ev_param_0
 )
 {
@@ -4829,8 +4829,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail10functional5actorINS1_8argumentILj0EEEEC1Ev
-.visible .func _ZN6thrust6detail10functional5actorINS1_8argumentILj0EEEEC1Ev(
+	// .globl	thrust::detail::functional::actor<thrust::detail::functional::argument<0u> >::actor()
+.visible .func thrust::detail::functional::actor<thrust::detail::functional::argument<0u> >::actor()(
 	.param .b64 _ZN6thrust6detail10functional5actorINS1_8argumentILj0EEEEC1Ev_param_0
 )
 {
@@ -4840,8 +4840,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail10functional5actorINS1_8argumentILj0EEEEC2Ev
-.visible .func _ZN6thrust6detail10functional5actorINS1_8argumentILj0EEEEC2Ev(
+	// .globl	thrust::detail::functional::actor<thrust::detail::functional::argument<0u> >::actor()
+.visible .func thrust::detail::functional::actor<thrust::detail::functional::argument<0u> >::actor()(
 	.param .b64 _ZN6thrust6detail10functional5actorINS1_8argumentILj0EEEEC2Ev_param_0
 )
 {
@@ -4851,8 +4851,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail10functional8argumentILj1EEC1Ev
-.visible .func _ZN6thrust6detail10functional8argumentILj1EEC1Ev(
+	// .globl	thrust::detail::functional::argument<1u>::argument()
+.visible .func thrust::detail::functional::argument<1u>::argument()(
 	.param .b64 _ZN6thrust6detail10functional8argumentILj1EEC1Ev_param_0
 )
 {
@@ -4862,8 +4862,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail10functional8argumentILj1EEC2Ev
-.visible .func _ZN6thrust6detail10functional8argumentILj1EEC2Ev(
+	// .globl	thrust::detail::functional::argument<1u>::argument()
+.visible .func thrust::detail::functional::argument<1u>::argument()(
 	.param .b64 _ZN6thrust6detail10functional8argumentILj1EEC2Ev_param_0
 )
 {
@@ -4873,8 +4873,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail10functional5actorINS1_8argumentILj1EEEEC1Ev
-.visible .func _ZN6thrust6detail10functional5actorINS1_8argumentILj1EEEEC1Ev(
+	// .globl	thrust::detail::functional::actor<thrust::detail::functional::argument<1u> >::actor()
+.visible .func thrust::detail::functional::actor<thrust::detail::functional::argument<1u> >::actor()(
 	.param .b64 _ZN6thrust6detail10functional5actorINS1_8argumentILj1EEEEC1Ev_param_0
 )
 {
@@ -4884,8 +4884,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail10functional5actorINS1_8argumentILj1EEEEC2Ev
-.visible .func _ZN6thrust6detail10functional5actorINS1_8argumentILj1EEEEC2Ev(
+	// .globl	thrust::detail::functional::actor<thrust::detail::functional::argument<1u> >::actor()
+.visible .func thrust::detail::functional::actor<thrust::detail::functional::argument<1u> >::actor()(
 	.param .b64 _ZN6thrust6detail10functional5actorINS1_8argumentILj1EEEEC2Ev_param_0
 )
 {
@@ -4895,8 +4895,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail10functional8argumentILj2EEC1Ev
-.visible .func _ZN6thrust6detail10functional8argumentILj2EEC1Ev(
+	// .globl	thrust::detail::functional::argument<2u>::argument()
+.visible .func thrust::detail::functional::argument<2u>::argument()(
 	.param .b64 _ZN6thrust6detail10functional8argumentILj2EEC1Ev_param_0
 )
 {
@@ -4906,8 +4906,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail10functional8argumentILj2EEC2Ev
-.visible .func _ZN6thrust6detail10functional8argumentILj2EEC2Ev(
+	// .globl	thrust::detail::functional::argument<2u>::argument()
+.visible .func thrust::detail::functional::argument<2u>::argument()(
 	.param .b64 _ZN6thrust6detail10functional8argumentILj2EEC2Ev_param_0
 )
 {
@@ -4917,8 +4917,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail10functional5actorINS1_8argumentILj2EEEEC1Ev
-.visible .func _ZN6thrust6detail10functional5actorINS1_8argumentILj2EEEEC1Ev(
+	// .globl	thrust::detail::functional::actor<thrust::detail::functional::argument<2u> >::actor()
+.visible .func thrust::detail::functional::actor<thrust::detail::functional::argument<2u> >::actor()(
 	.param .b64 _ZN6thrust6detail10functional5actorINS1_8argumentILj2EEEEC1Ev_param_0
 )
 {
@@ -4928,8 +4928,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail10functional5actorINS1_8argumentILj2EEEEC2Ev
-.visible .func _ZN6thrust6detail10functional5actorINS1_8argumentILj2EEEEC2Ev(
+	// .globl	thrust::detail::functional::actor<thrust::detail::functional::argument<2u> >::actor()
+.visible .func thrust::detail::functional::actor<thrust::detail::functional::argument<2u> >::actor()(
 	.param .b64 _ZN6thrust6detail10functional5actorINS1_8argumentILj2EEEEC2Ev_param_0
 )
 {
@@ -4939,8 +4939,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail10functional8argumentILj3EEC1Ev
-.visible .func _ZN6thrust6detail10functional8argumentILj3EEC1Ev(
+	// .globl	thrust::detail::functional::argument<3u>::argument()
+.visible .func thrust::detail::functional::argument<3u>::argument()(
 	.param .b64 _ZN6thrust6detail10functional8argumentILj3EEC1Ev_param_0
 )
 {
@@ -4950,8 +4950,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail10functional8argumentILj3EEC2Ev
-.visible .func _ZN6thrust6detail10functional8argumentILj3EEC2Ev(
+	// .globl	thrust::detail::functional::argument<3u>::argument()
+.visible .func thrust::detail::functional::argument<3u>::argument()(
 	.param .b64 _ZN6thrust6detail10functional8argumentILj3EEC2Ev_param_0
 )
 {
@@ -4961,8 +4961,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail10functional5actorINS1_8argumentILj3EEEEC1Ev
-.visible .func _ZN6thrust6detail10functional5actorINS1_8argumentILj3EEEEC1Ev(
+	// .globl	thrust::detail::functional::actor<thrust::detail::functional::argument<3u> >::actor()
+.visible .func thrust::detail::functional::actor<thrust::detail::functional::argument<3u> >::actor()(
 	.param .b64 _ZN6thrust6detail10functional5actorINS1_8argumentILj3EEEEC1Ev_param_0
 )
 {
@@ -4972,8 +4972,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail10functional5actorINS1_8argumentILj3EEEEC2Ev
-.visible .func _ZN6thrust6detail10functional5actorINS1_8argumentILj3EEEEC2Ev(
+	// .globl	thrust::detail::functional::actor<thrust::detail::functional::argument<3u> >::actor()
+.visible .func thrust::detail::functional::actor<thrust::detail::functional::argument<3u> >::actor()(
 	.param .b64 _ZN6thrust6detail10functional5actorINS1_8argumentILj3EEEEC2Ev_param_0
 )
 {
@@ -4983,8 +4983,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail10functional8argumentILj4EEC1Ev
-.visible .func _ZN6thrust6detail10functional8argumentILj4EEC1Ev(
+	// .globl	thrust::detail::functional::argument<4u>::argument()
+.visible .func thrust::detail::functional::argument<4u>::argument()(
 	.param .b64 _ZN6thrust6detail10functional8argumentILj4EEC1Ev_param_0
 )
 {
@@ -4994,8 +4994,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail10functional8argumentILj4EEC2Ev
-.visible .func _ZN6thrust6detail10functional8argumentILj4EEC2Ev(
+	// .globl	thrust::detail::functional::argument<4u>::argument()
+.visible .func thrust::detail::functional::argument<4u>::argument()(
 	.param .b64 _ZN6thrust6detail10functional8argumentILj4EEC2Ev_param_0
 )
 {
@@ -5005,8 +5005,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail10functional5actorINS1_8argumentILj4EEEEC1Ev
-.visible .func _ZN6thrust6detail10functional5actorINS1_8argumentILj4EEEEC1Ev(
+	// .globl	thrust::detail::functional::actor<thrust::detail::functional::argument<4u> >::actor()
+.visible .func thrust::detail::functional::actor<thrust::detail::functional::argument<4u> >::actor()(
 	.param .b64 _ZN6thrust6detail10functional5actorINS1_8argumentILj4EEEEC1Ev_param_0
 )
 {
@@ -5016,8 +5016,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail10functional5actorINS1_8argumentILj4EEEEC2Ev
-.visible .func _ZN6thrust6detail10functional5actorINS1_8argumentILj4EEEEC2Ev(
+	// .globl	thrust::detail::functional::actor<thrust::detail::functional::argument<4u> >::actor()
+.visible .func thrust::detail::functional::actor<thrust::detail::functional::argument<4u> >::actor()(
 	.param .b64 _ZN6thrust6detail10functional5actorINS1_8argumentILj4EEEEC2Ev_param_0
 )
 {
@@ -5027,8 +5027,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail10functional8argumentILj5EEC1Ev
-.visible .func _ZN6thrust6detail10functional8argumentILj5EEC1Ev(
+	// .globl	thrust::detail::functional::argument<5u>::argument()
+.visible .func thrust::detail::functional::argument<5u>::argument()(
 	.param .b64 _ZN6thrust6detail10functional8argumentILj5EEC1Ev_param_0
 )
 {
@@ -5038,8 +5038,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail10functional8argumentILj5EEC2Ev
-.visible .func _ZN6thrust6detail10functional8argumentILj5EEC2Ev(
+	// .globl	thrust::detail::functional::argument<5u>::argument()
+.visible .func thrust::detail::functional::argument<5u>::argument()(
 	.param .b64 _ZN6thrust6detail10functional8argumentILj5EEC2Ev_param_0
 )
 {
@@ -5049,8 +5049,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail10functional5actorINS1_8argumentILj5EEEEC1Ev
-.visible .func _ZN6thrust6detail10functional5actorINS1_8argumentILj5EEEEC1Ev(
+	// .globl	thrust::detail::functional::actor<thrust::detail::functional::argument<5u> >::actor()
+.visible .func thrust::detail::functional::actor<thrust::detail::functional::argument<5u> >::actor()(
 	.param .b64 _ZN6thrust6detail10functional5actorINS1_8argumentILj5EEEEC1Ev_param_0
 )
 {
@@ -5060,8 +5060,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail10functional5actorINS1_8argumentILj5EEEEC2Ev
-.visible .func _ZN6thrust6detail10functional5actorINS1_8argumentILj5EEEEC2Ev(
+	// .globl	thrust::detail::functional::actor<thrust::detail::functional::argument<5u> >::actor()
+.visible .func thrust::detail::functional::actor<thrust::detail::functional::argument<5u> >::actor()(
 	.param .b64 _ZN6thrust6detail10functional5actorINS1_8argumentILj5EEEEC2Ev_param_0
 )
 {
@@ -5071,8 +5071,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail10functional8argumentILj6EEC1Ev
-.visible .func _ZN6thrust6detail10functional8argumentILj6EEC1Ev(
+	// .globl	thrust::detail::functional::argument<6u>::argument()
+.visible .func thrust::detail::functional::argument<6u>::argument()(
 	.param .b64 _ZN6thrust6detail10functional8argumentILj6EEC1Ev_param_0
 )
 {
@@ -5082,8 +5082,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail10functional8argumentILj6EEC2Ev
-.visible .func _ZN6thrust6detail10functional8argumentILj6EEC2Ev(
+	// .globl	thrust::detail::functional::argument<6u>::argument()
+.visible .func thrust::detail::functional::argument<6u>::argument()(
 	.param .b64 _ZN6thrust6detail10functional8argumentILj6EEC2Ev_param_0
 )
 {
@@ -5093,8 +5093,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail10functional5actorINS1_8argumentILj6EEEEC1Ev
-.visible .func _ZN6thrust6detail10functional5actorINS1_8argumentILj6EEEEC1Ev(
+	// .globl	thrust::detail::functional::actor<thrust::detail::functional::argument<6u> >::actor()
+.visible .func thrust::detail::functional::actor<thrust::detail::functional::argument<6u> >::actor()(
 	.param .b64 _ZN6thrust6detail10functional5actorINS1_8argumentILj6EEEEC1Ev_param_0
 )
 {
@@ -5104,8 +5104,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail10functional5actorINS1_8argumentILj6EEEEC2Ev
-.visible .func _ZN6thrust6detail10functional5actorINS1_8argumentILj6EEEEC2Ev(
+	// .globl	thrust::detail::functional::actor<thrust::detail::functional::argument<6u> >::actor()
+.visible .func thrust::detail::functional::actor<thrust::detail::functional::argument<6u> >::actor()(
 	.param .b64 _ZN6thrust6detail10functional5actorINS1_8argumentILj6EEEEC2Ev_param_0
 )
 {
@@ -5115,8 +5115,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail10functional8argumentILj7EEC1Ev
-.visible .func _ZN6thrust6detail10functional8argumentILj7EEC1Ev(
+	// .globl	thrust::detail::functional::argument<7u>::argument()
+.visible .func thrust::detail::functional::argument<7u>::argument()(
 	.param .b64 _ZN6thrust6detail10functional8argumentILj7EEC1Ev_param_0
 )
 {
@@ -5126,8 +5126,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail10functional8argumentILj7EEC2Ev
-.visible .func _ZN6thrust6detail10functional8argumentILj7EEC2Ev(
+	// .globl	thrust::detail::functional::argument<7u>::argument()
+.visible .func thrust::detail::functional::argument<7u>::argument()(
 	.param .b64 _ZN6thrust6detail10functional8argumentILj7EEC2Ev_param_0
 )
 {
@@ -5137,8 +5137,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail10functional5actorINS1_8argumentILj7EEEEC1Ev
-.visible .func _ZN6thrust6detail10functional5actorINS1_8argumentILj7EEEEC1Ev(
+	// .globl	thrust::detail::functional::actor<thrust::detail::functional::argument<7u> >::actor()
+.visible .func thrust::detail::functional::actor<thrust::detail::functional::argument<7u> >::actor()(
 	.param .b64 _ZN6thrust6detail10functional5actorINS1_8argumentILj7EEEEC1Ev_param_0
 )
 {
@@ -5148,8 +5148,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail10functional5actorINS1_8argumentILj7EEEEC2Ev
-.visible .func _ZN6thrust6detail10functional5actorINS1_8argumentILj7EEEEC2Ev(
+	// .globl	thrust::detail::functional::actor<thrust::detail::functional::argument<7u> >::actor()
+.visible .func thrust::detail::functional::actor<thrust::detail::functional::argument<7u> >::actor()(
 	.param .b64 _ZN6thrust6detail10functional5actorINS1_8argumentILj7EEEEC2Ev_param_0
 )
 {
@@ -5159,8 +5159,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail10functional8argumentILj8EEC1Ev
-.visible .func _ZN6thrust6detail10functional8argumentILj8EEC1Ev(
+	// .globl	thrust::detail::functional::argument<8u>::argument()
+.visible .func thrust::detail::functional::argument<8u>::argument()(
 	.param .b64 _ZN6thrust6detail10functional8argumentILj8EEC1Ev_param_0
 )
 {
@@ -5170,8 +5170,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail10functional8argumentILj8EEC2Ev
-.visible .func _ZN6thrust6detail10functional8argumentILj8EEC2Ev(
+	// .globl	thrust::detail::functional::argument<8u>::argument()
+.visible .func thrust::detail::functional::argument<8u>::argument()(
 	.param .b64 _ZN6thrust6detail10functional8argumentILj8EEC2Ev_param_0
 )
 {
@@ -5181,8 +5181,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail10functional5actorINS1_8argumentILj8EEEEC1Ev
-.visible .func _ZN6thrust6detail10functional5actorINS1_8argumentILj8EEEEC1Ev(
+	// .globl	thrust::detail::functional::actor<thrust::detail::functional::argument<8u> >::actor()
+.visible .func thrust::detail::functional::actor<thrust::detail::functional::argument<8u> >::actor()(
 	.param .b64 _ZN6thrust6detail10functional5actorINS1_8argumentILj8EEEEC1Ev_param_0
 )
 {
@@ -5192,8 +5192,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail10functional5actorINS1_8argumentILj8EEEEC2Ev
-.visible .func _ZN6thrust6detail10functional5actorINS1_8argumentILj8EEEEC2Ev(
+	// .globl	thrust::detail::functional::actor<thrust::detail::functional::argument<8u> >::actor()
+.visible .func thrust::detail::functional::actor<thrust::detail::functional::argument<8u> >::actor()(
 	.param .b64 _ZN6thrust6detail10functional5actorINS1_8argumentILj8EEEEC2Ev_param_0
 )
 {
@@ -5203,8 +5203,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail10functional8argumentILj9EEC1Ev
-.visible .func _ZN6thrust6detail10functional8argumentILj9EEC1Ev(
+	// .globl	thrust::detail::functional::argument<9u>::argument()
+.visible .func thrust::detail::functional::argument<9u>::argument()(
 	.param .b64 _ZN6thrust6detail10functional8argumentILj9EEC1Ev_param_0
 )
 {
@@ -5214,8 +5214,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail10functional8argumentILj9EEC2Ev
-.visible .func _ZN6thrust6detail10functional8argumentILj9EEC2Ev(
+	// .globl	thrust::detail::functional::argument<9u>::argument()
+.visible .func thrust::detail::functional::argument<9u>::argument()(
 	.param .b64 _ZN6thrust6detail10functional8argumentILj9EEC2Ev_param_0
 )
 {
@@ -5225,8 +5225,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail10functional5actorINS1_8argumentILj9EEEEC1Ev
-.visible .func _ZN6thrust6detail10functional5actorINS1_8argumentILj9EEEEC1Ev(
+	// .globl	thrust::detail::functional::actor<thrust::detail::functional::argument<9u> >::actor()
+.visible .func thrust::detail::functional::actor<thrust::detail::functional::argument<9u> >::actor()(
 	.param .b64 _ZN6thrust6detail10functional5actorINS1_8argumentILj9EEEEC1Ev_param_0
 )
 {
@@ -5236,8 +5236,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail10functional5actorINS1_8argumentILj9EEEEC2Ev
-.visible .func _ZN6thrust6detail10functional5actorINS1_8argumentILj9EEEEC2Ev(
+	// .globl	thrust::detail::functional::actor<thrust::detail::functional::argument<9u> >::actor()
+.visible .func thrust::detail::functional::actor<thrust::detail::functional::argument<9u> >::actor()(
 	.param .b64 _ZN6thrust6detail10functional5actorINS1_8argumentILj9EEEEC2Ev_param_0
 )
 {
@@ -5247,8 +5247,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6system6detail10sequential3tagC1Ev
-.visible .func _ZN6thrust6system6detail10sequential3tagC1Ev(
+	// .globl	thrust::system::detail::sequential::tag::tag()
+.visible .func thrust::system::detail::sequential::tag::tag()(
 	.param .b64 _ZN6thrust6system6detail10sequential3tagC1Ev_param_0
 )
 {
@@ -5258,8 +5258,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6system6detail10sequential3tagC2Ev
-.visible .func _ZN6thrust6system6detail10sequential3tagC2Ev(
+	// .globl	thrust::system::detail::sequential::tag::tag()
+.visible .func thrust::system::detail::sequential::tag::tag()(
 	.param .b64 _ZN6thrust6system6detail10sequential3tagC2Ev_param_0
 )
 {
@@ -5269,8 +5269,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6system4cuda6detail5bulk_14parallel_groupINS3_5agentILm1EEELm0EEC1EiS6_i
-.visible .func _ZN6thrust6system4cuda6detail5bulk_14parallel_groupINS3_5agentILm1EEELm0EEC1EiS6_i(
+	// .globl	thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>::parallel_group(int, thrust::system::cuda::detail::bulk_::agent<1ul>, int)
+.visible .func thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>::parallel_group(int, thrust::system::cuda::detail::bulk_::agent<1ul>, int)(
 	.param .b64 _ZN6thrust6system4cuda6detail5bulk_14parallel_groupINS3_5agentILm1EEELm0EEC1EiS6_i_param_0,
 	.param .b32 _ZN6thrust6system4cuda6detail5bulk_14parallel_groupINS3_5agentILm1EEELm0EEC1EiS6_i_param_1,
 	.param .align 4 .b8 _ZN6thrust6system4cuda6detail5bulk_14parallel_groupINS3_5agentILm1EEELm0EEC1EiS6_i_param_2[4],
@@ -5291,8 +5291,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6system4cuda6detail5bulk_6detail12group_detail10group_baseINS3_5agentILm1EEELm0EEC1EiS8_i
-.visible .func _ZN6thrust6system4cuda6detail5bulk_6detail12group_detail10group_baseINS3_5agentILm1EEELm0EEC1EiS8_i(
+	// .globl	thrust::system::cuda::detail::bulk_::detail::group_detail::group_base<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>::group_base(int, thrust::system::cuda::detail::bulk_::agent<1ul>, int)
+.visible .func thrust::system::cuda::detail::bulk_::detail::group_detail::group_base<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>::group_base(int, thrust::system::cuda::detail::bulk_::agent<1ul>, int)(
 	.param .b64 _ZN6thrust6system4cuda6detail5bulk_6detail12group_detail10group_baseINS3_5agentILm1EEELm0EEC1EiS8_i_param_0,
 	.param .b32 _ZN6thrust6system4cuda6detail5bulk_6detail12group_detail10group_baseINS3_5agentILm1EEELm0EEC1EiS8_i_param_1,
 	.param .align 4 .b8 _ZN6thrust6system4cuda6detail5bulk_6detail12group_detail10group_baseINS3_5agentILm1EEELm0EEC1EiS8_i_param_2[4],
@@ -5313,8 +5313,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6system4cuda6detail5bulk_14parallel_groupINS3_5agentILm1EEELm0EEC2EiS6_i
-.visible .func _ZN6thrust6system4cuda6detail5bulk_14parallel_groupINS3_5agentILm1EEELm0EEC2EiS6_i(
+	// .globl	thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>::parallel_group(int, thrust::system::cuda::detail::bulk_::agent<1ul>, int)
+.visible .func thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>::parallel_group(int, thrust::system::cuda::detail::bulk_::agent<1ul>, int)(
 	.param .b64 _ZN6thrust6system4cuda6detail5bulk_14parallel_groupINS3_5agentILm1EEELm0EEC2EiS6_i_param_0,
 	.param .b32 _ZN6thrust6system4cuda6detail5bulk_14parallel_groupINS3_5agentILm1EEELm0EEC2EiS6_i_param_1,
 	.param .align 4 .b8 _ZN6thrust6system4cuda6detail5bulk_14parallel_groupINS3_5agentILm1EEELm0EEC2EiS6_i_param_2[4],
@@ -5335,8 +5335,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6system4cuda6detail5bulk_6detail27singleton_on_chip_allocatorC1Em
-.visible .func _ZN6thrust6system4cuda6detail5bulk_6detail27singleton_on_chip_allocatorC1Em(
+	// .globl	thrust::system::cuda::detail::bulk_::detail::singleton_on_chip_allocator::singleton_on_chip_allocator(unsigned long)
+.visible .func thrust::system::cuda::detail::bulk_::detail::singleton_on_chip_allocator::singleton_on_chip_allocator(unsigned long)(
 	.param .b64 _ZN6thrust6system4cuda6detail5bulk_6detail27singleton_on_chip_allocatorC1Em_param_0,
 	.param .b64 _ZN6thrust6system4cuda6detail5bulk_6detail27singleton_on_chip_allocatorC1Em_param_1
 )
@@ -5349,15 +5349,15 @@ BB40_2:
 	ld.param.u64 	%rd2, [_ZN6thrust6system4cuda6detail5bulk_6detail27singleton_on_chip_allocatorC1Em_param_1];
 	mov.u32 	%r1, 0;
 	st.u32 	[%rd1], %r1;
-	mov.u64 	%rd3, _ZN6thrust6system4cuda6detail5bulk_6detail20s_data_segment_beginE;
+	mov.u64 	%rd3, thrust::system::cuda::detail::bulk_::detail::s_data_segment_begin;
 	cvta.shared.u64 	%rd4, %rd3;
 	st.u64 	[%rd1+8], %rd4;
 	st.u64 	[%rd1+16], %rd2;
 	ret;
 }
 
-	// .globl	_ZN6thrust6system4cuda6detail5bulk_6detail6cursorILj1EEC1Ev
-.visible .func _ZN6thrust6system4cuda6detail5bulk_6detail6cursorILj1EEC1Ev(
+	// .globl	thrust::system::cuda::detail::bulk_::detail::cursor<1u>::cursor()
+.visible .func thrust::system::cuda::detail::bulk_::detail::cursor<1u>::cursor()(
 	.param .b64 _ZN6thrust6system4cuda6detail5bulk_6detail6cursorILj1EEC1Ev_param_0
 )
 {
@@ -5367,8 +5367,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6system4cuda6detail5bulk_6detail6cursorILj1EEC2Ev
-.visible .func _ZN6thrust6system4cuda6detail5bulk_6detail6cursorILj1EEC2Ev(
+	// .globl	thrust::system::cuda::detail::bulk_::detail::cursor<1u>::cursor()
+.visible .func thrust::system::cuda::detail::bulk_::detail::cursor<1u>::cursor()(
 	.param .b64 _ZN6thrust6system4cuda6detail5bulk_6detail6cursorILj1EEC2Ev_param_0
 )
 {
@@ -5378,8 +5378,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6system4cuda6detail5bulk_6detail6cursorILj0EEC1Ev
-.visible .func _ZN6thrust6system4cuda6detail5bulk_6detail6cursorILj0EEC1Ev(
+	// .globl	thrust::system::cuda::detail::bulk_::detail::cursor<0u>::cursor()
+.visible .func thrust::system::cuda::detail::bulk_::detail::cursor<0u>::cursor()(
 	.param .b64 _ZN6thrust6system4cuda6detail5bulk_6detail6cursorILj0EEC1Ev_param_0
 )
 {
@@ -5389,8 +5389,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6system4cuda6detail5bulk_6detail6cursorILj0EEC2Ev
-.visible .func _ZN6thrust6system4cuda6detail5bulk_6detail6cursorILj0EEC2Ev(
+	// .globl	thrust::system::cuda::detail::bulk_::detail::cursor<0u>::cursor()
+.visible .func thrust::system::cuda::detail::bulk_::detail::cursor<0u>::cursor()(
 	.param .b64 _ZN6thrust6system4cuda6detail5bulk_6detail6cursorILj0EEC2Ev_param_0
 )
 {
@@ -5400,8 +5400,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6system4cuda6detail5bulk_6detail27singleton_on_chip_allocator5mutexC1Ev
-.visible .func _ZN6thrust6system4cuda6detail5bulk_6detail27singleton_on_chip_allocator5mutexC1Ev(
+	// .globl	thrust::system::cuda::detail::bulk_::detail::singleton_on_chip_allocator::mutex::mutex()
+.visible .func thrust::system::cuda::detail::bulk_::detail::singleton_on_chip_allocator::mutex::mutex()(
 	.param .b64 _ZN6thrust6system4cuda6detail5bulk_6detail27singleton_on_chip_allocator5mutexC1Ev_param_0
 )
 {
@@ -5415,8 +5415,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6system4cuda6detail5bulk_6detail27singleton_on_chip_allocatorC2Em
-.visible .func _ZN6thrust6system4cuda6detail5bulk_6detail27singleton_on_chip_allocatorC2Em(
+	// .globl	thrust::system::cuda::detail::bulk_::detail::singleton_on_chip_allocator::singleton_on_chip_allocator(unsigned long)
+.visible .func thrust::system::cuda::detail::bulk_::detail::singleton_on_chip_allocator::singleton_on_chip_allocator(unsigned long)(
 	.param .b64 _ZN6thrust6system4cuda6detail5bulk_6detail27singleton_on_chip_allocatorC2Em_param_0,
 	.param .b64 _ZN6thrust6system4cuda6detail5bulk_6detail27singleton_on_chip_allocatorC2Em_param_1
 )
@@ -5429,15 +5429,15 @@ BB40_2:
 	ld.param.u64 	%rd2, [_ZN6thrust6system4cuda6detail5bulk_6detail27singleton_on_chip_allocatorC2Em_param_1];
 	mov.u32 	%r1, 0;
 	st.u32 	[%rd1], %r1;
-	mov.u64 	%rd3, _ZN6thrust6system4cuda6detail5bulk_6detail20s_data_segment_beginE;
+	mov.u64 	%rd3, thrust::system::cuda::detail::bulk_::detail::s_data_segment_begin;
 	cvta.shared.u64 	%rd4, %rd3;
 	st.u64 	[%rd1+8], %rd4;
 	st.u64 	[%rd1+16], %rd2;
 	ret;
 }
 
-	// .globl	_ZN6thrust6system4cuda6detail5bulk_6detail27singleton_on_chip_allocator5mutexC2Ev
-.visible .func _ZN6thrust6system4cuda6detail5bulk_6detail27singleton_on_chip_allocator5mutexC2Ev(
+	// .globl	thrust::system::cuda::detail::bulk_::detail::singleton_on_chip_allocator::mutex::mutex()
+.visible .func thrust::system::cuda::detail::bulk_::detail::singleton_on_chip_allocator::mutex::mutex()(
 	.param .b64 _ZN6thrust6system4cuda6detail5bulk_6detail27singleton_on_chip_allocator5mutexC2Ev_param_0
 )
 {
@@ -5451,8 +5451,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6system4cuda6detail5bulk_6detail12group_detail10group_baseINS3_5agentILm1EEELm0EEC2EiS8_i
-.visible .func _ZN6thrust6system4cuda6detail5bulk_6detail12group_detail10group_baseINS3_5agentILm1EEELm0EEC2EiS8_i(
+	// .globl	thrust::system::cuda::detail::bulk_::detail::group_detail::group_base<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>::group_base(int, thrust::system::cuda::detail::bulk_::agent<1ul>, int)
+.visible .func thrust::system::cuda::detail::bulk_::detail::group_detail::group_base<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>::group_base(int, thrust::system::cuda::detail::bulk_::agent<1ul>, int)(
 	.param .b64 _ZN6thrust6system4cuda6detail5bulk_6detail12group_detail10group_baseINS3_5agentILm1EEELm0EEC2EiS8_i_param_0,
 	.param .b32 _ZN6thrust6system4cuda6detail5bulk_6detail12group_detail10group_baseINS3_5agentILm1EEELm0EEC2EiS8_i_param_1,
 	.param .align 4 .b8 _ZN6thrust6system4cuda6detail5bulk_6detail12group_detail10group_baseINS3_5agentILm1EEELm0EEC2EiS8_i_param_2[4],
@@ -5473,8 +5473,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6system4cuda6detail5bulk_6detail12group_detail10group_baseINS3_16concurrent_groupINS3_5agentILm1EEELm0EEELm0EEC1EiSA_i
-.visible .func _ZN6thrust6system4cuda6detail5bulk_6detail12group_detail10group_baseINS3_16concurrent_groupINS3_5agentILm1EEELm0EEELm0EEC1EiSA_i(
+	// .globl	thrust::system::cuda::detail::bulk_::detail::group_detail::group_base<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>::group_base(int, thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, int)
+.visible .func thrust::system::cuda::detail::bulk_::detail::group_detail::group_base<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>::group_base(int, thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, int)(
 	.param .b64 _ZN6thrust6system4cuda6detail5bulk_6detail12group_detail10group_baseINS3_16concurrent_groupINS3_5agentILm1EEELm0EEELm0EEC1EiSA_i_param_0,
 	.param .b32 _ZN6thrust6system4cuda6detail5bulk_6detail12group_detail10group_baseINS3_16concurrent_groupINS3_5agentILm1EEELm0EEELm0EEC1EiSA_i_param_1,
 	.param .align 4 .b8 _ZN6thrust6system4cuda6detail5bulk_6detail12group_detail10group_baseINS3_16concurrent_groupINS3_5agentILm1EEELm0EEELm0EEC1EiSA_i_param_2[16],
@@ -5501,8 +5501,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6system4cuda6detail5bulk_6detail12group_detail10group_baseINS3_16concurrent_groupINS3_5agentILm1EEELm0EEELm0EEC2EiSA_i
-.visible .func _ZN6thrust6system4cuda6detail5bulk_6detail12group_detail10group_baseINS3_16concurrent_groupINS3_5agentILm1EEELm0EEELm0EEC2EiSA_i(
+	// .globl	thrust::system::cuda::detail::bulk_::detail::group_detail::group_base<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>::group_base(int, thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, int)
+.visible .func thrust::system::cuda::detail::bulk_::detail::group_detail::group_base<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>::group_base(int, thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, int)(
 	.param .b64 _ZN6thrust6system4cuda6detail5bulk_6detail12group_detail10group_baseINS3_16concurrent_groupINS3_5agentILm1EEELm0EEELm0EEC2EiSA_i_param_0,
 	.param .b32 _ZN6thrust6system4cuda6detail5bulk_6detail12group_detail10group_baseINS3_16concurrent_groupINS3_5agentILm1EEELm0EEELm0EEC2EiSA_i_param_1,
 	.param .align 4 .b8 _ZN6thrust6system4cuda6detail5bulk_6detail12group_detail10group_baseINS3_16concurrent_groupINS3_5agentILm1EEELm0EEELm0EEC2EiSA_i_param_2[16],
@@ -5529,8 +5529,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail12derived_castINS_6system4cuda6detail3tagEEERT_RNS0_21execution_policy_baseIS6_EE
-.visible .func  (.param .b64 func_retval0) _ZN6thrust6detail12derived_castINS_6system4cuda6detail3tagEEERT_RNS0_21execution_policy_baseIS6_EE(
+	// .globl	thrust::system::cuda::detail::tag& thrust::detail::derived_cast<thrust::system::cuda::detail::tag>(thrust::detail::execution_policy_base<thrust::system::cuda::detail::tag>&)
+.visible .func  (.param .b64 func_retval0) thrust::system::cuda::detail::tag& thrust::detail::derived_cast<thrust::system::cuda::detail::tag>(thrust::detail::execution_policy_base<thrust::system::cuda::detail::tag>&)(
 	.param .b64 _ZN6thrust6detail12derived_castINS_6system4cuda6detail3tagEEERT_RNS0_21execution_policy_baseIS6_EE_param_0
 )
 {
@@ -5542,8 +5542,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail11strip_constINS_6system4cuda6detail3tagEEERNS0_21execution_policy_baseIT_EERKS8_
-.visible .func  (.param .b64 func_retval0) _ZN6thrust6detail11strip_constINS_6system4cuda6detail3tagEEERNS0_21execution_policy_baseIT_EERKS8_(
+	// .globl	thrust::detail::execution_policy_base<thrust::system::cuda::detail::tag>& thrust::detail::strip_const<thrust::system::cuda::detail::tag>(thrust::detail::execution_policy_base<thrust::system::cuda::detail::tag> const&)
+.visible .func  (.param .b64 func_retval0) thrust::detail::execution_policy_base<thrust::system::cuda::detail::tag>& thrust::detail::strip_const<thrust::system::cuda::detail::tag>(thrust::detail::execution_policy_base<thrust::system::cuda::detail::tag> const&)(
 	.param .b64 _ZN6thrust6detail11strip_constINS_6system4cuda6detail3tagEEERNS0_21execution_policy_baseIT_EERKS8__param_0
 )
 {
@@ -5555,8 +5555,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail11strip_constINS0_5seq_tEEERNS0_21execution_policy_baseIT_EERKS5_
-.visible .func  (.param .b64 func_retval0) _ZN6thrust6detail11strip_constINS0_5seq_tEEERNS0_21execution_policy_baseIT_EERKS5_(
+	// .globl	thrust::detail::execution_policy_base<thrust::detail::seq_t>& thrust::detail::strip_const<thrust::detail::seq_t>(thrust::detail::execution_policy_base<thrust::detail::seq_t> const&)
+.visible .func  (.param .b64 func_retval0) thrust::detail::execution_policy_base<thrust::detail::seq_t>& thrust::detail::strip_const<thrust::detail::seq_t>(thrust::detail::execution_policy_base<thrust::detail::seq_t> const&)(
 	.param .b64 _ZN6thrust6detail11strip_constINS0_5seq_tEEERNS0_21execution_policy_baseIT_EERKS5__param_0
 )
 {
@@ -5568,8 +5568,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6detail12derived_castINS0_5seq_tEEERT_RNS0_21execution_policy_baseIS3_EE
-.visible .func  (.param .b64 func_retval0) _ZN6thrust6detail12derived_castINS0_5seq_tEEERT_RNS0_21execution_policy_baseIS3_EE(
+	// .globl	thrust::detail::seq_t& thrust::detail::derived_cast<thrust::detail::seq_t>(thrust::detail::execution_policy_base<thrust::detail::seq_t>&)
+.visible .func  (.param .b64 func_retval0) thrust::detail::seq_t& thrust::detail::derived_cast<thrust::detail::seq_t>(thrust::detail::execution_policy_base<thrust::detail::seq_t>&)(
 	.param .b64 _ZN6thrust6detail12derived_castINS0_5seq_tEEERT_RNS0_21execution_policy_baseIS3_EE_param_0
 )
 {
@@ -5581,8 +5581,8 @@ BB40_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6system6detail10sequential10for_each_nINS_6detail5seq_tENS_10device_ptrIiEElNS4_23device_generate_functorINS4_12fill_functorIiEEEEEET0_RNS2_16execution_policyIT_EESC_T1_T2_
-.visible .func  (.param .align 8 .b8 func_retval0[8]) _ZN6thrust6system6detail10sequential10for_each_nINS_6detail5seq_tENS_10device_ptrIiEElNS4_23device_generate_functorINS4_12fill_functorIiEEEEEET0_RNS2_16execution_policyIT_EESC_T1_T2_(
+	// .globl	thrust::device_ptr<int> thrust::system::detail::sequential::for_each_n<thrust::detail::seq_t, thrust::device_ptr<int>, long, thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> > >(thrust::system::detail::sequential::execution_policy<thrust::detail::seq_t>&, thrust::device_ptr<int>, long, thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >)
+.visible .func  (.param .align 8 .b8 func_retval0[8]) thrust::device_ptr<int> thrust::system::detail::sequential::for_each_n<thrust::detail::seq_t, thrust::device_ptr<int>, long, thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> > >(thrust::system::detail::sequential::execution_policy<thrust::detail::seq_t>&, thrust::device_ptr<int>, long, thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >)(
 	.param .b64 _ZN6thrust6system6detail10sequential10for_each_nINS_6detail5seq_tENS_10device_ptrIiEElNS4_23device_generate_functorINS4_12fill_functorIiEEEEEET0_RNS2_16execution_policyIT_EESC_T1_T2__param_0,
 	.param .align 8 .b8 _ZN6thrust6system6detail10sequential10for_each_nINS_6detail5seq_tENS_10device_ptrIiEElNS4_23device_generate_functorINS4_12fill_functorIiEEEEEET0_RNS2_16execution_policyIT_EESC_T1_T2__param_1[8],
 	.param .b64 _ZN6thrust6system6detail10sequential10for_each_nINS_6detail5seq_tENS_10device_ptrIiEElNS4_23device_generate_functorINS4_12fill_functorIiEEEEEET0_RNS2_16execution_policyIT_EESC_T1_T2__param_2,
@@ -5612,8 +5612,8 @@ BB149_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6system6detail7generic6detail8distanceINS_10device_ptrIiEEEENS_15iterator_traitsIT_E15difference_typeES8_S8_NS_27random_access_traversal_tagE
-.visible .func  (.param .b64 func_retval0) _ZN6thrust6system6detail7generic6detail8distanceINS_10device_ptrIiEEEENS_15iterator_traitsIT_E15difference_typeES8_S8_NS_27random_access_traversal_tagE(
+	// .globl	thrust::iterator_traits<thrust::device_ptr<int> >::difference_type thrust::system::detail::generic::detail::distance<thrust::device_ptr<int> >(thrust::device_ptr<int>, thrust::device_ptr<int>, thrust::random_access_traversal_tag)
+.visible .func  (.param .b64 func_retval0) thrust::iterator_traits<thrust::device_ptr<int> >::difference_type thrust::system::detail::generic::detail::distance<thrust::device_ptr<int> >(thrust::device_ptr<int>, thrust::device_ptr<int>, thrust::random_access_traversal_tag)(
 	.param .align 8 .b8 _ZN6thrust6system6detail7generic6detail8distanceINS_10device_ptrIiEEEENS_15iterator_traitsIT_E15difference_typeES8_S8_NS_27random_access_traversal_tagE_param_0[8],
 	.param .align 8 .b8 _ZN6thrust6system6detail7generic6detail8distanceINS_10device_ptrIiEEEENS_15iterator_traitsIT_E15difference_typeES8_S8_NS_27random_access_traversal_tagE_param_1[8],
 	.param .align 1 .b8 _ZN6thrust6system6detail7generic6detail8distanceINS_10device_ptrIiEEEENS_15iterator_traitsIT_E15difference_typeES8_S8_NS_27random_access_traversal_tagE_param_2[1]
@@ -5631,8 +5631,8 @@ BB149_2:
 	ret;
 }
 
-	// .globl	_ZN6thrustmiINS_10device_ptrIiEEiNS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIiEElS2_iS6_S7_S9_lEENS_6detail20distance_from_resultINS_15iterator_facadeIT_T0_T1_T2_T3_T4_EENSC_IT5_T6_T7_T8_T9_T10_EEE4typeERKSJ_RKSQ_
-.visible .func  (.param .b64 func_retval0) _ZN6thrustmiINS_10device_ptrIiEEiNS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIiEElS2_iS6_S7_S9_lEENS_6detail20distance_from_resultINS_15iterator_facadeIT_T0_T1_T2_T3_T4_EENSC_IT5_T6_T7_T8_T9_T10_EEE4typeERKSJ_RKSQ_(
+	// .globl	thrust::detail::distance_from_result<thrust::iterator_facade<thrust::device_ptr<int>, int, thrust::system::cuda::detail::tag, thrust::random_access_traversal_tag, thrust::device_reference<int>, long>, thrust::iterator_facade<thrust::device_ptr<int>, int, thrust::system::cuda::detail::tag, thrust::random_access_traversal_tag, thrust::device_reference<int>, long> >::type thrust::operator-<thrust::device_ptr<int>, int, thrust::system::cuda::detail::tag, thrust::random_access_traversal_tag, thrust::device_reference<int>, long, thrust::device_ptr<int>, int, thrust::system::cuda::detail::tag, thrust::random_access_traversal_tag, thrust::device_reference<int>, long>(thrust::iterator_facade<thrust::device_ptr<int>, int, thrust::system::cuda::detail::tag, thrust::random_access_traversal_tag, thrust::device_reference<int>, long> const&, thrust::iterator_facade<thrust::device_ptr<int>, int, thrust::system::cuda::detail::tag, thrust::random_access_traversal_tag, thrust::device_reference<int>, long> const&)
+.visible .func  (.param .b64 func_retval0) thrust::detail::distance_from_result<thrust::iterator_facade<thrust::device_ptr<int>, int, thrust::system::cuda::detail::tag, thrust::random_access_traversal_tag, thrust::device_reference<int>, long>, thrust::iterator_facade<thrust::device_ptr<int>, int, thrust::system::cuda::detail::tag, thrust::random_access_traversal_tag, thrust::device_reference<int>, long> >::type thrust::operator-<thrust::device_ptr<int>, int, thrust::system::cuda::detail::tag, thrust::random_access_traversal_tag, thrust::device_reference<int>, long, thrust::device_ptr<int>, int, thrust::system::cuda::detail::tag, thrust::random_access_traversal_tag, thrust::device_reference<int>, long>(thrust::iterator_facade<thrust::device_ptr<int>, int, thrust::system::cuda::detail::tag, thrust::random_access_traversal_tag, thrust::device_reference<int>, long> const&, thrust::iterator_facade<thrust::device_ptr<int>, int, thrust::system::cuda::detail::tag, thrust::random_access_traversal_tag, thrust::device_reference<int>, long> const&)(
 	.param .b64 _ZN6thrustmiINS_10device_ptrIiEEiNS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIiEElS2_iS6_S7_S9_lEENS_6detail20distance_from_resultINS_15iterator_facadeIT_T0_T1_T2_T3_T4_EENSC_IT5_T6_T7_T8_T9_T10_EEE4typeERKSJ_RKSQ__param_0,
 	.param .b64 _ZN6thrustmiINS_10device_ptrIiEEiNS_6system4cuda6detail3tagENS_27random_access_traversal_tagENS_16device_referenceIiEElS2_iS6_S7_S9_lEENS_6detail20distance_from_resultINS_15iterator_facadeIT_T0_T1_T2_T3_T4_EENSC_IT5_T6_T7_T8_T9_T10_EEE4typeERKSJ_RKSQ__param_1
 )
@@ -5664,8 +5664,8 @@ BB149_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6system6detail7generic4fillINS0_4cuda6detail3tagENS_10device_ptrIiEEiEEvRNS_16execution_policyIT_EET0_SD_RKT1_
-.visible .func _ZN6thrust6system6detail7generic4fillINS0_4cuda6detail3tagENS_10device_ptrIiEEiEEvRNS_16execution_policyIT_EET0_SD_RKT1_(
+	// .globl	void thrust::system::detail::generic::fill<thrust::system::cuda::detail::tag, thrust::device_ptr<int>, int>(thrust::execution_policy<thrust::system::cuda::detail::tag>&, thrust::device_ptr<int>, thrust::device_ptr<int>, int const&)
+.visible .func void thrust::system::detail::generic::fill<thrust::system::cuda::detail::tag, thrust::device_ptr<int>, int>(thrust::execution_policy<thrust::system::cuda::detail::tag>&, thrust::device_ptr<int>, thrust::device_ptr<int>, int const&)(
 	.param .b64 _ZN6thrust6system6detail7generic4fillINS0_4cuda6detail3tagENS_10device_ptrIiEEiEEvRNS_16execution_policyIT_EET0_SD_RKT1__param_0,
 	.param .align 8 .b8 _ZN6thrust6system6detail7generic4fillINS0_4cuda6detail3tagENS_10device_ptrIiEEiEEvRNS_16execution_policyIT_EET0_SD_RKT1__param_1[8],
 	.param .align 8 .b8 _ZN6thrust6system6detail7generic4fillINS0_4cuda6detail3tagENS_10device_ptrIiEEiEEvRNS_16execution_policyIT_EET0_SD_RKT1__param_2[8],
@@ -5697,8 +5697,8 @@ BB153_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust8generateINS_6system4cuda6detail3tagENS_10device_ptrIiEENS_6detail12fill_functorIiEEEEvRKNS7_21execution_policy_baseIT_EET0_SF_T1_
-.visible .func _ZN6thrust8generateINS_6system4cuda6detail3tagENS_10device_ptrIiEENS_6detail12fill_functorIiEEEEvRKNS7_21execution_policy_baseIT_EET0_SF_T1_(
+	// .globl	void thrust::generate<thrust::system::cuda::detail::tag, thrust::device_ptr<int>, thrust::detail::fill_functor<int> >(thrust::detail::execution_policy_base<thrust::system::cuda::detail::tag> const&, thrust::device_ptr<int>, thrust::device_ptr<int>, thrust::detail::fill_functor<int>)
+.visible .func void thrust::generate<thrust::system::cuda::detail::tag, thrust::device_ptr<int>, thrust::detail::fill_functor<int> >(thrust::detail::execution_policy_base<thrust::system::cuda::detail::tag> const&, thrust::device_ptr<int>, thrust::device_ptr<int>, thrust::detail::fill_functor<int>)(
 	.param .b64 _ZN6thrust8generateINS_6system4cuda6detail3tagENS_10device_ptrIiEENS_6detail12fill_functorIiEEEEvRKNS7_21execution_policy_baseIT_EET0_SF_T1__param_0,
 	.param .align 8 .b8 _ZN6thrust8generateINS_6system4cuda6detail3tagENS_10device_ptrIiEENS_6detail12fill_functorIiEEEEvRKNS7_21execution_policy_baseIT_EET0_SF_T1__param_1[8],
 	.param .align 8 .b8 _ZN6thrust8generateINS_6system4cuda6detail3tagENS_10device_ptrIiEENS_6detail12fill_functorIiEEEEvRKNS7_21execution_policy_baseIT_EET0_SF_T1__param_2[8],
@@ -5729,8 +5729,8 @@ BB154_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6system6detail7generic8generateINS0_4cuda6detail3tagENS_10device_ptrIiEENS_6detail12fill_functorIiEEEEvRNS_16execution_policyIT_EET0_SG_T1_
-.visible .func _ZN6thrust6system6detail7generic8generateINS0_4cuda6detail3tagENS_10device_ptrIiEENS_6detail12fill_functorIiEEEEvRNS_16execution_policyIT_EET0_SG_T1_(
+	// .globl	void thrust::system::detail::generic::generate<thrust::system::cuda::detail::tag, thrust::device_ptr<int>, thrust::detail::fill_functor<int> >(thrust::execution_policy<thrust::system::cuda::detail::tag>&, thrust::device_ptr<int>, thrust::device_ptr<int>, thrust::detail::fill_functor<int>)
+.visible .func void thrust::system::detail::generic::generate<thrust::system::cuda::detail::tag, thrust::device_ptr<int>, thrust::detail::fill_functor<int> >(thrust::execution_policy<thrust::system::cuda::detail::tag>&, thrust::device_ptr<int>, thrust::device_ptr<int>, thrust::detail::fill_functor<int>)(
 	.param .b64 _ZN6thrust6system6detail7generic8generateINS0_4cuda6detail3tagENS_10device_ptrIiEENS_6detail12fill_functorIiEEEEvRNS_16execution_policyIT_EET0_SG_T1__param_0,
 	.param .align 8 .b8 _ZN6thrust6system6detail7generic8generateINS0_4cuda6detail3tagENS_10device_ptrIiEENS_6detail12fill_functorIiEEEEvRNS_16execution_policyIT_EET0_SG_T1__param_1[8],
 	.param .align 8 .b8 _ZN6thrust6system6detail7generic8generateINS0_4cuda6detail3tagENS_10device_ptrIiEENS_6detail12fill_functorIiEEEEvRNS_16execution_policyIT_EET0_SG_T1__param_2[8],
@@ -5761,8 +5761,8 @@ BB155_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust8for_eachINS_6system4cuda6detail3tagENS_10device_ptrIiEENS_6detail23device_generate_functorINS7_12fill_functorIiEEEEEET0_RKNS7_21execution_policy_baseIT_EESC_SC_T1_
-.visible .func  (.param .align 8 .b8 func_retval0[8]) _ZN6thrust8for_eachINS_6system4cuda6detail3tagENS_10device_ptrIiEENS_6detail23device_generate_functorINS7_12fill_functorIiEEEEEET0_RKNS7_21execution_policy_baseIT_EESC_SC_T1_(
+	// .globl	thrust::device_ptr<int> thrust::for_each<thrust::system::cuda::detail::tag, thrust::device_ptr<int>, thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> > >(thrust::detail::execution_policy_base<thrust::system::cuda::detail::tag> const&, thrust::device_ptr<int>, thrust::device_ptr<int>, thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >)
+.visible .func  (.param .align 8 .b8 func_retval0[8]) thrust::device_ptr<int> thrust::for_each<thrust::system::cuda::detail::tag, thrust::device_ptr<int>, thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> > >(thrust::detail::execution_policy_base<thrust::system::cuda::detail::tag> const&, thrust::device_ptr<int>, thrust::device_ptr<int>, thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >)(
 	.param .b64 _ZN6thrust8for_eachINS_6system4cuda6detail3tagENS_10device_ptrIiEENS_6detail23device_generate_functorINS7_12fill_functorIiEEEEEET0_RKNS7_21execution_policy_baseIT_EESC_SC_T1__param_0,
 	.param .align 8 .b8 _ZN6thrust8for_eachINS_6system4cuda6detail3tagENS_10device_ptrIiEENS_6detail23device_generate_functorINS7_12fill_functorIiEEEEEET0_RKNS7_21execution_policy_baseIT_EESC_SC_T1__param_1[8],
 	.param .align 8 .b8 _ZN6thrust8for_eachINS_6system4cuda6detail3tagENS_10device_ptrIiEENS_6detail23device_generate_functorINS7_12fill_functorIiEEEEEET0_RKNS7_21execution_policy_baseIT_EESC_SC_T1__param_2[8],
@@ -5794,8 +5794,8 @@ BB156_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6system4cuda6detail8for_eachINS2_3tagENS_10device_ptrIiEENS_6detail23device_generate_functorINS7_12fill_functorIiEEEEEET0_RNS2_16execution_policyIT_EESC_SC_T1_
-.visible .func  (.param .align 8 .b8 func_retval0[8]) _ZN6thrust6system4cuda6detail8for_eachINS2_3tagENS_10device_ptrIiEENS_6detail23device_generate_functorINS7_12fill_functorIiEEEEEET0_RNS2_16execution_policyIT_EESC_SC_T1_(
+	// .globl	thrust::device_ptr<int> thrust::system::cuda::detail::for_each<thrust::system::cuda::detail::tag, thrust::device_ptr<int>, thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> > >(thrust::system::cuda::detail::execution_policy<thrust::system::cuda::detail::tag>&, thrust::device_ptr<int>, thrust::device_ptr<int>, thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >)
+.visible .func  (.param .align 8 .b8 func_retval0[8]) thrust::device_ptr<int> thrust::system::cuda::detail::for_each<thrust::system::cuda::detail::tag, thrust::device_ptr<int>, thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> > >(thrust::system::cuda::detail::execution_policy<thrust::system::cuda::detail::tag>&, thrust::device_ptr<int>, thrust::device_ptr<int>, thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >)(
 	.param .b64 _ZN6thrust6system4cuda6detail8for_eachINS2_3tagENS_10device_ptrIiEENS_6detail23device_generate_functorINS7_12fill_functorIiEEEEEET0_RNS2_16execution_policyIT_EESC_SC_T1__param_0,
 	.param .align 8 .b8 _ZN6thrust6system4cuda6detail8for_eachINS2_3tagENS_10device_ptrIiEENS_6detail23device_generate_functorINS7_12fill_functorIiEEEEEET0_RNS2_16execution_policyIT_EESC_SC_T1__param_1[8],
 	.param .align 8 .b8 _ZN6thrust6system4cuda6detail8for_eachINS2_3tagENS_10device_ptrIiEENS_6detail23device_generate_functorINS7_12fill_functorIiEEEEEET0_RNS2_16execution_policyIT_EESC_SC_T1__param_2[8],
@@ -5827,8 +5827,8 @@ BB157_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust6system4cuda6detail10for_each_nINS2_3tagENS_10device_ptrIiEElNS_6detail23device_generate_functorINS7_12fill_functorIiEEEEEET0_RNS2_16execution_policyIT_EESC_T1_T2_
-.visible .func  (.param .align 8 .b8 func_retval0[8]) _ZN6thrust6system4cuda6detail10for_each_nINS2_3tagENS_10device_ptrIiEElNS_6detail23device_generate_functorINS7_12fill_functorIiEEEEEET0_RNS2_16execution_policyIT_EESC_T1_T2_(
+	// .globl	thrust::device_ptr<int> thrust::system::cuda::detail::for_each_n<thrust::system::cuda::detail::tag, thrust::device_ptr<int>, long, thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> > >(thrust::system::cuda::detail::execution_policy<thrust::system::cuda::detail::tag>&, thrust::device_ptr<int>, long, thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >)
+.visible .func  (.param .align 8 .b8 func_retval0[8]) thrust::device_ptr<int> thrust::system::cuda::detail::for_each_n<thrust::system::cuda::detail::tag, thrust::device_ptr<int>, long, thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> > >(thrust::system::cuda::detail::execution_policy<thrust::system::cuda::detail::tag>&, thrust::device_ptr<int>, long, thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >)(
 	.param .b64 _ZN6thrust6system4cuda6detail10for_each_nINS2_3tagENS_10device_ptrIiEElNS_6detail23device_generate_functorINS7_12fill_functorIiEEEEEET0_RNS2_16execution_policyIT_EESC_T1_T2__param_0,
 	.param .align 8 .b8 _ZN6thrust6system4cuda6detail10for_each_nINS2_3tagENS_10device_ptrIiEElNS_6detail23device_generate_functorINS7_12fill_functorIiEEEEEET0_RNS2_16execution_policyIT_EESC_T1_T2__param_1[8],
 	.param .b64 _ZN6thrust6system4cuda6detail10for_each_nINS2_3tagENS_10device_ptrIiEElNS_6detail23device_generate_functorINS7_12fill_functorIiEEEEEET0_RNS2_16execution_policyIT_EESC_T1_T2__param_2,
@@ -5858,8 +5858,8 @@ BB158_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust10for_each_nINS_6detail5seq_tENS_10device_ptrIiEElNS1_23device_generate_functorINS1_12fill_functorIiEEEEEET0_RKNS1_21execution_policy_baseIT_EES9_T1_T2_
-.visible .func  (.param .align 8 .b8 func_retval0[8]) _ZN6thrust10for_each_nINS_6detail5seq_tENS_10device_ptrIiEElNS1_23device_generate_functorINS1_12fill_functorIiEEEEEET0_RKNS1_21execution_policy_baseIT_EES9_T1_T2_(
+	// .globl	thrust::device_ptr<int> thrust::for_each_n<thrust::detail::seq_t, thrust::device_ptr<int>, long, thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> > >(thrust::detail::execution_policy_base<thrust::detail::seq_t> const&, thrust::device_ptr<int>, long, thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >)
+.visible .func  (.param .align 8 .b8 func_retval0[8]) thrust::device_ptr<int> thrust::for_each_n<thrust::detail::seq_t, thrust::device_ptr<int>, long, thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> > >(thrust::detail::execution_policy_base<thrust::detail::seq_t> const&, thrust::device_ptr<int>, long, thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >)(
 	.param .b64 _ZN6thrust10for_each_nINS_6detail5seq_tENS_10device_ptrIiEElNS1_23device_generate_functorINS1_12fill_functorIiEEEEEET0_RKNS1_21execution_policy_baseIT_EES9_T1_T2__param_0,
 	.param .align 8 .b8 _ZN6thrust10for_each_nINS_6detail5seq_tENS_10device_ptrIiEElNS1_23device_generate_functorINS1_12fill_functorIiEEEEEET0_RKNS1_21execution_policy_baseIT_EES9_T1_T2__param_1[8],
 	.param .b64 _ZN6thrust10for_each_nINS_6detail5seq_tENS_10device_ptrIiEElNS1_23device_generate_functorINS1_12fill_functorIiEEEEEET0_RKNS1_21execution_policy_baseIT_EES9_T1_T2__param_2,
@@ -5889,8 +5889,8 @@ BB159_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust4fillINS_10device_ptrIiEEiEEvT_S3_RKT0_
-.visible .func _ZN6thrust4fillINS_10device_ptrIiEEiEEvT_S3_RKT0_(
+	// .globl	void thrust::fill<thrust::device_ptr<int>, int>(thrust::device_ptr<int>, thrust::device_ptr<int>, int const&)
+.visible .func void thrust::fill<thrust::device_ptr<int>, int>(thrust::device_ptr<int>, thrust::device_ptr<int>, int const&)(
 	.param .align 8 .b8 _ZN6thrust4fillINS_10device_ptrIiEEiEEvT_S3_RKT0__param_0[8],
 	.param .align 8 .b8 _ZN6thrust4fillINS_10device_ptrIiEEiEEvT_S3_RKT0__param_1[8],
 	.param .b64 _ZN6thrust4fillINS_10device_ptrIiEEiEEvT_S3_RKT0__param_2
@@ -5921,8 +5921,8 @@ BB160_2:
 	ret;
 }
 
-	// .globl	_ZN6thrust4fillINS_6system4cuda6detail3tagENS_10device_ptrIiEEiEEvRKNS_6detail21execution_policy_baseIT_EET0_SD_RKT1_
-.visible .func _ZN6thrust4fillINS_6system4cuda6detail3tagENS_10device_ptrIiEEiEEvRKNS_6detail21execution_policy_baseIT_EET0_SD_RKT1_(
+	// .globl	void thrust::fill<thrust::system::cuda::detail::tag, thrust::device_ptr<int>, int>(thrust::detail::execution_policy_base<thrust::system::cuda::detail::tag> const&, thrust::device_ptr<int>, thrust::device_ptr<int>, int const&)
+.visible .func void thrust::fill<thrust::system::cuda::detail::tag, thrust::device_ptr<int>, int>(thrust::detail::execution_policy_base<thrust::system::cuda::detail::tag> const&, thrust::device_ptr<int>, thrust::device_ptr<int>, int const&)(
 	.param .b64 _ZN6thrust4fillINS_6system4cuda6detail3tagENS_10device_ptrIiEEiEEvRKNS_6detail21execution_policy_baseIT_EET0_SD_RKT1__param_0,
 	.param .align 8 .b8 _ZN6thrust4fillINS_6system4cuda6detail3tagENS_10device_ptrIiEEiEEvRKNS_6detail21execution_policy_baseIT_EET0_SD_RKT1__param_1[8],
 	.param .align 8 .b8 _ZN6thrust4fillINS_6system4cuda6detail3tagENS_10device_ptrIiEEiEEvRKNS_6detail21execution_policy_baseIT_EET0_SD_RKT1__param_2[8],

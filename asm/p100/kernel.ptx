@@ -10,24 +10,24 @@
 .target sm_60
 .address_size 64
 
-	// .globl	_Z18force_kernel_plainI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.global .align 1 .b8 _ZN60_INTERNAL_45_tmpxft_0000709e_00000000_7_force_cuda_cpp1_ii_L6thrust6system6detail10sequential3seqE[1];
-.shared .align 8 .b8 _ZN6thrust6system4cuda6detail5bulk_6detail62_GLOBAL__N__45_tmpxft_0000709e_00000000_7_force_cuda_cpp1_ii_L19s_on_chip_allocatorE[24];
-.global .align 1 .b8 _ZN60_INTERNAL_45_tmpxft_0000709e_00000000_7_force_cuda_cpp1_ii_L6thrust6system4cuda6detail5bulk_4rootE[1];
-.global .align 1 .b8 _ZN60_INTERNAL_45_tmpxft_0000709e_00000000_7_force_cuda_cpp1_ii_L6thrust12placeholders2_1E[1];
-.global .align 1 .b8 _ZN60_INTERNAL_45_tmpxft_0000709e_00000000_7_force_cuda_cpp1_ii_L6thrust12placeholders2_2E[1];
-.global .align 1 .b8 _ZN60_INTERNAL_45_tmpxft_0000709e_00000000_7_force_cuda_cpp1_ii_L6thrust12placeholders2_3E[1];
-.global .align 1 .b8 _ZN60_INTERNAL_45_tmpxft_0000709e_00000000_7_force_cuda_cpp1_ii_L6thrust12placeholders2_4E[1];
-.global .align 1 .b8 _ZN60_INTERNAL_45_tmpxft_0000709e_00000000_7_force_cuda_cpp1_ii_L6thrust12placeholders2_5E[1];
-.global .align 1 .b8 _ZN60_INTERNAL_45_tmpxft_0000709e_00000000_7_force_cuda_cpp1_ii_L6thrust12placeholders2_6E[1];
-.global .align 1 .b8 _ZN60_INTERNAL_45_tmpxft_0000709e_00000000_7_force_cuda_cpp1_ii_L6thrust12placeholders2_7E[1];
-.global .align 1 .b8 _ZN60_INTERNAL_45_tmpxft_0000709e_00000000_7_force_cuda_cpp1_ii_L6thrust12placeholders2_8E[1];
-.global .align 1 .b8 _ZN60_INTERNAL_45_tmpxft_0000709e_00000000_7_force_cuda_cpp1_ii_L6thrust12placeholders2_9E[1];
-.global .align 1 .b8 _ZN60_INTERNAL_45_tmpxft_0000709e_00000000_7_force_cuda_cpp1_ii_L6thrust12placeholders3_10E[1];
-.global .align 1 .b8 _ZN60_INTERNAL_45_tmpxft_0000709e_00000000_7_force_cuda_cpp1_ii_L6thrust3seqE[1];
-.extern .shared .align 4 .b8 _ZN6thrust6system4cuda6detail5bulk_6detail20s_data_segment_beginE[];
+	// .globl	void force_kernel_plain<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)
+.global .align 1 .b8 _INTERNAL_45_tmpxft_0000709e_00000000_7_force_cuda_cpp1_ii_L::thrust::system::detail::sequential::seq[1];
+.shared .align 8 .b8 thrust::system::cuda::detail::bulk_::detail::(anonymous namespace)::s_on_chip_allocator[24];
+.global .align 1 .b8 _INTERNAL_45_tmpxft_0000709e_00000000_7_force_cuda_cpp1_ii_L::thrust::system::cuda::detail::bulk_::root[1];
+.global .align 1 .b8 _INTERNAL_45_tmpxft_0000709e_00000000_7_force_cuda_cpp1_ii_L::thrust::placeholders::_1[1];
+.global .align 1 .b8 _INTERNAL_45_tmpxft_0000709e_00000000_7_force_cuda_cpp1_ii_L::thrust::placeholders::_2[1];
+.global .align 1 .b8 _INTERNAL_45_tmpxft_0000709e_00000000_7_force_cuda_cpp1_ii_L::thrust::placeholders::_3[1];
+.global .align 1 .b8 _INTERNAL_45_tmpxft_0000709e_00000000_7_force_cuda_cpp1_ii_L::thrust::placeholders::_4[1];
+.global .align 1 .b8 _INTERNAL_45_tmpxft_0000709e_00000000_7_force_cuda_cpp1_ii_L::thrust::placeholders::_5[1];
+.global .align 1 .b8 _INTERNAL_45_tmpxft_0000709e_00000000_7_force_cuda_cpp1_ii_L::thrust::placeholders::_6[1];
+.global .align 1 .b8 _INTERNAL_45_tmpxft_0000709e_00000000_7_force_cuda_cpp1_ii_L::thrust::placeholders::_7[1];
+.global .align 1 .b8 _INTERNAL_45_tmpxft_0000709e_00000000_7_force_cuda_cpp1_ii_L::thrust::placeholders::_8[1];
+.global .align 1 .b8 _INTERNAL_45_tmpxft_0000709e_00000000_7_force_cuda_cpp1_ii_L::thrust::placeholders::_9[1];
+.global .align 1 .b8 _INTERNAL_45_tmpxft_0000709e_00000000_7_force_cuda_cpp1_ii_L::thrust::placeholders::_10[1];
+.global .align 1 .b8 _INTERNAL_45_tmpxft_0000709e_00000000_7_force_cuda_cpp1_ii_L::thrust::seq[1];
+.extern .shared .align 4 .b8 thrust::system::cuda::detail::bulk_::detail::s_data_segment_begin[];
 
-.visible .entry _Z18force_kernel_plainI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+.visible .entry void force_kernel_plain<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z18force_kernel_plainI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z18force_kernel_plainI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z18force_kernel_plainI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -128,8 +128,8 @@ BB0_6:
 	ret;
 }
 
-	// .globl	_Z18force_kernel_plainI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z18force_kernel_plainI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_plain<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_plain<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z18force_kernel_plainI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z18force_kernel_plainI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z18force_kernel_plainI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -226,8 +226,8 @@ BB1_6:
 	ret;
 }
 
-	// .globl	_Z19force_kernel_iflessI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z19force_kernel_iflessI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_ifless<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_ifless<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z19force_kernel_iflessI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z19force_kernel_iflessI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z19force_kernel_iflessI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -325,8 +325,8 @@ BB2_4:
 	ret;
 }
 
-	// .globl	_Z19force_kernel_iflessI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z19force_kernel_iflessI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_ifless<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_ifless<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z19force_kernel_iflessI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z19force_kernel_iflessI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z19force_kernel_iflessI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -422,8 +422,8 @@ BB3_4:
 	ret;
 }
 
-	// .globl	_Z19force_kernel_memoptI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z19force_kernel_memoptI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_memopt<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_memopt<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z19force_kernel_memoptI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z19force_kernel_memoptI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z19force_kernel_memoptI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -532,8 +532,8 @@ BB4_5:
 	ret;
 }
 
-	// .globl	_Z19force_kernel_memoptI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z19force_kernel_memoptI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_memopt<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_memopt<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z19force_kernel_memoptI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z19force_kernel_memoptI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z19force_kernel_memoptI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -638,8 +638,8 @@ BB5_5:
 	ret;
 }
 
-	// .globl	_Z20force_kernel_memopt2I7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z20force_kernel_memopt2I7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_memopt2<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_memopt2<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z20force_kernel_memopt2I7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z20force_kernel_memopt2I7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z20force_kernel_memopt2I7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -733,8 +733,8 @@ BB6_5:
 	ret;
 }
 
-	// .globl	_Z20force_kernel_memopt2I7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z20force_kernel_memopt2I7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_memopt2<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_memopt2<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z20force_kernel_memopt2I7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z20force_kernel_memopt2I7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z20force_kernel_memopt2I7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -827,8 +827,8 @@ BB7_5:
 	ret;
 }
 
-	// .globl	_Z20force_kernel_memopt3I7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z20force_kernel_memopt3I7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_memopt3<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_memopt3<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z20force_kernel_memopt3I7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z20force_kernel_memopt3I7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z20force_kernel_memopt3I7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -922,8 +922,8 @@ BB8_5:
 	ret;
 }
 
-	// .globl	_Z20force_kernel_memopt3I7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z20force_kernel_memopt3I7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_memopt3<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_memopt3<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z20force_kernel_memopt3I7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z20force_kernel_memopt3I7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z20force_kernel_memopt3I7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -1016,8 +1016,8 @@ BB9_5:
 	ret;
 }
 
-	// .globl	_Z25force_kernel_memopt3_swplI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z25force_kernel_memopt3_swplI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_memopt3_swpl<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_memopt3_swpl<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z25force_kernel_memopt3_swplI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z25force_kernel_memopt3_swplI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z25force_kernel_memopt3_swplI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -1107,8 +1107,8 @@ BB10_4:
 	ret;
 }
 
-	// .globl	_Z25force_kernel_memopt3_swplI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z25force_kernel_memopt3_swplI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_memopt3_swpl<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_memopt3_swpl<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z25force_kernel_memopt3_swplI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z25force_kernel_memopt3_swplI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z25force_kernel_memopt3_swplI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -1197,8 +1197,8 @@ BB11_4:
 	ret;
 }
 
-	// .globl	_Z17force_kernel_swplI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z17force_kernel_swplI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_swpl<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_swpl<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z17force_kernel_swplI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z17force_kernel_swplI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z17force_kernel_swplI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -1338,8 +1338,8 @@ BB12_4:
 	ret;
 }
 
-	// .globl	_Z17force_kernel_swplI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z17force_kernel_swplI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_swpl<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_swpl<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z17force_kernel_swplI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z17force_kernel_swplI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z17force_kernel_swplI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -1477,8 +1477,8 @@ BB13_4:
 	ret;
 }
 
-	// .globl	_Z18force_kernel_swpl2I7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z18force_kernel_swpl2I7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_swpl2<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_swpl2<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z18force_kernel_swpl2I7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z18force_kernel_swpl2I7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z18force_kernel_swpl2I7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -1589,8 +1589,8 @@ BB14_4:
 	ret;
 }
 
-	// .globl	_Z18force_kernel_swpl2I7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z18force_kernel_swpl2I7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_swpl2<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_swpl2<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z18force_kernel_swpl2I7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z18force_kernel_swpl2I7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z18force_kernel_swpl2I7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -1700,8 +1700,8 @@ BB15_4:
 	ret;
 }
 
-	// .globl	_Z18force_kernel_swpl3I7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z18force_kernel_swpl3I7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_swpl3<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_swpl3<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z18force_kernel_swpl3I7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z18force_kernel_swpl3I7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z18force_kernel_swpl3I7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -1813,8 +1813,8 @@ BB16_4:
 	ret;
 }
 
-	// .globl	_Z18force_kernel_swpl3I7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z18force_kernel_swpl3I7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_swpl3<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_swpl3<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z18force_kernel_swpl3I7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z18force_kernel_swpl3I7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z18force_kernel_swpl3I7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -1925,8 +1925,8 @@ BB17_4:
 	ret;
 }
 
-	// .globl	_Z22force_kernel_unrollingI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z22force_kernel_unrollingI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_unrolling<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_unrolling<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z22force_kernel_unrollingI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z22force_kernel_unrollingI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z22force_kernel_unrollingI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -2144,8 +2144,8 @@ BB18_8:
 	ret;
 }
 
-	// .globl	_Z22force_kernel_unrollingI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z22force_kernel_unrollingI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_unrolling<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_unrolling<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z22force_kernel_unrollingI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z22force_kernel_unrollingI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z22force_kernel_unrollingI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -2358,8 +2358,8 @@ BB19_8:
 	ret;
 }
 
-	// .globl	_Z23force_kernel_unrolling2I7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z23force_kernel_unrolling2I7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_unrolling2<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_unrolling2<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z23force_kernel_unrolling2I7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z23force_kernel_unrolling2I7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z23force_kernel_unrolling2I7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -2531,8 +2531,8 @@ BB20_7:
 	ret;
 }
 
-	// .globl	_Z23force_kernel_unrolling2I7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z23force_kernel_unrolling2I7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_unrolling2<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_unrolling2<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z23force_kernel_unrolling2I7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z23force_kernel_unrolling2I7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z23force_kernel_unrolling2I7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -2701,8 +2701,8 @@ BB21_7:
 	ret;
 }
 
-	// .globl	_Z27force_kernel_memopt3_coarseI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z27force_kernel_memopt3_coarseI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_memopt3_coarse<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_memopt3_coarse<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z27force_kernel_memopt3_coarseI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z27force_kernel_memopt3_coarseI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z27force_kernel_memopt3_coarseI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -2854,8 +2854,8 @@ BB22_3:
 	ret;
 }
 
-	// .globl	_Z27force_kernel_memopt3_coarseI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z27force_kernel_memopt3_coarseI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_memopt3_coarse<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_memopt3_coarse<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z27force_kernel_memopt3_coarseI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z27force_kernel_memopt3_coarseI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z27force_kernel_memopt3_coarseI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -3005,8 +3005,8 @@ BB23_3:
 	ret;
 }
 
-	// .globl	_Z24force_kernel_warp_unrollI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z24force_kernel_warp_unrollI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_warp_unroll<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_warp_unroll<double3, double>(double3 const*, double3*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z24force_kernel_warp_unrollI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z24force_kernel_warp_unrollI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z24force_kernel_warp_unrollI7double3dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -3319,8 +3319,8 @@ BB24_7:
 	ret;
 }
 
-	// .globl	_Z24force_kernel_warp_unrollI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_
-.visible .entry _Z24force_kernel_warp_unrollI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7_(
+	// .globl	void force_kernel_warp_unroll<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)
+.visible .entry void force_kernel_warp_unroll<double4, double>(double4 const*, double4*, int, double, double, int const*, int const*, int const*)(
 	.param .u64 _Z24force_kernel_warp_unrollI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_0,
 	.param .u64 _Z24force_kernel_warp_unrollI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_1,
 	.param .u32 _Z24force_kernel_warp_unrollI7double4dEvPKT_PS1_iT0_S5_PKiS7_S7__param_2,
@@ -3635,8 +3635,8 @@ BB25_8:
 	ret;
 }
 
-	// .globl	_ZN6thrust6system4cuda6detail5bulk_6detail15launch_by_valueILj0ENS4_9cuda_taskINS3_14parallel_groupINS3_16concurrent_groupINS3_5agentILm1EEELm0EEELm0EEENS4_7closureINS2_17for_each_n_detail15for_each_kernelENS_5tupleINS4_6cursorILj0EEENS_10device_ptrIiEENS_6detail16wrapped_functionINSL_23device_generate_functorINSL_12fill_functorIiEEEEvEEjNS_9null_typeESS_SS_SS_SS_SS_EEEEEEEEvT0_
-.visible .entry _ZN6thrust6system4cuda6detail5bulk_6detail15launch_by_valueILj0ENS4_9cuda_taskINS3_14parallel_groupINS3_16concurrent_groupINS3_5agentILm1EEELm0EEELm0EEENS4_7closureINS2_17for_each_n_detail15for_each_kernelENS_5tupleINS4_6cursorILj0EEENS_10device_ptrIiEENS_6detail16wrapped_functionINSL_23device_generate_functorINSL_12fill_functorIiEEEEvEEjNS_9null_typeESS_SS_SS_SS_SS_EEEEEEEEvT0_(
+	// .globl	void thrust::system::cuda::detail::bulk_::detail::launch_by_value<0u, thrust::system::cuda::detail::bulk_::detail::cuda_task<thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>, thrust::system::cuda::detail::bulk_::detail::closure<thrust::system::cuda::detail::for_each_n_detail::for_each_kernel, thrust::tuple<thrust::system::cuda::detail::bulk_::detail::cursor<0u>, thrust::device_ptr<int>, thrust::detail::wrapped_function<thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >, void>, unsigned int, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type> > > >(thrust::system::cuda::detail::bulk_::detail::cuda_task<thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>, thrust::system::cuda::detail::bulk_::detail::closure<thrust::system::cuda::detail::for_each_n_detail::for_each_kernel, thrust::tuple<thrust::system::cuda::detail::bulk_::detail::cursor<0u>, thrust::device_ptr<int>, thrust::detail::wrapped_function<thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >, void>, unsigned int, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type> > >)
+.visible .entry void thrust::system::cuda::detail::bulk_::detail::launch_by_value<0u, thrust::system::cuda::detail::bulk_::detail::cuda_task<thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>, thrust::system::cuda::detail::bulk_::detail::closure<thrust::system::cuda::detail::for_each_n_detail::for_each_kernel, thrust::tuple<thrust::system::cuda::detail::bulk_::detail::cursor<0u>, thrust::device_ptr<int>, thrust::detail::wrapped_function<thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >, void>, unsigned int, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type> > > >(thrust::system::cuda::detail::bulk_::detail::cuda_task<thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>, thrust::system::cuda::detail::bulk_::detail::closure<thrust::system::cuda::detail::for_each_n_detail::for_each_kernel, thrust::tuple<thrust::system::cuda::detail::bulk_::detail::cursor<0u>, thrust::device_ptr<int>, thrust::detail::wrapped_function<thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >, void>, unsigned int, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type> > >)(
 	.param .align 8 .b8 _ZN6thrust6system4cuda6detail5bulk_6detail15launch_by_valueILj0ENS4_9cuda_taskINS3_14parallel_groupINS3_16concurrent_groupINS3_5agentILm1EEELm0EEELm0EEENS4_7closureINS2_17for_each_n_detail15for_each_kernelENS_5tupleINS4_6cursorILj0EEENS_10device_ptrIiEENS_6detail16wrapped_functionINSL_23device_generate_functorINSL_12fill_functorIiEEEEvEEjNS_9null_typeESS_SS_SS_SS_SS_EEEEEEEEvT0__param_0[64]
 )
 {
@@ -3653,7 +3653,7 @@ BB25_8:
 	ld.param.u64 	%rd5, [_ZN6thrust6system4cuda6detail5bulk_6detail15launch_by_valueILj0ENS4_9cuda_taskINS3_14parallel_groupINS3_16concurrent_groupINS3_5agentILm1EEELm0EEELm0EEENS4_7closureINS2_17for_each_n_detail15for_each_kernelENS_5tupleINS4_6cursorILj0EEENS_10device_ptrIiEENS_6detail16wrapped_functionINSL_23device_generate_functorINSL_12fill_functorIiEEEEvEEjNS_9null_typeESS_SS_SS_SS_SS_EEEEEEEEvT0__param_0+16];
 	mov.u32 	%r1, %tid.x;
 	setp.ne.s32	%p1, %r1, 0;
-	mov.u64 	%rd6, _ZN6thrust6system4cuda6detail5bulk_6detail62_GLOBAL__N__45_tmpxft_0000709e_00000000_7_force_cuda_cpp1_ii_L19s_on_chip_allocatorE;
+	mov.u64 	%rd6, thrust::system::cuda::detail::bulk_::detail::(anonymous namespace)::s_on_chip_allocator;
 	cvta.shared.u64 	%rd7, %rd6;
 	setp.eq.s64	%p2, %rd7, 0;
 	or.pred  	%p3, %p1, %p2;
@@ -3661,11 +3661,11 @@ BB25_8:
 
 	cvt.s64.s32	%rd8, %r23;
 	mov.u32 	%r28, 0;
-	st.shared.u32 	[_ZN6thrust6system4cuda6detail5bulk_6detail62_GLOBAL__N__45_tmpxft_0000709e_00000000_7_force_cuda_cpp1_ii_L19s_on_chip_allocatorE], %r28;
-	mov.u64 	%rd9, _ZN6thrust6system4cuda6detail5bulk_6detail20s_data_segment_beginE;
+	st.shared.u32 	[thrust::system::cuda::detail::bulk_::detail::(anonymous namespace)::s_on_chip_allocator], %r28;
+	mov.u64 	%rd9, thrust::system::cuda::detail::bulk_::detail::s_data_segment_begin;
 	cvta.shared.u64 	%rd10, %rd9;
-	st.shared.u64 	[_ZN6thrust6system4cuda6detail5bulk_6detail62_GLOBAL__N__45_tmpxft_0000709e_00000000_7_force_cuda_cpp1_ii_L19s_on_chip_allocatorE+8], %rd10;
-	st.shared.u64 	[_ZN6thrust6system4cuda6detail5bulk_6detail62_GLOBAL__N__45_tmpxft_0000709e_00000000_7_force_cuda_cpp1_ii_L19s_on_chip_allocatorE+16], %rd8;
+	st.shared.u64 	[thrust::system::cuda::detail::bulk_::detail::(anonymous namespace)::s_on_chip_allocator+8], %rd10;
+	st.shared.u64 	[thrust::system::cuda::detail::bulk_::detail::(anonymous namespace)::s_on_chip_allocator+16], %rd8;
 
 BB26_2:
 	mov.u32 	%r4, %ntid.x;
@@ -3694,8 +3694,8 @@ BB26_5:
 	ret;
 }
 
-	// .globl	_ZN6thrust6system4cuda6detail5bulk_6detail15launch_by_valueILj0ENS4_9cuda_taskINS3_14parallel_groupINS3_16concurrent_groupINS3_5agentILm1EEELm0EEELm0EEENS4_7closureINS2_17for_each_n_detail15for_each_kernelENS_5tupleINS4_6cursorILj0EEENS_10device_ptrIiEENS_6detail16wrapped_functionINSL_23device_generate_functorINSL_12fill_functorIiEEEEvEElNS_9null_typeESS_SS_SS_SS_SS_EEEEEEEEvT0_
-.visible .entry _ZN6thrust6system4cuda6detail5bulk_6detail15launch_by_valueILj0ENS4_9cuda_taskINS3_14parallel_groupINS3_16concurrent_groupINS3_5agentILm1EEELm0EEELm0EEENS4_7closureINS2_17for_each_n_detail15for_each_kernelENS_5tupleINS4_6cursorILj0EEENS_10device_ptrIiEENS_6detail16wrapped_functionINSL_23device_generate_functorINSL_12fill_functorIiEEEEvEElNS_9null_typeESS_SS_SS_SS_SS_EEEEEEEEvT0_(
+	// .globl	void thrust::system::cuda::detail::bulk_::detail::launch_by_value<0u, thrust::system::cuda::detail::bulk_::detail::cuda_task<thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>, thrust::system::cuda::detail::bulk_::detail::closure<thrust::system::cuda::detail::for_each_n_detail::for_each_kernel, thrust::tuple<thrust::system::cuda::detail::bulk_::detail::cursor<0u>, thrust::device_ptr<int>, thrust::detail::wrapped_function<thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >, void>, long, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type> > > >(thrust::system::cuda::detail::bulk_::detail::cuda_task<thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>, thrust::system::cuda::detail::bulk_::detail::closure<thrust::system::cuda::detail::for_each_n_detail::for_each_kernel, thrust::tuple<thrust::system::cuda::detail::bulk_::detail::cursor<0u>, thrust::device_ptr<int>, thrust::detail::wrapped_function<thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >, void>, long, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type> > >)
+.visible .entry void thrust::system::cuda::detail::bulk_::detail::launch_by_value<0u, thrust::system::cuda::detail::bulk_::detail::cuda_task<thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>, thrust::system::cuda::detail::bulk_::detail::closure<thrust::system::cuda::detail::for_each_n_detail::for_each_kernel, thrust::tuple<thrust::system::cuda::detail::bulk_::detail::cursor<0u>, thrust::device_ptr<int>, thrust::detail::wrapped_function<thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >, void>, long, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type> > > >(thrust::system::cuda::detail::bulk_::detail::cuda_task<thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<1ul>, 0ul>, 0ul>, thrust::system::cuda::detail::bulk_::detail::closure<thrust::system::cuda::detail::for_each_n_detail::for_each_kernel, thrust::tuple<thrust::system::cuda::detail::bulk_::detail::cursor<0u>, thrust::device_ptr<int>, thrust::detail::wrapped_function<thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >, void>, long, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type, thrust::null_type> > >)(
 	.param .align 8 .b8 _ZN6thrust6system4cuda6detail5bulk_6detail15launch_by_valueILj0ENS4_9cuda_taskINS3_14parallel_groupINS3_16concurrent_groupINS3_5agentILm1EEELm0EEELm0EEENS4_7closureINS2_17for_each_n_detail15for_each_kernelENS_5tupleINS4_6cursorILj0EEENS_10device_ptrIiEENS_6detail16wrapped_functionINSL_23device_generate_functorINSL_12fill_functorIiEEEEvEElNS_9null_typeESS_SS_SS_SS_SS_EEEEEEEEvT0__param_0[72]
 )
 {
@@ -3713,7 +3713,7 @@ BB26_5:
 	ld.param.u64 	%rd10, [_ZN6thrust6system4cuda6detail5bulk_6detail15launch_by_valueILj0ENS4_9cuda_taskINS3_14parallel_groupINS3_16concurrent_groupINS3_5agentILm1EEELm0EEELm0EEENS4_7closureINS2_17for_each_n_detail15for_each_kernelENS_5tupleINS4_6cursorILj0EEENS_10device_ptrIiEENS_6detail16wrapped_functionINSL_23device_generate_functorINSL_12fill_functorIiEEEEvEElNS_9null_typeESS_SS_SS_SS_SS_EEEEEEEEvT0__param_0+16];
 	mov.u32 	%r1, %tid.x;
 	setp.ne.s32	%p1, %r1, 0;
-	mov.u64 	%rd12, _ZN6thrust6system4cuda6detail5bulk_6detail62_GLOBAL__N__45_tmpxft_0000709e_00000000_7_force_cuda_cpp1_ii_L19s_on_chip_allocatorE;
+	mov.u64 	%rd12, thrust::system::cuda::detail::bulk_::detail::(anonymous namespace)::s_on_chip_allocator;
 	cvta.shared.u64 	%rd13, %rd12;
 	setp.eq.s64	%p2, %rd13, 0;
 	or.pred  	%p3, %p1, %p2;
@@ -3721,11 +3721,11 @@ BB26_5:
 
 	cvt.s64.s32	%rd14, %r17;
 	mov.u32 	%r20, 0;
-	st.shared.u32 	[_ZN6thrust6system4cuda6detail5bulk_6detail62_GLOBAL__N__45_tmpxft_0000709e_00000000_7_force_cuda_cpp1_ii_L19s_on_chip_allocatorE], %r20;
-	mov.u64 	%rd15, _ZN6thrust6system4cuda6detail5bulk_6detail20s_data_segment_beginE;
+	st.shared.u32 	[thrust::system::cuda::detail::bulk_::detail::(anonymous namespace)::s_on_chip_allocator], %r20;
+	mov.u64 	%rd15, thrust::system::cuda::detail::bulk_::detail::s_data_segment_begin;
 	cvta.shared.u64 	%rd16, %rd15;
-	st.shared.u64 	[_ZN6thrust6system4cuda6detail5bulk_6detail62_GLOBAL__N__45_tmpxft_0000709e_00000000_7_force_cuda_cpp1_ii_L19s_on_chip_allocatorE+8], %rd16;
-	st.shared.u64 	[_ZN6thrust6system4cuda6detail5bulk_6detail62_GLOBAL__N__45_tmpxft_0000709e_00000000_7_force_cuda_cpp1_ii_L19s_on_chip_allocatorE+16], %rd14;
+	st.shared.u64 	[thrust::system::cuda::detail::bulk_::detail::(anonymous namespace)::s_on_chip_allocator+8], %rd16;
+	st.shared.u64 	[thrust::system::cuda::detail::bulk_::detail::(anonymous namespace)::s_on_chip_allocator+16], %rd14;
 
 BB27_2:
 	cvta.to.global.u64 	%rd1, %rd10;
