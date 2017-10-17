@@ -22,7 +22,7 @@ $ make
 
 ** Performance comparison of OpenACC with CUDA
 - OpenACC (tuned)
-  - The optimal data layout of Verlet list for GPUs is employed.
+  - The optimal Verlet list data layout for GPUs is used.
 - OpenACC (naive)
   - pragma directives are simply added to original CPU source codes.
 
