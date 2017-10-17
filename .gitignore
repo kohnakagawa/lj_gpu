@@ -40,3 +40,7 @@
 *.cubin
 *.fatbin
 
+# my settings
+!force_oacc_aos.ptx
+!kernel.ptx
+
