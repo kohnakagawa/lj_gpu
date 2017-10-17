@@ -1,4 +1,4 @@
-* SoA
+- SoA
 
 #+BEGIN_SRC txt
 force_reactless():
@@ -14,7 +14,7 @@ ptxas info    : Function properties for _Z22force_reactless_memoptv_238_gpu
 ptxas info    : Used 54 registers, 396 bytes cmem[0], 24 bytes cmem[2]
 #+END_SRC
 
-* AoS
+- AoS
 
 #+BEGIN_SRC txt
 force_reactless():
