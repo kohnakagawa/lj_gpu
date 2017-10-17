@@ -1,0 +1,47 @@
+* SIMTization for Force Calculation of Lennard-Jones Potential
+** This project is forked from [lj\_simd](https://github.com/kaityo256/lj_simd)
+
+** Usage 
+*** NVIDIA GPU (CUDA implementations)
+#+BEGIN_SRC sh
+$ cd cuda
+$ make
+#+END_SRC
+
+*** NVIDIA GPU (OpenACC implementations)
+#+BEGIN_SRC sh
+$ cd openacc
+$ make
+#+END_SRC
+    
+*** AMD GPU (OpenCL implementations)
+#+BEGIN_SRC sh
+$ cd opencl
+$ make
+#+END_SRC
+
+** Performance comparison of OpenACC with CUDA
+- OpenACC (tuned)
+  - The optimal data layout of Verlet list for GPUs is employed.
+- OpenACC (naive)
+  - pragma directives are simply added to original CPU source codes.
+
+*** @ Tesla K40t
+- CUDA version 7.5
+- PGI compiler version 16.10
+
+| implementation  | time [s] |
+|-----------------+----------|
+| CUDA            | 0.049346 |
+| OpenACC (tuned) | 0.168751 |
+| OpenACC (naive) | 0.305789 |
+
+*** @ Tesla P100
+- CUDA version 8.0
+- PGI compiler version 17.1
+
+| implementation  | time [s] |
+|-----------------+----------|
+| CUDA            | 0.015433 |
+| OpenACC (tuned) | 0.017970 |
+| OpenACC (naive) | 0.085302 |
