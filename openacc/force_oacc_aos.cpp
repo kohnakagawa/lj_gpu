@@ -3,7 +3,9 @@
 #include <cmath>
 #include <random>
 #include <sys/time.h>
+#ifdef _OPENACC
 #include <openacc.h>
+#endif
 //----------------------------------------------------------------------
 const double density = 0.5;
 const int N = 400000;
@@ -279,7 +281,9 @@ force_reactless_memopt_tuned(){
 //----------------------------------------------------------------------
 void
 measure(void(*pfunc)(), const char *name) {
+#ifdef _OPENACC
   acc_init(acc_device_nvidia);
+#endif
 
 #pragma acc enter data create(q[0:N], p[0:N], number_of_partners[0:N],  \
                               pointer[0:N], sorted_list[0:MAX_PAIRS],   \
@@ -303,8 +307,9 @@ measure(void(*pfunc)(), const char *name) {
 #pragma acc exit data delete(q[0:N], p[0:N], number_of_partners[0:N], \
                              pointer[0:N], sorted_list[0:MAX_PAIRS],  \
                              transposed_list[0:MAX_PAIRS])
-
+#ifdef _OPENACC
   acc_shutdown(acc_device_nvidia);
+#endif
 }
 //----------------------------------------------------------------------
 void
