@@ -43,4 +43,6 @@
 # my settings
 !force_oacc_aos.ptx
 !kernel.ptx
-
+*.png
+*.eps
+profile.dat
