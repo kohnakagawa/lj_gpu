@@ -16,6 +16,7 @@ ptxas info    : Used 54 registers, 396 bytes cmem[0], 24 bytes cmem[2]
 
 - AoS
 
+- pgiコンパイラ使った場合の出力
 #+BEGIN_SRC txt
 force_reactless():
 ptxas info    : Compiling entry function '_Z22force_reactless_memoptv_223_gpu' for 'sm_60'
@@ -34,4 +35,25 @@ ptxas info    : Compiling entry function '_Z28force_reactless_memopt_tunedv_254_
 ptxas info    : Function properties for _Z28force_reactless_memopt_tunedv_254_gpu
     0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
 ptxas info    : Used 62 registers, 364 bytes cmem[0], 24 bytes cmem[2]
+#+END_SRC
+
+- CUDAのptxasを使った場合の出力 (ptxas --verbose -arch=sm_60で出力)
+#+BEGIN_SRC txt
+force_reactless():
+ptxas info    : Compiling entry function '_Z22force_reactless_memoptv_223_gpu' for 'sm_60'
+ptxas info    : Function properties for _Z22force_reactless_memoptv_223_gpu
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 48 registers, 364 bytes cmem[0], 40 bytes cmem[2]
+
+force_reactless_memopt():
+ptxas info    : Compiling entry function '_Z15force_reactlessv_191_gpu' for 'sm_60'
+ptxas info    : Function properties for _Z15force_reactlessv_191_gpu
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 44 registers, 368 bytes cmem[0], 40 bytes cmem[2]
+
+force_reactless_memopt_tuned():
+ptxas info    : Compiling entry function '_Z28force_reactless_memopt_tunedv_254_gpu' for 'sm_60'
+ptxas info    : Function properties for _Z28force_reactless_memopt_tunedv_254_gpu
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 40 registers, 364 bytes cmem[0], 28 bytes cmem[2]
 #+END_SRC
