@@ -28,7 +28,6 @@ $ make
 
 *** @ Xeon E5-2680 v3
 - icpc version 18.0.0 20170811
-- CPU only execution
 
 | implementation  | time [s] |
 |-----------------+----------|
