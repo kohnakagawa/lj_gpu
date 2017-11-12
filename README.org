@@ -26,6 +26,15 @@ $ make
 - OpenACC (naive)
   - pragma directives are simply added to original CPU source codes.
 
+*** @ Xeon E5-2680 v3
+- icpc version 18.0.0 20170811
+- CPU only execution
+
+| implementation  | time [s] |
+|-----------------+----------|
+| Reference       | 1.431335 |
+| AVX2 SIMD       | 0.877171 |
+
 *** @ Tesla K40t
 - CUDA version 7.5
 - PGI compiler version 16.10
@@ -35,6 +44,7 @@ $ make
 | CUDA            | 0.049346 |
 | OpenACC (tuned) | 0.168751 |
 | OpenACC (naive) | 0.305789 |
+
 
 *** @ Tesla P100
 - CUDA version 8.0
