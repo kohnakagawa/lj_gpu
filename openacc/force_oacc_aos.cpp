@@ -219,6 +219,39 @@ force_reactless(){
 }
 //----------------------------------------------------------------------
 void
+force_reactless_warp_unroll(){
+  const int pn = particle_number;
+#pragma acc kernels present(q, p, number_of_partners, pointer, sorted_list) num_gangs(32*pn) vector_length(32)
+  for (int i=0; i<pn; i++) {
+    const double qx_key = q[i].x;
+    const double qy_key = q[i].y;
+    const double qz_key = q[i].z;
+    const int np = number_of_partners[i];
+    double pfx = 0;
+    double pfy = 0;
+    double pfz = 0;
+    const int kp = pointer[i];
+#pragma acc loop vector
+    for (int k=0; k<np; k++) {
+      const int j = sorted_list[kp + k];
+      double dx = q[j].x - qx_key;
+      double dy = q[j].y - qy_key;
+      double dz = q[j].z - qz_key;
+      double r2 = (dx*dx + dy*dy + dz*dz);
+      double r6 = r2*r2*r2;
+      double df = ((24.0*r6-48.0)/(r6*r6*r2))*dt;
+      if (r2 > CL2) df = 0.0;
+      pfx += df*dx;
+      pfy += df*dy;
+      pfz += df*dz;
+    }
+    p[i].x += pfx;
+    p[i].y += pfy;
+    p[i].z += pfz;
+  }
+}
+//----------------------------------------------------------------------
+void
 force_reactless_memopt(){
   const int pn = particle_number;
 #pragma acc kernels present(q, p, number_of_partners, transposed_list)
@@ -331,6 +364,9 @@ main(void) {
   make_transposed_list();
 #ifdef OACC_REF
   measure(force_reactless, "acc_reactless_aos");
+  print_results();
+#elif OACC_WARP
+  measure(force_reactless_warp_unroll, "acc_reactless_aos_warp");
   print_results();
 #elif OACC_TRANS
   measure(force_reactless_memopt, "acc_reactless_memopt_aos");
