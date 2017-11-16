@@ -44,7 +44,6 @@ $ make
 | OpenACC (tuned) | 0.168751 |
 | OpenACC (naive) | 0.305789 |
 
-
 *** @ Tesla P100
 - CUDA version 8.0
 - PGI compiler version 17.1

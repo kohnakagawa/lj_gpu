@@ -1,4 +1,5 @@
 N=62500, acc_reactless_aos 0.305789 [sec] (without Host<->Device)
+N=62500, acc_reactless_aos_warp 0.336357 [sec] (without Host<->Device)
 N=62500, acc_reactless_memopt_aos 0.174865 [sec] (without Host<->Device)
 N=62500, acc_reactless_memopt_tuned_aos 0.168751 [sec] (without Host<->Device)
 N=62500, acc_reactless_soa 0.272519 [sec] (without Host<->Device)
