@@ -50,6 +50,6 @@ $ make
 
 | implementation  | time [s] |
 |-----------------+----------|
-| CUDA            | 0.015433 |
-| OpenACC (tuned) | 0.017970 |
-| OpenACC (naive) | 0.085302 |
+| CUDA            | 0.017529 |
+| OpenACC (tuned) | 0.027165 |
+| OpenACC (naive) | 0.092830 |
